@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Event Details - Campus Events</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+
+<body class="bg-light">
+
+
+    <!-- ============================= -->
+    <!-- NAVBAR -->
+    <!-- ============================= -->
+
+    <nav class="navbar navbar-dark bg-dark">
+
+        <div class="container">
+
+            <a class="navbar-brand fw-bold"
+               href="dashboard.html">
+
+                Campus Events
+
+            </a>
+
+            <div class="d-flex align-items-center">
+
+                <span
+                    class="text-white me-3"
+                    id="studentName">
+
+                    Student
+
+                </span>
+
+                <button
+                    class="btn btn-outline-light"
+                    onclick="logout()">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ============================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================= -->
+
+    <div class="container py-5">
+
+        <div class="mb-4">
+
+            <a href="dashboard.html"
+               class="btn btn-outline-secondary">
+
+                ← Back to Dashboard
+
+            </a>
+
+        </div>
+
+
+
+        <!-- Loading -->
+
+        <div
+            id="loadingMessage"
+            class="text-center py-5">
+
+            <div
+                class="spinner-border text-primary"
+                role="status">
+            </div>
+
+            <p class="mt-2">
+
+                Loading event details...
+
+            </p>
+
+        </div>
+
+
+
+        <!-- Error -->
+
+        <div
+            id="errorMessage"
+            class="alert alert-danger d-none">
+
+        </div>
+
+
+
+        <!-- Event Details -->
+
+        <div
+            id="eventDetails"
+            class="card shadow-sm d-none">
+
+            <div class="card-body p-4">
+
+
+                <!-- Event Title -->
+
+                <h1
+                    id="eventTitle"
+                    class="mb-3">
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <p
+                    id="eventDescription"
+                    class="text-muted fs-5">
+
+                </p>
+
+
+                <hr>
+
+
+                <!-- Event Information -->
+
+                <div class="row g-4">
+
+
+                    <!-- Date -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                📅 Date
+                            </h6>
+
+                            <p
+                                id="eventDate"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Time -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                ⏰ Time
+                            </h6>
+
+                            <p
+                                id="eventTime"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Venue -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                📍 Venue
+                            </h6>
+
+                            <p
+                                id="eventVenue"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Category -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                🏷️ Category
+                            </h6>
+
+                            <p
+                                id="eventCategory"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Capacity -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                👥 Capacity
+                            </h6>
+
+                            <p
+                                id="eventCapacity"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Registration Deadline -->
+
+                    <div class="col-md-6">
+
+                        <div class="border rounded p-3">
+
+                            <h6 class="text-muted">
+                                ⏳ Registration Deadline
+                            </h6>
+
+                            <p
+                                id="registrationDeadline"
+                                class="fw-bold mb-0">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ============================= -->
+                <!-- REGISTRATION SECTION -->
+                <!-- ============================= -->
+
+                <hr class="my-4">
+
+
+                <div
+                    id="registrationMessage"
+                    class="alert d-none">
+
+                </div>
+
+
+                <div class="text-center">
+
+                    <button
+                        id="registerButton"
+                        class="btn btn-primary btn-lg px-5"
+                        onclick="registerForEvent()">
+
+                        🎟️ Register for Event
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================= -->
+
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+        // ==========================================
+        // CHECK LOGIN
+        // ==========================================
+
+        if (!isLoggedIn()) {
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // CHECK ROLE
+        // ==========================================
+
+        const role = getUserRole();
+
+        if (role !== "STUDENT") {
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // SHOW STUDENT NAME
+        // ==========================================
+
+        const studentName = getUserName();
+
+        if (studentName) {
+
+            document.getElementById("studentName")
+                .textContent = studentName;
+
+        }
+
+
+        // ==========================================
+        // GET EVENT ID FROM URL
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const eventId =
+            urlParams.get("id");
+
+
+        // ==========================================
+        // CHECK EVENT ID
+        // ==========================================
+
+        if (!eventId) {
+
+            showError(
+                "No event ID was provided."
+            );
+
+        } else {
+
+            loadEvent();
+
+        }
+
+
+        // ==========================================
+        // LOAD EVENT
+        // ==========================================
+
+        async function loadEvent() {
+
+            try {
+
+                const event =
+                    await apiRequest(
+                        `/api/student/events/${eventId}`
+                    );
+
+
+                if (!event) {
+
+                    throw new Error(
+                        "Event not found or is not approved."
+                    );
+
+                }
+
+
+                // Hide loading
+
+                document
+                    .getElementById("loadingMessage")
+                    .classList
+                    .add("d-none");
+
+
+                // Show event
+
+                document
+                    .getElementById("eventDetails")
+                    .classList
+                    .remove("d-none");
+
+
+                // Fill event information
+
+                document.getElementById(
+                    "eventTitle"
+                ).textContent =
+                    event.title || "Untitled Event";
+
+
+                document.getElementById(
+                    "eventDescription"
+                ).textContent =
+                    event.description ||
+                    "No description available.";
+
+
+                document.getElementById(
+                    "eventDate"
+                ).textContent =
+                    event.date || "Not specified";
+
+
+                document.getElementById(
+                    "eventTime"
+                ).textContent =
+                    event.time || "Not specified";
+
+
+                document.getElementById(
+                    "eventVenue"
+                ).textContent =
+                    event.venue || "Not specified";
+
+
+                document.getElementById(
+                    "eventCategory"
+                ).textContent =
+                    event.category || "Not specified";
+
+
+                document.getElementById(
+                    "eventCapacity"
+                ).textContent =
+                    event.capacity ?? "Not specified";
+
+
+                document.getElementById(
+                    "registrationDeadline"
+                ).textContent =
+                    event.registrationDeadline ||
+                    "Not specified";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading event:",
+                    error
+                );
+
+                showError(
+                    error.message ||
+                    "Failed to load event."
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // REGISTER FOR EVENT
+        // ==========================================
+
+        async function registerForEvent() {
+
+            const userId = getUserId();
+
+
+            if (!userId) {
+
+                alert(
+                    "Student information not found. Please login again."
+                );
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById(
+                    "registerButton"
+                );
+
+
+            const registrationMessage =
+                document.getElementById(
+                    "registrationMessage"
+                );
+
+
+            try {
+
+                // Disable button
+
+                button.disabled = true;
+
+                button.textContent =
+                    "Registering...";
+
+
+                // Call registration API
+
+                const registration =
+                    await apiRequest(
+                        `/api/registrations?userId=${userId}&eventId=${eventId}`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+
+                console.log(
+                    "Registration successful:",
+                    registration
+                );
+
+
+                // Show success
+
+                registrationMessage.className =
+                    "alert alert-success";
+
+                registrationMessage.textContent =
+                    "🎉 You have successfully registered for this event!";
+
+                registrationMessage.classList
+                    .remove("d-none");
+
+
+                // Update button
+
+                button.textContent =
+                    "✓ Registered";
+
+                button.classList
+                    .remove("btn-primary");
+
+                button.classList
+                    .add("btn-success");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Registration error:",
+                    error
+                );
+
+
+                registrationMessage.className =
+                    "alert alert-danger";
+
+                registrationMessage.textContent =
+                    error.message ||
+                    "Registration failed.";
+
+                registrationMessage.classList
+                    .remove("d-none");
+
+
+                // Enable button again
+
+                button.disabled = false;
+
+                button.textContent =
+                    "🎟️ Register for Event";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SHOW ERROR
+        // ==========================================
+
+        function showError(message) {
+
+            document
+                .getElementById("loadingMessage")
+                .classList
+                .add("d-none");
+
+
+            const errorMessage =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            errorMessage.textContent =
+                message;
+
+
+            errorMessage.classList
+                .remove("d-none");
+
+        }
+
+    </script>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+</body>
+
+</html>

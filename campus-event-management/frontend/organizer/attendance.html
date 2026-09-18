@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Management</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Attendance Management</h1>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="my-events.html">My Events</a>
+            <a href="create-event.html">Create Event</a>
+            <button onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <h2 id="eventTitle">Event Attendance</h2>
+
+        <p id="eventInfo"></p>
+
+        <div id="message"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Registration ID</th>
+                    <th>Student ID</th>
+                    <th>Attendance</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="attendanceTableBody">
+                <tr>
+                    <td colspan="4">Loading attendance...</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <script src="../js/api.js"></script>
+
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get("eventId");
+
+        const eventTitle = document.getElementById("eventTitle");
+        const eventInfo = document.getElementById("eventInfo");
+        const attendanceTableBody =
+            document.getElementById("attendanceTableBody");
+        const message = document.getElementById("message");
+
+
+        if (!isLoggedIn()) {
+            window.location.href = "../login.html";
+        }
+
+
+        if (getUserRole() !== "ORGANIZER") {
+            alert("Only organizers can access attendance management.");
+            window.location.href = "../login.html";
+        }
+
+
+        if (!eventId) {
+
+            attendanceTableBody.innerHTML = `
+                <tr>
+                    <td colspan="4">
+                        No event selected.
+                    </td>
+                </tr>
+            `;
+
+        } else {
+
+            loadAttendance();
+        }
+
+
+        async function loadAttendance() {
+
+            try {
+
+                // Load event details
+                const event = await apiRequest(
+                    `/api/organizer/events/${eventId}`
+                );
+
+                eventTitle.textContent =
+                    `Attendance - ${event.title}`;
+
+                eventInfo.textContent =
+                    `${event.date} | ${event.time} | ${event.venue}`;
+
+
+                // Load registrations
+                const registrations = await apiRequest(
+                    `/api/organizer/events/${eventId}/registrations`
+                );
+
+
+                // Load attendance records
+                const attendance = await apiRequest(
+                    `/api/organizer/events/${eventId}/attendance`
+                );
+
+
+                if (!registrations || registrations.length === 0) {
+
+                    attendanceTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4">
+                                No students are registered for this event.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                attendanceTableBody.innerHTML = "";
+
+
+                registrations.forEach(registration => {
+
+                    // Only show active registrations
+                    if (
+                        registration.status &&
+                        registration.status.toUpperCase() !== "REGISTERED"
+                    ) {
+                        return;
+                    }
+
+
+                    const existingAttendance =
+                        attendance.find(
+                            record =>
+                                Number(record.userId) ===
+                                Number(registration.userId)
+                        );
+
+
+                    const currentStatus =
+                        existingAttendance
+                            ? existingAttendance.status
+                            : "NOT MARKED";
+
+
+                    const row = document.createElement("tr");
+
+
+                    row.innerHTML = `
+                        <td>${registration.id}</td>
+
+                        <td>${registration.userId}</td>
+
+                        <td id="status-${registration.userId}">
+                            ${currentStatus}
+                        </td>
+
+                        <td>
+
+                            <button
+                                onclick="markAttendance(${registration.userId}, 'PRESENT')">
+                                Present
+                            </button>
+
+                            <button
+                                onclick="markAttendance(${registration.userId}, 'ABSENT')">
+                                Absent
+                            </button>
+
+                        </td>
+                    `;
+
+
+                    attendanceTableBody.appendChild(row);
+
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                attendanceTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            Failed to load attendance.
+                        </td>
+                    </tr>
+                `;
+
+                message.textContent = error.message;
+            }
+        }
+
+
+        async function markAttendance(userId, status) {
+
+            try {
+
+                const response =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}/attendance?userId=${userId}&status=${status}`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+
+                const statusCell =
+                    document.getElementById(`status-${userId}`);
+
+
+                if (statusCell) {
+                    statusCell.textContent = response.status;
+                }
+
+
+                message.textContent =
+                    `Attendance marked as ${response.status}.`;
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    error.message;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Event - Campus Event Management</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+
+        <div class="container">
+
+            <a
+                class="navbar-brand"
+                href="dashboard.html"
+            >
+                Campus Event Management
+            </a>
+
+            <button
+                class="btn btn-outline-light"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8 col-lg-7">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <h2 class="mb-2">
+                            Edit Event
+                        </h2>
+
+                        <p class="text-muted mb-4">
+                            Update your event details.
+                        </p>
+
+
+                        <!-- Loading -->
+                        <div
+                            id="loadingMessage"
+                            class="text-center py-4"
+                        >
+
+                            <div
+                                class="spinner-border"
+                                role="status"
+                            ></div>
+
+                            <p class="mt-3">
+                                Loading event...
+                            </p>
+
+                        </div>
+
+
+                        <!-- Success -->
+                        <div
+                            id="successMessage"
+                            class="alert alert-success"
+                            style="display: none;"
+                        ></div>
+
+
+                        <!-- Error -->
+                        <div
+                            id="errorMessage"
+                            class="alert alert-danger"
+                            style="display: none;"
+                        ></div>
+
+
+                        <!-- Form -->
+                        <form
+                            id="eventForm"
+                            style="display: none;"
+                        >
+
+                            <!-- Title -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="title"
+                                    class="form-label"
+                                >
+                                    Event Title
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="title"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Description -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="description"
+                                    class="form-label"
+                                >
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    class="form-control"
+                                    rows="4"
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <!-- Date -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="date"
+                                    class="form-label"
+                                >
+                                    Event Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="date"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Time -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="time"
+                                    class="form-label"
+                                >
+                                    Event Time
+                                </label>
+
+                                <input
+                                    type="time"
+                                    id="time"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Venue -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="venue"
+                                    class="form-label"
+                                >
+                                    Venue
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="venue"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Category -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="category"
+                                    class="form-label"
+                                >
+                                    Category
+                                </label>
+
+                                <select
+                                    id="category"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select category
+                                    </option>
+
+                                    <option value="TECHNOLOGY">
+                                        Technology
+                                    </option>
+
+                                    <option value="CULTURAL">
+                                        Cultural
+                                    </option>
+
+                                    <option value="SPORTS">
+                                        Sports
+                                    </option>
+
+                                    <option value="WORKSHOP">
+                                        Workshop
+                                    </option>
+
+                                    <option value="SEMINAR">
+                                        Seminar
+                                    </option>
+
+                                    <option value="OTHER">
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- Capacity -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="capacity"
+                                    class="form-label"
+                                >
+                                    Capacity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="capacity"
+                                    class="form-control"
+                                    min="1"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Registration Deadline -->
+                            <div class="mb-4">
+
+                                <label
+                                    for="registrationDeadline"
+                                    class="form-label"
+                                >
+                                    Registration Deadline
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="registrationDeadline"
+                                    class="form-control"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-2">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                >
+                                    Update Event
+                                </button>
+
+                                <a
+                                    href="my-events.html"
+                                    class="btn btn-secondary"
+                                >
+                                    Cancel
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- API -->
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+        // ==========================================
+        // LOGIN CHECK
+        // ==========================================
+
+        if (!isLoggedIn()) {
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // ROLE CHECK
+        // ==========================================
+
+        if (getUserRole() !== "ORGANIZER") {
+
+            alert("Access denied. Organizers only.");
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // GET EVENT ID
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const eventId =
+            urlParams.get("id");
+
+
+        if (!eventId) {
+
+            document.getElementById(
+                "loadingMessage"
+            ).style.display = "none";
+
+            document.getElementById(
+                "errorMessage"
+            ).textContent =
+                "Event ID was not provided.";
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display = "block";
+
+        }
+
+
+        // ==========================================
+        // LOAD EVENT
+        // ==========================================
+
+        async function loadEvent() {
+
+            if (!eventId) {
+                return;
+            }
+
+            try {
+
+                const event =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}`
+                    );
+
+
+                document.getElementById(
+                    "title"
+                ).value =
+                    event.title || "";
+
+
+                document.getElementById(
+                    "description"
+                ).value =
+                    event.description || "";
+
+
+                document.getElementById(
+                    "date"
+                ).value =
+                    event.date || "";
+
+
+                document.getElementById(
+                    "time"
+                ).value =
+                    event.time
+                        ? event.time.substring(0, 5)
+                        : "";
+
+
+                document.getElementById(
+                    "venue"
+                ).value =
+                    event.venue || "";
+
+
+                document.getElementById(
+                    "category"
+                ).value =
+                    event.category || "";
+
+
+                document.getElementById(
+                    "capacity"
+                ).value =
+                    event.capacity || "";
+
+
+                document.getElementById(
+                    "registrationDeadline"
+                ).value =
+                    event.registrationDeadline || "";
+
+
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "eventForm"
+                ).style.display = "block";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error loading event:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).textContent =
+                    error.message ||
+                    "Unable to load event.";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).style.display = "block";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // UPDATE EVENT
+        // ==========================================
+
+        document
+            .getElementById("eventForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    document.getElementById(
+                        "successMessage"
+                    ).style.display = "none";
+
+
+                    document.getElementById(
+                        "errorMessage"
+                    ).style.display = "none";
+
+
+                    try {
+
+                        const updatedEvent = {
+
+                            title:
+                                document
+                                    .getElementById("title")
+                                    .value
+                                    .trim(),
+
+                            description:
+                                document
+                                    .getElementById("description")
+                                    .value
+                                    .trim(),
+
+                            date:
+                                document
+                                    .getElementById("date")
+                                    .value,
+
+                            time:
+                                document
+                                    .getElementById("time")
+                                    .value,
+
+                            venue:
+                                document
+                                    .getElementById("venue")
+                                    .value
+                                    .trim(),
+
+                            category:
+                                document
+                                    .getElementById("category")
+                                    .value,
+
+                            capacity:
+                                Number(
+                                    document
+                                        .getElementById("capacity")
+                                        .value
+                                ),
+
+                            registrationDeadline:
+                                document
+                                    .getElementById(
+                                        "registrationDeadline"
+                                    )
+                                    .value
+
+                        };
+
+
+                        const data =
+                            await apiRequest(
+                                `/api/organizer/events/${eventId}`,
+                                {
+                                    method: "PUT",
+
+                                    body:
+                                        JSON.stringify(
+                                            updatedEvent
+                                        )
+                                }
+                            );
+
+
+                        console.log(
+                            "Updated event:",
+                            data
+                        );
+
+
+                        document.getElementById(
+                            "successMessage"
+                        ).textContent =
+                            "Event updated successfully and submitted for admin approval.";
+
+
+                        document.getElementById(
+                            "successMessage"
+                        ).style.display = "block";
+
+
+                        // Scroll to message
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Error updating event:",
+                            error
+                        );
+
+
+                        document.getElementById(
+                            "errorMessage"
+                        ).textContent =
+                            error.message ||
+                            "Unable to update event.";
+
+
+                        document.getElementById(
+                            "errorMessage"
+                        ).style.display = "block";
+
+                    }
+
+                }
+            );
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadEvent();
+
+    </script>
+
+</body>
+
+</html>

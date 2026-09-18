@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Registrations - Campus Event Management</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard.html">
+                Campus Event Management
+            </a>
+
+            <button
+                class="btn btn-outline-light"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>My Registrations</h2>
+                <p class="text-muted">
+                    Events you have registered for
+                </p>
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="btn btn-secondary"
+            >
+                Back to Events
+            </a>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingMessage" class="text-center">
+            <div class="spinner-border" role="status"></div>
+            <p class="mt-2">Loading your registrations...</p>
+        </div>
+
+        <!-- Error -->
+        <div
+            id="errorMessage"
+            class="alert alert-danger"
+            style="display: none;"
+        ></div>
+
+        <!-- No Registrations -->
+        <div
+            id="noRegistrations"
+            class="alert alert-info"
+            style="display: none;"
+        >
+            You have not registered for any events yet.
+        </div>
+
+        <!-- Registrations -->
+        <div id="registrationsContainer" class="row g-4"></div>
+
+    </div>
+
+    <script src="../js/api.js"></script>
+
+    <script>
+
+        // Check login
+        if (!isLoggedIn()) {
+            window.location.href = "../login.html";
+        }
+
+        // Check student role
+        if (getUserRole() !== "STUDENT") {
+            alert("Access denied. Students only.");
+            window.location.href = "../login.html";
+        }
+
+        // Load registrations
+        async function loadRegistrations() {
+
+            const userId = getUserId();
+
+            if (!userId) {
+                document.getElementById("loadingMessage").style.display = "none";
+
+                document.getElementById("errorMessage").innerText =
+                    "Student information not found. Please login again.";
+
+                document.getElementById("errorMessage").style.display = "block";
+
+                return;
+            }
+
+            try {
+
+                const registrations =
+                    await apiRequest(
+                        `/api/registrations/user/${userId}`
+                    );
+
+                document.getElementById("loadingMessage").style.display =
+                    "none";
+
+                if (!registrations || registrations.length === 0) {
+
+                    document.getElementById("noRegistrations").style.display =
+                        "block";
+
+                    return;
+                }
+
+                const container =
+                    document.getElementById("registrationsContainer");
+
+                container.innerHTML = "";
+
+                for (const registration of registrations) {
+
+                    let event = null;
+
+                    try {
+
+                        event =
+                            await apiRequest(
+                                `/api/student/events/${registration.eventId}`
+                            );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Could not load event:",
+                            registration.eventId,
+                            error
+                        );
+
+                    }
+
+                    if (!event) {
+                        continue;
+                    }
+
+                    const card = document.createElement("div");
+
+                    card.className = "col-md-6 col-lg-4";
+
+                    card.innerHTML = `
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+                                    ${event.title}
+                                </h5>
+
+                                <p class="card-text">
+                                    ${event.description || "No description available."}
+                                </p>
+
+                                <hr>
+
+                                <p class="mb-1">
+                                    <strong>Date:</strong>
+                                    ${event.date || "N/A"}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Time:</strong>
+                                    ${event.time || "N/A"}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Venue:</strong>
+                                    ${event.venue || "N/A"}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Category:</strong>
+                                    ${event.category || "N/A"}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Registered On:</strong>
+                                    ${registration.registrationDate
+                                        ? new Date(
+                                            registration.registrationDate
+                                          ).toLocaleString()
+                                        : "N/A"}
+                                </p>
+
+                                <p class="mt-3 mb-0">
+
+                                    <strong>Status:</strong>
+
+                                    <span class="badge bg-success">
+                                        ${registration.status}
+                                    </span>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading registrations:",
+                    error
+                );
+
+                document.getElementById("loadingMessage").style.display =
+                    "none";
+
+                document.getElementById("errorMessage").innerText =
+                    error.message ||
+                    "Unable to load registrations.";
+
+                document.getElementById("errorMessage").style.display =
+                    "block";
+            }
+        }
+
+        loadRegistrations();
+
+    </script>
+
+</body>
+</html>

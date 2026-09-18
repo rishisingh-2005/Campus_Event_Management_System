@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Event Registrations - Campus Event Management</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ============================= -->
+    <!-- NAVBAR -->
+    <!-- ============================= -->
+
+    <nav class="navbar navbar-dark bg-dark">
+
+        <div class="container">
+
+            <a
+                class="navbar-brand"
+                href="dashboard.html"
+            >
+                Campus Event Management
+            </a>
+
+            <button
+                class="btn btn-outline-light"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ============================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================= -->
+
+    <div class="container py-5">
+
+        <!-- Page Header -->
+
+        <div
+            class="d-flex justify-content-between align-items-center mb-4"
+        >
+
+            <div>
+
+                <h1>
+                    Event Registrations
+                </h1>
+
+                <p class="text-muted mb-0">
+                    View students registered for your events.
+                </p>
+
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="btn btn-secondary"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- LOADING MESSAGE -->
+        <!-- ============================= -->
+
+        <div
+            id="loadingMessage"
+            class="text-center py-5"
+        >
+
+            <div
+                class="spinner-border"
+                role="status"
+            ></div>
+
+            <p class="mt-3">
+                Loading events...
+            </p>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- ERROR MESSAGE -->
+        <!-- ============================= -->
+
+        <div
+            id="errorMessage"
+            class="alert alert-danger"
+            style="display: none;"
+        ></div>
+
+
+        <!-- ============================= -->
+        <!-- NO EVENTS MESSAGE -->
+        <!-- ============================= -->
+
+        <div
+            id="noEventsMessage"
+            class="alert alert-info"
+            style="display: none;"
+        >
+
+            You have not created any events yet.
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- EVENTS CONTAINER -->
+        <!-- ============================= -->
+
+        <div id="eventsContainer"></div>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- API JAVASCRIPT -->
+    <!-- ============================= -->
+
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+        // ==========================================
+        // CHECK LOGIN
+        // ==========================================
+
+        if (!isLoggedIn()) {
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // CHECK ORGANIZER ROLE
+        // ==========================================
+
+        if (getUserRole() !== "ORGANIZER") {
+
+            alert("Access denied. Organizers only.");
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD ORGANIZER EVENTS
+        // ==========================================
+
+        async function loadEvents() {
+
+            try {
+
+                const events =
+                    await apiRequest(
+                        "/api/organizer/events"
+                    );
+
+
+                // Hide loading
+
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                // Check if events exist
+
+                if (!events || events.length === 0) {
+
+                    document.getElementById(
+                        "noEventsMessage"
+                    ).style.display = "block";
+
+                    return;
+
+                }
+
+
+                const container =
+                    document.getElementById(
+                        "eventsContainer"
+                    );
+
+
+                container.innerHTML = "";
+
+
+                // ==========================================
+                // CREATE EVENT CARDS
+                // ==========================================
+
+                events.forEach(event => {
+
+                    const eventCard =
+                        document.createElement("div");
+
+
+                    eventCard.className =
+                        "card shadow-sm mb-4";
+
+
+                    // Determine status badge
+
+                    let statusClass =
+                        "bg-warning text-dark";
+
+
+                    if (
+                        event.status &&
+                        event.status.toUpperCase() === "APPROVED"
+                    ) {
+
+                        statusClass =
+                            "bg-success";
+
+                    }
+                    else if (
+                        event.status &&
+                        event.status.toUpperCase() === "REJECTED"
+                    ) {
+
+                        statusClass =
+                            "bg-danger";
+
+                    }
+
+
+                    eventCard.innerHTML = `
+
+                        <div class="card-body">
+
+                            <!-- Event Header -->
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+
+                                <div>
+
+                                    <h4 class="mb-1">
+
+                                        ${event.title || "Untitled Event"}
+
+                                    </h4>
+
+
+                                    <p class="text-muted mb-0">
+
+                                        ${event.date || "N/A"}
+
+                                        -
+
+                                        ${event.venue || "N/A"}
+
+                                    </p>
+
+                                </div>
+
+
+                                <span
+                                    class="badge ${statusClass}"
+                                >
+
+                                    ${event.status || "UNKNOWN"}
+
+                                </span>
+
+                            </div>
+
+
+                            <hr>
+
+
+                            <!-- Registration Area -->
+
+                            <div
+                                id="registrations-${event.id}"
+                            >
+
+                                <p class="text-muted">
+
+                                    Loading registrations...
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(eventCard);
+
+
+                    // Load registrations for this event
+
+                    loadRegistrations(event.id);
+
+                });
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error loading events:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).textContent =
+                    error.message ||
+                    "Unable to load your events.";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).style.display = "block";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD REGISTRATIONS FOR ONE EVENT
+        // ==========================================
+
+        async function loadRegistrations(eventId) {
+
+            const container =
+                document.getElementById(
+                    `registrations-${eventId}`
+                );
+
+
+            try {
+
+                /*
+                 * Secure organizer endpoint.
+                 *
+                 * The backend verifies that the
+                 * event belongs to the logged-in organizer.
+                 */
+
+                const registrations =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}/registrations`
+                    );
+
+
+                // ==========================================
+                // NO REGISTRATIONS
+                // ==========================================
+
+                if (
+                    !registrations ||
+                    registrations.length === 0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div
+                            class="alert alert-info mb-0"
+                        >
+
+                            No students have registered
+                            for this event yet.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                // ==========================================
+                // CREATE TABLE ROWS
+                // ==========================================
+
+                let tableRows = "";
+
+
+                registrations.forEach(
+                    (registration, index) => {
+
+                        let statusClass =
+                            "bg-secondary";
+
+
+                        if (
+                            registration.status &&
+                            registration.status.toUpperCase() ===
+                            "REGISTERED"
+                        ) {
+
+                            statusClass =
+                                "bg-success";
+
+                        }
+
+
+                        tableRows += `
+
+                            <tr>
+
+                                <td>
+
+                                    ${index + 1}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${registration.userId || "N/A"}
+
+                                </td>
+
+
+                                <td>
+
+                                    ${
+                                        registration.registrationDate
+                                            ? new Date(
+                                                registration.registrationDate
+                                            ).toLocaleString()
+                                            : "N/A"
+                                    }
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="badge ${statusClass}"
+                                    >
+
+                                        ${
+                                            registration.status ||
+                                            "UNKNOWN"
+                                        }
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                );
+
+
+                // ==========================================
+                // DISPLAY REGISTRATION TABLE
+                // ==========================================
+
+                container.innerHTML = `
+
+                    <h5 class="mb-3">
+
+                        Registered Students:
+                        ${registrations.length}
+
+                    </h5>
+
+
+                    <div class="table-responsive">
+
+                        <table
+                            class="table table-bordered table-hover"
+                        >
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>
+                                        #
+                                    </th>
+
+                                    <th>
+                                        Student ID
+                                    </th>
+
+                                    <th>
+                                        Registration Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                ${tableRows}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                `;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    `Error loading registrations for event ${eventId}:`,
+                    error
+                );
+
+
+                // Show actual error
+
+                container.innerHTML = `
+
+                    <div
+                        class="alert alert-danger mb-0"
+                    >
+
+                        <strong>
+                            Unable to load registrations.
+                        </strong>
+
+                        <br>
+
+                        <span>
+                            ${
+                                error.message ||
+                                "Unknown error"
+                            }
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // START PAGE
+        // ==========================================
+
+        loadEvents();
+
+    </script>
+
+</body>
+
+</html>

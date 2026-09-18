@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Attendance - Campus Event Management</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+
+        <div class="container">
+
+            <a
+                class="navbar-brand"
+                href="dashboard.html"
+            >
+                Campus Event Management
+            </a>
+
+            <button
+                class="btn btn-outline-light"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container py-5">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h1>
+                    My Attendance
+                </h1>
+
+                <p class="text-muted mb-0">
+                    View your attendance for registered events.
+                </p>
+
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="btn btn-secondary"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- Loading -->
+        <div
+            id="loadingMessage"
+            class="text-center py-5"
+        >
+
+            <div
+                class="spinner-border"
+                role="status"
+            ></div>
+
+            <p class="mt-3">
+                Loading your attendance...
+            </p>
+
+        </div>
+
+
+        <!-- Error -->
+        <div
+            id="errorMessage"
+            class="alert alert-danger"
+            style="display: none;"
+        ></div>
+
+
+        <!-- No Attendance -->
+        <div
+            id="noAttendanceMessage"
+            class="alert alert-info"
+            style="display: none;"
+        >
+            No attendance records found.
+        </div>
+
+
+        <!-- Attendance Table -->
+        <div
+            id="attendanceContainer"
+            style="display: none;"
+        >
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-hover mb-0">
+
+                            <thead class="table-dark">
+
+                                <tr>
+
+                                    <th>
+                                        Attendance ID
+                                    </th>
+
+                                    <th>
+                                        Event ID
+                                    </th>
+
+                                    <th>
+                                        Attendance Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="attendanceTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- API JavaScript -->
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+        // ==========================================
+        // LOGIN CHECK
+        // ==========================================
+
+        if (!isLoggedIn()) {
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // STUDENT ROLE CHECK
+        // ==========================================
+
+        if (getUserRole() !== "STUDENT") {
+
+            alert("Access denied. Students only.");
+
+            window.location.href = "../login.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD MY ATTENDANCE
+        // ==========================================
+
+        async function loadMyAttendance() {
+
+            try {
+
+                const attendance =
+                    await apiRequest(
+                        "/api/student/attendance"
+                    );
+
+
+                // Hide loading
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                // No records
+                if (
+                    !attendance ||
+                    attendance.length === 0
+                ) {
+
+                    document.getElementById(
+                        "noAttendanceMessage"
+                    ).style.display = "block";
+
+                    return;
+
+                }
+
+
+                const container =
+                    document.getElementById(
+                        "attendanceContainer"
+                    );
+
+
+                const tableBody =
+                    document.getElementById(
+                        "attendanceTableBody"
+                    );
+
+
+                tableBody.innerHTML = "";
+
+
+                attendance.forEach(record => {
+
+                    const row =
+                        document.createElement("tr");
+
+
+                    // Determine status badge
+                    let statusClass =
+                        "bg-secondary";
+
+
+                    if (
+                        record.status &&
+                        record.status.toUpperCase() === "PRESENT"
+                    ) {
+
+                        statusClass =
+                            "bg-success";
+
+                    }
+                    else if (
+                        record.status &&
+                        record.status.toUpperCase() === "ABSENT"
+                    ) {
+
+                        statusClass =
+                            "bg-danger";
+
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${record.id}
+                        </td>
+
+                        <td>
+                            ${record.eventId}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="badge ${statusClass}"
+                            >
+                                ${record.status || "NOT MARKED"}
+                            </span>
+
+                        </td>
+
+                    `;
+
+
+                    tableBody.appendChild(row);
+
+                });
+
+
+                container.style.display = "block";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error loading attendance:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "loadingMessage"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).textContent =
+                    error.message ||
+                    "Unable to load your attendance.";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).style.display = "block";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadMyAttendance();
+
+    </script>
+
+</body>
+
+</html>
