@@ -8,27 +8,34 @@ import org.springframework.stereotype.Service;
 
 import com.campus.campus_event_management.entity.Attendance;
 import com.campus.campus_event_management.entity.Certificate;
+import com.campus.campus_event_management.entity.Event;
+import com.campus.campus_event_management.entity.User;
 import com.campus.campus_event_management.repository.AttendanceRepository;
 import com.campus.campus_event_management.repository.CertificateRepository;
+import com.campus.campus_event_management.repository.EventRepository;
+import com.campus.campus_event_management.repository.UserRepository;
 
 @Service
 public class CertificateService {
 
     private final CertificateRepository certificateRepository;
     private final AttendanceRepository attendanceRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
     public CertificateService(
             CertificateRepository certificateRepository,
-            AttendanceRepository attendanceRepository) {
+            AttendanceRepository attendanceRepository,
+            UserRepository userRepository,
+            EventRepository eventRepository) {
 
         this.certificateRepository = certificateRepository;
         this.attendanceRepository = attendanceRepository;
+        this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
     }
 
-    // Generate certificate
-    public Certificate generateCertificate(
-            Long userId,
-            Long eventId) {
+    public Certificate generateCertificate(Long userId, Long eventId) {
 
         // Check attendance
         Attendance attendance =
@@ -43,9 +50,7 @@ public class CertificateService {
         }
 
         // Student must be PRESENT
-        if (!"PRESENT".equalsIgnoreCase(
-                attendance.getStatus())) {
-
+        if (!"PRESENT".equalsIgnoreCase(attendance.getStatus())) {
             throw new RuntimeException(
                     "Certificate can only be generated for students marked PRESENT"
             );
@@ -61,31 +66,55 @@ public class CertificateService {
             return existingCertificate;
         }
 
+        // Find student
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new RuntimeException("Student not found");
+        }
+
+        // Find event
+        Event event = eventRepository.findById(eventId).orElse(null);
+
+        if (event == null) {
+            throw new RuntimeException("Event not found");
+        }
+
         // Create certificate
         Certificate certificate = new Certificate();
 
         certificate.setUserId(userId);
         certificate.setEventId(eventId);
 
+        // Store student name
+        certificate.setStudentName(
+                user.getName()
+        );
+
+        // Store event name
+        certificate.setEventName(
+                event.getTitle()
+        );
+
+        // Generate certificate number
         certificate.setCertificateNumber(
                 "CERT-" + UUID.randomUUID()
         );
 
+        // Set issue date
         certificate.setIssueDate(
                 LocalDate.now().toString()
         );
 
+        // Save certificate
         return certificateRepository.save(certificate);
     }
 
-    // Get certificates of a student
-    public List<Certificate> getCertificatesByUser(
-            Long userId) {
+    public List<Certificate> getCertificatesByUser(Long userId) {
 
         return certificateRepository.findByUserId(userId);
     }
 
-    // Get certificate by ID
     public Certificate getCertificateById(Long id) {
 
         return certificateRepository

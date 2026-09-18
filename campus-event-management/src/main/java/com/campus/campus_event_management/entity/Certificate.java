@@ -18,6 +18,10 @@ public class Certificate {
 
     private Long eventId;
 
+    private String studentName;
+
+    private String eventName;
+
     private String certificateNumber;
 
     private String issueDate;
@@ -25,11 +29,18 @@ public class Certificate {
     public Certificate() {
     }
 
-    public Certificate(Long userId, Long eventId,
-                       String certificateNumber,
-                       String issueDate) {
+    public Certificate(
+            Long userId,
+            Long eventId,
+            String studentName,
+            String eventName,
+            String certificateNumber,
+            String issueDate) {
+
         this.userId = userId;
         this.eventId = eventId;
+        this.studentName = studentName;
+        this.eventName = eventName;
         this.certificateNumber = certificateNumber;
         this.issueDate = issueDate;
     }
@@ -56,6 +67,22 @@ public class Certificate {
 
     public void setEventId(Long eventId) {
         this.eventId = eventId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getCertificateNumber() {

@@ -22,94 +22,115 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(
-            JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // Enable CORS
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .cors(cors ->
+                cors.configurationSource(corsConfigurationSource())
+            )
 
-            // Disable CSRF because we are using JWT
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf ->
+                csrf.disable()
+            )
 
-            // JWT based authentication - no server session
             .sessionManagement(session ->
                 session.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
                 )
             )
 
-            // Authorization rules
             .authorizeHttpRequests(auth -> auth
 
-                // Allow browser preflight requests
+                // Browser preflight
                 .requestMatchers(
                     HttpMethod.OPTIONS,
                     "/**"
-                ).permitAll()
+                )
+                .permitAll()
 
-                // Login and registration APIs
+                // User / Login APIs
                 .requestMatchers(
                     "/api/users/**"
-                ).permitAll()
+                )
+                .permitAll()
 
                 // Admin APIs
                 .requestMatchers(
                     "/api/admin/**"
-                ).hasRole("ADMIN")
+                )
+                .hasRole("ADMIN")
 
                 // Organizer APIs
                 .requestMatchers(
                     "/api/organizer/**"
-                ).hasRole("ORGANIZER")
+                )
+                .hasRole("ORGANIZER")
 
-                // Attendance APIs
+                // Attendance
                 .requestMatchers(
                     "/api/attendance"
-                ).hasAnyRole("ADMIN", "ORGANIZER")
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
 
-                // Student certificate APIs
+                // Certificate generation
                 .requestMatchers(
+                    HttpMethod.POST,
+                    "/api/certificates"
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
+
+                // Student certificate list
+                .requestMatchers(
+                    HttpMethod.GET,
                     "/api/certificates/user/**"
-                ).hasRole("STUDENT")
+                )
+                .hasRole("STUDENT")
 
-                // Admin/Organizer certificate APIs
+                // Student individual certificate
                 .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/certificates/{id}"
+                )
+                .hasRole("STUDENT")
+
+                // Admin / Organizer certificate access
+                .requestMatchers(
+                    HttpMethod.GET,
                     "/api/certificates/**"
-                ).hasAnyRole("ADMIN", "ORGANIZER")
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
 
-                // Student feedback APIs
-                .requestMatchers(
-                    "/api/feedback",
-                    "/api/feedback/user/**"
-                ).hasRole("STUDENT")
-
-                // Admin/Organizer feedback APIs
-                .requestMatchers(
-                    "/api/feedback/event/**"
-                ).hasAnyRole("ADMIN", "ORGANIZER")
-
-                // Student event APIs
+                // Student APIs
                 .requestMatchers(
                     "/api/student/**"
-                ).hasRole("STUDENT")
+                )
+                .hasRole("STUDENT")
 
                 // Student registration APIs
                 .requestMatchers(
                     "/api/registrations/**"
-                ).hasRole("STUDENT")
+                )
+                .hasRole("STUDENT")
 
-                // Everything else requires authentication
-                .anyRequest().authenticated()
+                // Everything else
+                .anyRequest()
+                .authenticated()
             )
 
-            // Register JWT filter
             .addFilterBefore(
                 jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class
@@ -118,13 +139,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Password encoder
+
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
-    // CORS configuration
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
