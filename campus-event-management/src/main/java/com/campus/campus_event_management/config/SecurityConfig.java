@@ -22,16 +22,21 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
+
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws Exception {
 
         http
             .cors(cors ->
-                cors.configurationSource(corsConfigurationSource())
+                cors.configurationSource(
+                    corsConfigurationSource()
+                )
             )
 
             .csrf(csrf ->
@@ -46,18 +51,60 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // Browser preflight
+                // CORS preflight requests
                 .requestMatchers(
                     HttpMethod.OPTIONS,
                     "/**"
                 )
                 .permitAll()
 
-                // User / Login APIs
+                // Public student registration
                 .requestMatchers(
-                    "/api/users/**"
+                    HttpMethod.POST,
+                    "/api/users"
                 )
                 .permitAll()
+
+                // Public login
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/api/users/login"
+                )
+                .permitAll()
+
+                // Only ADMIN can view all users
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/users"
+                )
+                .hasRole("ADMIN")
+
+                // ADMIN and ORGANIZER can view a user
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/users/{id}"
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
+
+                // ADMIN and ORGANIZER can find user by email
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/users/email/{email}"
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
+
+                // Only ADMIN can delete users
+                .requestMatchers(
+                    HttpMethod.DELETE,
+                    "/api/users/{id}"
+                )
+                .hasRole("ADMIN")
 
                 // Admin APIs
                 .requestMatchers(
@@ -71,14 +118,12 @@ public class SecurityConfig {
                 )
                 .hasRole("ORGANIZER")
 
-                // Attendance
+                // Direct attendance APIs
+                // Only ADMIN can access these endpoints
                 .requestMatchers(
-                    "/api/attendance"
+                    "/api/attendance/**"
                 )
-                .hasAnyRole(
-                    "ADMIN",
-                    "ORGANIZER"
-                )
+                .hasRole("ADMIN")
 
                 // Certificate generation
                 .requestMatchers(
@@ -90,21 +135,28 @@ public class SecurityConfig {
                     "ORGANIZER"
                 )
 
-                // Student certificate list
+                // Students can view their own certificates
+                // Controller checks ownership
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/user/**"
                 )
                 .hasRole("STUDENT")
 
-                // Student individual certificate
+                // Students, ADMIN and ORGANIZER can reach
+                // certificate-by-ID endpoint.
+                // Controller performs ownership checks.
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/{id}"
                 )
-                .hasRole("STUDENT")
+                .hasAnyRole(
+                    "STUDENT",
+                    "ADMIN",
+                    "ORGANIZER"
+                )
 
-                // Admin / Organizer certificate access
+                // Other certificate GET endpoints
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/**"
@@ -114,19 +166,55 @@ public class SecurityConfig {
                     "ORGANIZER"
                 )
 
-                // Student APIs
+                // Student-specific APIs
                 .requestMatchers(
                     "/api/student/**"
                 )
                 .hasRole("STUDENT")
 
-                // Student registration APIs
+                // Students can create registrations
                 .requestMatchers(
-                    "/api/registrations/**"
+                    HttpMethod.POST,
+                    "/api/registrations"
                 )
                 .hasRole("STUDENT")
 
-                // Everything else
+                // Students can view their own registrations
+                // Controller checks ownership
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/registrations/user/**"
+                )
+                .hasRole("STUDENT")
+
+                // Only ADMIN and ORGANIZER can view
+                // registrations for an event
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/registrations/event/**"
+                )
+                .hasAnyRole(
+                    "ADMIN",
+                    "ORGANIZER"
+                )
+
+                // Students can delete their own registrations
+                // Controller checks ownership
+                .requestMatchers(
+                    HttpMethod.DELETE,
+                    "/api/registrations/*"
+                )
+                .hasRole("STUDENT")
+
+                // Students can cancel their own registrations
+                // Controller checks ownership
+                .requestMatchers(
+                    HttpMethod.PUT,
+                    "/api/registrations/*/cancel"
+                )
+                .hasRole("STUDENT")
+
+                // Everything else requires authentication
                 .anyRequest()
                 .authenticated()
             )
@@ -139,13 +227,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

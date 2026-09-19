@@ -1,5 +1,7 @@
 package com.campus.campus_event_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,72 +14,150 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "users")
 public class User {
 
+    // ===============================
+    // ID
+    // ===============================
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   @NotBlank(message = "Name is required")
+
+    // ===============================
+    // NAME
+    // ===============================
+
+    @NotBlank(message = "Name is required")
     private String name;
 
+
+    // ===============================
+    // EMAIL
+    // ===============================
+
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @Email(message = "Please enter a valid email")
     private String email;
 
+
+    // ===============================
+    // PASSWORD
+    // ===============================
+
+    /*
+     * WRITE_ONLY means:
+     *
+     * - Password CAN be received from frontend
+     * - Password WILL NOT be returned in JSON responses
+     *
+     * This is important because registration needs to
+     * receive the password while protecting it from API output.
+     */
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
     private String password;
 
-    @NotBlank(message = "Role is required")
+
+    // ===============================
+    // ROLE
+    // ===============================
+
     private String role;
 
-    // Default constructor
+
+    // ===============================
+    // DEFAULT CONSTRUCTOR
+    // ===============================
+
     public User() {
     }
 
-    // Parameterized constructor
-    public User(String name, String email, String password, String role) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
-    // Getters and Setters
+    // ===============================
+    // GET ID
+    // ===============================
 
     public Long getId() {
         return id;
     }
 
+
+    // ===============================
+    // SET ID
+    // ===============================
+
     public void setId(Long id) {
         this.id = id;
     }
+
+
+    // ===============================
+    // GET NAME
+    // ===============================
 
     public String getName() {
         return name;
     }
 
+
+    // ===============================
+    // SET NAME
+    // ===============================
+
     public void setName(String name) {
         this.name = name;
     }
+
+
+    // ===============================
+    // GET EMAIL
+    // ===============================
 
     public String getEmail() {
         return email;
     }
 
+
+    // ===============================
+    // SET EMAIL
+    // ===============================
+
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    // ===============================
+    // GET PASSWORD
+    // ===============================
 
     public String getPassword() {
         return password;
     }
 
+
+    // ===============================
+    // SET PASSWORD
+    // ===============================
+
     public void setPassword(String password) {
         this.password = password;
     }
 
+
+    // ===============================
+    // GET ROLE
+    // ===============================
+
     public String getRole() {
         return role;
     }
+
+
+    // ===============================
+    // SET ROLE
+    // ===============================
 
     public void setRole(String role) {
         this.role = role;

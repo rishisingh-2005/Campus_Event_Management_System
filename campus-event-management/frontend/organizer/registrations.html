@@ -12,23 +12,583 @@
 
     <title>Event Registrations - Campus Event Management</title>
 
+    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
+    <!-- Custom CSS -->
     <link
         rel="stylesheet"
         href="../css/style.css"
     >
 
+    <style>
+
+        /* ==========================================
+           PAGE
+        ========================================== */
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f3f6fa 0%,
+                    #ffffff 50%,
+                    #f8f9fa 100%
+                );
+        }
+
+
+        /* ==========================================
+           NAVBAR
+        ========================================== */
+
+        .navbar {
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .logout-btn {
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 8px 18px;
+        }
+
+
+        /* ==========================================
+           MAIN
+        ========================================== */
+
+        .main-container {
+            max-width: 1200px;
+        }
+
+
+        /* ==========================================
+           PAGE HEADER
+        ========================================== */
+
+        .page-header {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937 55%,
+                    #343a40
+                );
+
+            color: white;
+
+            border-radius: 22px;
+            padding: 34px;
+
+            box-shadow:
+                0 14px 35px rgba(17, 24, 39, 0.17);
+        }
+
+        .page-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+            height: 230px;
+
+            right: -75px;
+            top: -105px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 50%;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-label {
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+            font-size: 2.15rem;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            font-size: 15px;
+        }
+
+        .header-actions {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-btn {
+            border-radius: 10px;
+            font-weight: 600;
+            min-height: 42px;
+        }
+
+
+        /* ==========================================
+           SUMMARY CARDS
+        ========================================== */
+
+        .summary-card {
+            border: none;
+            border-radius: 18px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 28px rgba(0, 0, 0, 0.09) !important;
+        }
+
+        .summary-card .card-body {
+            padding: 21px;
+        }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            font-size: 21px;
+        }
+
+        .icon-events {
+            background: #e9f2ff;
+        }
+
+        .icon-registrations {
+            background: #e8f7ee;
+        }
+
+        .icon-active {
+            background: #fff4d6;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c757d;
+        }
+
+        .summary-number {
+            font-size: 1.85rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+
+        /* ==========================================
+           FILTER CARD
+        ========================================== */
+
+        .filter-card {
+            border: none;
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .filter-card .card-body {
+            padding: 24px;
+        }
+
+        .filter-title {
+            font-weight: 800;
+            color: #212529;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 650;
+            color: #495057;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 44px;
+            border-radius: 10px;
+            border-color: #dee2e6;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(13, 110, 253, 0.12);
+        }
+
+        .clear-filter-btn {
+            min-height: 44px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+
+        /* ==========================================
+           LOADING
+        ========================================== */
+
+        .loading-box {
+            background: white;
+            border-radius: 18px;
+
+            padding: 55px 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .loading-box .spinner-border {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+
+        /* ==========================================
+           ALERTS
+        ========================================== */
+
+        #errorMessage,
+        #noEventsMessage,
+        #noResultsMessage {
+            border: none;
+            border-radius: 14px;
+            padding: 16px 18px;
+        }
+
+
+        /* ==========================================
+           EVENT CARD
+        ========================================== */
+
+        .event-card {
+            border: none;
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.06) !important;
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.10) !important;
+        }
+
+        .event-card-header {
+            padding: 24px;
+        }
+
+        .event-card-title {
+            font-size: 1.2rem;
+            font-weight: 750;
+            line-height: 1.35;
+            color: #212529;
+        }
+
+        .event-meta {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .event-meta strong {
+            color: #495057;
+        }
+
+        .registration-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            background: #eef5ff;
+            color: #0d6efd;
+
+            border-radius: 20px;
+
+            padding: 6px 11px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .event-card-body {
+            padding: 0 24px 24px;
+        }
+
+        .event-divider {
+            opacity: 0.08;
+            margin: 0 0 20px;
+        }
+
+
+        /* ==========================================
+           STATUS
+        ========================================== */
+
+        .status-badge {
+            border-radius: 20px;
+
+            padding: 7px 11px;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .registration-table-wrapper {
+            border:
+                1px solid #e9ecef;
+
+            border-radius: 13px;
+
+            overflow: hidden;
+        }
+
+        .registration-table {
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        .registration-table thead th {
+            background: #f8f9fa;
+
+            color: #495057;
+
+            font-size: 12px;
+            font-weight: 750;
+
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+
+            white-space: nowrap;
+
+            padding: 13px 14px;
+
+            border-bottom:
+                1px solid #e9ecef;
+        }
+
+        .registration-table tbody td {
+            padding: 14px;
+
+            font-size: 14px;
+
+            border-color: #edf0f2;
+        }
+
+        .registration-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .registration-table tbody tr:hover {
+            background: #fafcff;
+        }
+
+        .student-id {
+            font-weight: 700;
+            color: #343a40;
+        }
+
+        .registration-date {
+            color: #6c757d;
+        }
+
+
+        /* ==========================================
+           CERTIFICATE BUTTON
+        ========================================== */
+
+        .certificate-btn {
+            white-space: nowrap;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+            font-weight: 650;
+
+            min-height: 34px;
+        }
+
+
+        /* ==========================================
+           EMPTY STATE
+        ========================================== */
+
+        .empty-state {
+            padding: 42px 25px;
+
+            text-align: center;
+
+            background: #fafbfc;
+
+            border-radius: 13px;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .empty-state h5 {
+            font-weight: 750;
+        }
+
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+
+        /* ==========================================
+           PAGE NOTE
+        ========================================== */
+
+        .page-note {
+            text-align: center;
+
+            color: #6c757d;
+
+            font-size: 13px;
+
+            margin-top: 32px;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 768px) {
+
+            .page-header {
+                padding: 28px 22px;
+                border-radius: 18px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions .btn {
+                flex: 1;
+            }
+
+            .event-card-header,
+            .event-card-body {
+                padding-left: 19px;
+                padding-right: 19px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .main-container {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .page-header {
+                padding: 24px 18px;
+            }
+
+            .page-header h1 {
+                font-size: 1.55rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+            }
+
+            .filter-card .card-body {
+                padding: 20px;
+            }
+
+            .event-card-header {
+                padding: 20px;
+            }
+
+            .event-card-body {
+                padding:
+                    0 20px 20px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- ============================= -->
-    <!-- NAVBAR -->
-    <!-- ============================= -->
+
+    <!-- ==========================================
+         NAVBAR
+    ========================================== -->
 
     <nav class="navbar navbar-dark bg-dark">
 
@@ -38,11 +598,11 @@
                 class="navbar-brand"
                 href="dashboard.html"
             >
-                Campus Event Management
+                🎓 Campus Event Management
             </a>
 
             <button
-                class="btn btn-outline-light"
+                class="btn btn-outline-light logout-btn"
                 onclick="logout()"
             >
                 Logout
@@ -53,136 +613,723 @@
     </nav>
 
 
-    <!-- ============================= -->
-    <!-- MAIN CONTENT -->
-    <!-- ============================= -->
+    <!-- ==========================================
+         MAIN
+    ========================================== -->
 
-    <div class="container py-5">
+    <main class="container main-container py-5">
 
-        <!-- Page Header -->
 
-        <div
-            class="d-flex justify-content-between align-items-center mb-4"
-        >
+        <!-- ==========================================
+             PAGE HEADER
+        ========================================== -->
 
-            <div>
+        <section class="page-header mb-4">
 
-                <h1>
-                    Event Registrations
-                </h1>
+            <div class="page-header-content">
 
-                <p class="text-muted mb-0">
-                    View students registered for your events.
-                </p>
+                <div
+                    class="d-flex
+                           flex-column
+                           flex-md-row
+                           justify-content-between
+                           align-items-md-center
+                           gap-4"
+                >
+
+                    <div>
+
+                        <div class="header-label">
+                            Organizer Workspace
+                        </div>
+
+                        <h1 class="mb-2">
+                            Event Registrations
+                        </h1>
+
+                        <p class="mb-0 opacity-75">
+                            View students registered for your events and manage certificates.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="header-actions
+                               d-flex
+                               gap-2"
+                    >
+
+                        <button
+                            type="button"
+                            id="refreshButton"
+                            class="btn btn-primary header-btn"
+                            onclick="loadEvents()"
+                        >
+                            🔄 Refresh
+                        </button>
+
+                        <a
+                            href="dashboard.html"
+                            class="btn btn-outline-light header-btn"
+                        >
+                            ← Dashboard
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <a
-                href="dashboard.html"
-                class="btn btn-secondary"
-            >
-                Back to Dashboard
-            </a>
-
-        </div>
+        </section>
 
 
-        <!-- ============================= -->
-        <!-- LOADING MESSAGE -->
-        <!-- ============================= -->
+        <!-- ==========================================
+             SUMMARY
+        ========================================== -->
+
+        <section class="row g-3 mb-4">
+
+
+            <!-- TOTAL EVENTS -->
+
+            <div class="col-md-4">
+
+                <div
+                    class="card summary-card
+                           shadow-sm
+                           h-100"
+                >
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="summary-icon icon-events">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <div class="summary-label mb-2">
+                                Total Events
+                            </div>
+
+                            <div
+                                id="totalEvents"
+                                class="summary-number"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL REGISTRATIONS -->
+
+            <div class="col-md-4">
+
+                <div
+                    class="card summary-card
+                           shadow-sm
+                           h-100"
+                >
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="summary-icon icon-registrations">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <div class="summary-label mb-2">
+                                Total Registrations
+                            </div>
+
+                            <div
+                                id="totalRegistrations"
+                                class="summary-number text-success"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENTS WITH REGISTRATIONS -->
+
+            <div class="col-md-4">
+
+                <div
+                    class="card summary-card
+                           shadow-sm
+                           h-100"
+                >
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="summary-icon icon-active">
+                            📈
+                        </div>
+
+                        <div>
+
+                            <div class="summary-label mb-2">
+                                Events With Registrations
+                            </div>
+
+                            <div
+                                id="eventsWithRegistrations"
+                                class="summary-number text-warning"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             FILTERS
+        ========================================== -->
+
+        <section class="card filter-card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div
+                    class="d-flex
+                           align-items-center
+                           gap-2
+                           mb-3"
+                >
+
+                    <span>
+                        🔎
+                    </span>
+
+                    <span class="filter-title">
+                        Find Registrations
+                    </span>
+
+                </div>
+
+
+                <div class="row g-3 align-items-end">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-md-7">
+
+                        <label
+                            for="searchInput"
+                            class="form-label"
+                        >
+                            Search Events
+                        </label>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="form-control"
+                            placeholder="Search by event title..."
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="col-md-3">
+
+                        <label
+                            for="statusFilter"
+                            class="form-label"
+                        >
+                            Event Status
+                        </label>
+
+                        <select
+                            id="statusFilter"
+                            class="form-select"
+                        >
+
+                            <option value="ALL">
+                                All Statuses
+                            </option>
+
+                            <option value="APPROVED">
+                                Approved
+                            </option>
+
+                            <option value="PENDING">
+                                Pending
+                            </option>
+
+                            <option value="REJECTED">
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CLEAR -->
+
+                    <div class="col-md-2">
+
+                        <button
+                            type="button"
+                            id="clearFiltersButton"
+                            class="btn btn-outline-secondary w-100 clear-filter-btn"
+                        >
+                            Clear Filters
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             LOADING
+        ========================================== -->
 
         <div
             id="loadingMessage"
-            class="text-center py-5"
+            class="loading-box text-center mb-4"
         >
 
             <div
-                class="spinner-border"
+                class="spinner-border text-primary"
                 role="status"
-            ></div>
+            >
 
-            <p class="mt-3">
-                Loading events...
+                <span class="visually-hidden">
+                    Loading
+                </span>
+
+            </div>
+
+            <p class="mt-3 mb-0 text-muted">
+                Loading events and registrations...
             </p>
 
         </div>
 
 
-        <!-- ============================= -->
-        <!-- ERROR MESSAGE -->
-        <!-- ============================= -->
+        <!-- ==========================================
+             ERROR
+        ========================================== -->
 
         <div
             id="errorMessage"
-            class="alert alert-danger"
-            style="display: none;"
+            class="alert alert-danger d-none mb-4"
+            role="alert"
         ></div>
 
 
-        <!-- ============================= -->
-        <!-- NO EVENTS MESSAGE -->
-        <!-- ============================= -->
+        <!-- ==========================================
+             NO EVENTS
+        ========================================== -->
 
         <div
             id="noEventsMessage"
-            class="alert alert-info"
-            style="display: none;"
+            class="alert alert-info d-none mb-4"
+            role="alert"
         >
-
-            You have not created any events yet.
-
+            📅 You have not created any events yet.
         </div>
 
 
-        <!-- ============================= -->
-        <!-- EVENTS CONTAINER -->
-        <!-- ============================= -->
+        <!-- ==========================================
+             NO RESULTS
+        ========================================== -->
+
+        <div
+            id="noResultsMessage"
+            class="alert alert-warning d-none mb-4"
+            role="alert"
+        >
+            🔎 No events match your current search or filter.
+        </div>
+
+
+        <!-- ==========================================
+             EVENTS
+        ========================================== -->
 
         <div id="eventsContainer"></div>
 
-    </div>
+
+        <!-- ==========================================
+             NOTE
+        ========================================== -->
+
+        <div class="page-note">
+
+            Certificate generation is available for
+            registered students who meet the attendance requirements.
+
+        </div>
+
+    </main>
 
 
-    <!-- ============================= -->
-    <!-- API JAVASCRIPT -->
-    <!-- ============================= -->
+    <!-- ==========================================
+         API JAVASCRIPT
+    ========================================== -->
 
     <script src="../js/api.js"></script>
 
 
     <script>
 
+
         // ==========================================
-        // CHECK LOGIN
+        // LOGIN CHECK
         // ==========================================
 
         if (!isLoggedIn()) {
 
-            window.location.href = "../login.html";
+            window.location.href =
+                "../login.html";
 
         }
 
 
         // ==========================================
-        // CHECK ORGANIZER ROLE
+        // ORGANIZER ROLE CHECK
         // ==========================================
 
         if (getUserRole() !== "ORGANIZER") {
 
-            alert("Access denied. Organizers only.");
+            alert(
+                "Access denied. Organizers only."
+            );
 
-            window.location.href = "../login.html";
+            window.location.href =
+                "../login.html";
 
         }
 
 
         // ==========================================
-        // LOAD ORGANIZER EVENTS
+        // GLOBAL DATA
+        // ==========================================
+
+        let allEvents = [];
+
+        let registrationCounts = {};
+
+        let registrationsData = {};
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const loadingMessage =
+            document.getElementById(
+                "loadingMessage"
+            );
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        const noEventsMessage =
+            document.getElementById(
+                "noEventsMessage"
+            );
+
+
+        const noResultsMessage =
+            document.getElementById(
+                "noResultsMessage"
+            );
+
+
+        const eventsContainer =
+            document.getElementById(
+                "eventsContainer"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "statusFilter"
+            );
+
+
+        const clearFiltersButton =
+            document.getElementById(
+                "clearFiltersButton"
+            );
+
+
+        const refreshButton =
+            document.getElementById(
+                "refreshButton"
+            );
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // STATUS BADGE
+        // ==========================================
+
+        function getStatusBadge(status) {
+
+            const normalizedStatus =
+                String(
+                    status || "UNKNOWN"
+                ).toUpperCase();
+
+
+            let badgeClass =
+                "bg-secondary";
+
+
+            if (
+                normalizedStatus ===
+                "APPROVED"
+            ) {
+
+                badgeClass =
+                    "bg-success";
+
+            }
+            else if (
+                normalizedStatus ===
+                "PENDING"
+            ) {
+
+                badgeClass =
+                    "bg-warning text-dark";
+
+            }
+            else if (
+                normalizedStatus ===
+                "REJECTED"
+            ) {
+
+                badgeClass =
+                    "bg-danger";
+
+            }
+
+
+            return `
+                <span class="badge status-badge ${badgeClass}">
+                    ${escapeHtml(normalizedStatus)}
+                </span>
+            `;
+
+        }
+
+
+        // ==========================================
+        // FORMAT DATE
+        // ==========================================
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "N/A";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return escapeHtml(
+                    dateValue
+                );
+
+            }
+
+
+            return date.toLocaleDateString(
+                undefined,
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // FORMAT REGISTRATION DATE
+        // ==========================================
+
+        function formatRegistrationDate(
+            dateValue
+        ) {
+
+            if (!dateValue) {
+
+                return "N/A";
+
+            }
+
+
+            const date =
+                new Date(dateValue);
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return escapeHtml(
+                    dateValue
+                );
+
+            }
+
+
+            return date.toLocaleString();
+
+        }
+
+
+        // ==========================================
+        // LOAD EVENTS
         // ==========================================
 
         async function loadEvents() {
 
+            loadingMessage.classList.remove(
+                "d-none"
+            );
+
+
+            errorMessage.classList.add(
+                "d-none"
+            );
+
+
+            noEventsMessage.classList.add(
+                "d-none"
+            );
+
+
+            noResultsMessage.classList.add(
+                "d-none"
+            );
+
+
+            eventsContainer.innerHTML =
+                "";
+
+
+            registrationCounts = {};
+
+            registrationsData = {};
+
+
+            refreshButton.disabled =
+                true;
+
+
+            refreshButton.textContent =
+                "Loading...";
+
+
             try {
+
+                // ==================================
+                // GET ORGANIZER EVENTS
+                // ==================================
 
                 const events =
                     await apiRequest(
@@ -190,148 +1337,142 @@
                     );
 
 
-                // Hide loading
+                allEvents =
+                    Array.isArray(events)
+                        ? events
+                        : [];
+
+
+                // ==================================
+                // UPDATE TOTAL EVENTS
+                // ==================================
 
                 document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+                    "totalEvents"
+                ).textContent =
+                    allEvents.length;
 
 
-                // Check if events exist
+                if (
+                    allEvents.length === 0
+                ) {
 
-                if (!events || events.length === 0) {
+                    noEventsMessage.classList.remove(
+                        "d-none"
+                    );
 
-                    document.getElementById(
-                        "noEventsMessage"
-                    ).style.display = "block";
+                    updateSummary(0);
 
                     return;
 
                 }
 
 
-                const container =
-                    document.getElementById(
-                        "eventsContainer"
+                // ==================================
+                // LOAD REGISTRATIONS
+                // ==================================
+
+                await Promise.all(
+
+                    allEvents.map(
+                        async (event) => {
+
+                            try {
+
+                                const registrations =
+                                    await apiRequest(
+                                        `/api/organizer/events/${event.id}/registrations`
+                                    );
+
+
+                                const data =
+                                    Array.isArray(
+                                        registrations
+                                    )
+                                        ? registrations
+                                        : [];
+
+
+                                registrationsData[
+                                    event.id
+                                ] = data;
+
+
+                                registrationCounts[
+                                    event.id
+                                ] =
+                                    data.length;
+
+                            }
+
+                            catch (error) {
+
+                                console.error(
+                                    `Error loading registrations for event ${event.id}:`,
+                                    error
+                                );
+
+
+                                registrationsData[
+                                    event.id
+                                ] = null;
+
+
+                                registrationCounts[
+                                    event.id
+                                ] = 0;
+
+                            }
+
+                        }
+                    )
+
+                );
+
+
+                // ==================================
+                // UPDATE SUMMARY
+                // ==================================
+
+                const totalRegistrations =
+                    Object.values(
+                        registrationCounts
+                    ).reduce(
+                        (
+                            total,
+                            count
+                        ) =>
+                            total + count,
+                        0
                     );
 
 
-                container.innerHTML = "";
+                const eventsWithRegistrations =
+                    allEvents.filter(
+                        event =>
+                            registrationCounts[
+                                event.id
+                            ] > 0
+                    ).length;
 
 
-                // ==========================================
-                // CREATE EVENT CARDS
-                // ==========================================
-
-                events.forEach(event => {
-
-                    const eventCard =
-                        document.createElement("div");
+                document.getElementById(
+                    "totalRegistrations"
+                ).textContent =
+                    totalRegistrations;
 
 
-                    eventCard.className =
-                        "card shadow-sm mb-4";
+                document.getElementById(
+                    "eventsWithRegistrations"
+                ).textContent =
+                    eventsWithRegistrations;
 
 
-                    // Determine status badge
+                // ==================================
+                // DISPLAY
+                // ==================================
 
-                    let statusClass =
-                        "bg-warning text-dark";
-
-
-                    if (
-                        event.status &&
-                        event.status.toUpperCase() === "APPROVED"
-                    ) {
-
-                        statusClass =
-                            "bg-success";
-
-                    }
-                    else if (
-                        event.status &&
-                        event.status.toUpperCase() === "REJECTED"
-                    ) {
-
-                        statusClass =
-                            "bg-danger";
-
-                    }
-
-
-                    eventCard.innerHTML = `
-
-                        <div class="card-body">
-
-                            <!-- Event Header -->
-
-                            <div
-                                class="d-flex justify-content-between align-items-center"
-                            >
-
-                                <div>
-
-                                    <h4 class="mb-1">
-
-                                        ${event.title || "Untitled Event"}
-
-                                    </h4>
-
-
-                                    <p class="text-muted mb-0">
-
-                                        ${event.date || "N/A"}
-
-                                        -
-
-                                        ${event.venue || "N/A"}
-
-                                    </p>
-
-                                </div>
-
-
-                                <span
-                                    class="badge ${statusClass}"
-                                >
-
-                                    ${event.status || "UNKNOWN"}
-
-                                </span>
-
-                            </div>
-
-
-                            <hr>
-
-
-                            <!-- Registration Area -->
-
-                            <div
-                                id="registrations-${event.id}"
-                            >
-
-                                <p class="text-muted">
-
-                                    Loading registrations...
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-
-                    container.appendChild(eventCard);
-
-
-                    // Load registrations for this event
-
-                    loadRegistrations(event.id);
-
-                });
+                renderEvents();
 
             }
 
@@ -343,21 +1484,30 @@
                 );
 
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
-
-
-                document.getElementById(
-                    "errorMessage"
-                ).textContent =
+                errorMessage.textContent =
                     error.message ||
                     "Unable to load your events.";
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).style.display = "block";
+                errorMessage.classList.remove(
+                    "d-none"
+                );
+
+            }
+
+            finally {
+
+                loadingMessage.classList.add(
+                    "d-none"
+                );
+
+
+                refreshButton.disabled =
+                    false;
+
+
+                refreshButton.textContent =
+                    "🔄 Refresh";
 
             }
 
@@ -365,81 +1515,293 @@
 
 
         // ==========================================
-        // LOAD REGISTRATIONS FOR ONE EVENT
+        // UPDATE SUMMARY
         // ==========================================
 
-        async function loadRegistrations(eventId) {
+        function updateSummary(
+            totalRegistrations
+        ) {
 
-            const container =
-                document.getElementById(
-                    `registrations-${eventId}`
+            document.getElementById(
+                "totalRegistrations"
+            ).textContent =
+                totalRegistrations;
+
+
+            document.getElementById(
+                "eventsWithRegistrations"
+            ).textContent =
+                0;
+
+        }
+
+
+        // ==========================================
+        // RENDER EVENTS
+        // ==========================================
+
+        function renderEvents() {
+
+            const searchTerm =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const selectedStatus =
+                statusFilter.value;
+
+
+            const filteredEvents =
+                allEvents.filter(
+                    event => {
+
+                        const title =
+                            String(
+                                event.title || ""
+                            ).toLowerCase();
+
+
+                        const status =
+                            String(
+                                event.status || "UNKNOWN"
+                            ).toUpperCase();
+
+
+                        const matchesSearch =
+                            title.includes(
+                                searchTerm
+                            );
+
+
+                        const matchesStatus =
+                            selectedStatus ===
+                            "ALL" ||
+                            status ===
+                            selectedStatus;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesStatus
+                        );
+
+                    }
                 );
 
 
-            try {
+            eventsContainer.innerHTML =
+                "";
 
-                /*
-                 * Secure organizer endpoint.
-                 *
-                 * The backend verifies that the
-                 * event belongs to the logged-in organizer.
-                 */
 
-                const registrations =
-                    await apiRequest(
-                        `/api/organizer/events/${eventId}/registrations`
+            if (
+                filteredEvents.length === 0
+            ) {
+
+                noResultsMessage.classList.remove(
+                    "d-none"
+                );
+
+                return;
+
+            }
+
+
+            noResultsMessage.classList.add(
+                "d-none"
+            );
+
+
+            filteredEvents.forEach(
+                event => {
+
+                    renderEventCard(
+                        event
                     );
 
+                }
+            );
 
-                // ==========================================
-                // NO REGISTRATIONS
-                // ==========================================
+        }
 
-                if (
-                    !registrations ||
-                    registrations.length === 0
-                ) {
 
-                    container.innerHTML = `
+        // ==========================================
+        // RENDER EVENT CARD
+        // ==========================================
 
-                        <div
-                            class="alert alert-info mb-0"
-                        >
+        function renderEventCard(
+            event
+        ) {
 
-                            No students have registered
-                            for this event yet.
+            const registrations =
+                registrationsData[
+                    event.id
+                ];
 
+
+            const count =
+                registrationCounts[
+                    event.id
+                ] || 0;
+
+
+            const eventCard =
+                document.createElement(
+                    "div"
+                );
+
+
+            eventCard.className =
+                "card event-card shadow-sm mb-4";
+
+
+            let registrationContent =
+                "";
+
+
+            // ==================================
+            // REGISTRATION ERROR
+            // ==================================
+
+            if (
+                registrations === null
+            ) {
+
+                registrationContent = `
+
+                    <div class="alert alert-danger mb-0">
+
+                        ⚠️ Unable to load registrations
+                        for this event.
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // ==================================
+            // NO REGISTRATIONS
+            // ==================================
+
+            else if (
+                registrations &&
+                registrations.length === 0
+            ) {
+
+                registrationContent = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            📋
                         </div>
 
-                    `;
+                        <h5>
+                            No Registrations Yet
+                        </h5>
 
-                    return;
+                        <p>
+                            Students have not registered
+                            for this event yet.
+                        </p>
 
-                }
+                    </div>
+
+                `;
+
+            }
 
 
-                // ==========================================
-                // CREATE TABLE ROWS
-                // ==========================================
+            // ==================================
+            // REGISTRATION TABLE
+            // ==================================
 
-                let tableRows = "";
+            else if (
+                registrations
+            ) {
+
+                let tableRows =
+                    "";
 
 
                 registrations.forEach(
-                    (registration, index) => {
+                    (
+                        registration,
+                        index
+                    ) => {
+
+                        const status =
+                            String(
+                                registration.status ||
+                                "UNKNOWN"
+                            ).toUpperCase();
+
 
                         let statusClass =
                             "bg-secondary";
 
 
                         if (
-                            registration.status &&
-                            registration.status.toUpperCase() ===
+                            status ===
                             "REGISTERED"
                         ) {
 
                             statusClass =
                                 "bg-success";
+
+                        }
+                        else if (
+                            status ===
+                            "CANCELLED"
+                        ) {
+
+                            statusClass =
+                                "bg-danger";
+
+                        }
+
+
+                        let actionButton =
+                            "";
+
+
+                        // ==================================
+                        // CERTIFICATE BUTTON
+                        // ==================================
+
+                        if (
+                            status ===
+                            "REGISTERED"
+                        ) {
+
+                            actionButton = `
+
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary certificate-btn"
+                                    onclick="generateCertificate(
+                                        ${registration.userId},
+                                        ${event.id},
+                                        this
+                                    )"
+                                >
+                                    🎓 Generate Certificate
+                                </button>
+
+                            `;
+
+                        }
+                        else {
+
+                            actionButton = `
+
+                                <span class="text-muted small">
+                                    Not available
+                                </span>
+
+                            `;
 
                         }
 
@@ -448,46 +1810,37 @@
 
                             <tr>
 
-                                <td>
-
+                                <td class="text-muted">
                                     ${index + 1}
-
                                 </td>
 
-
-                                <td>
-
-                                    ${registration.userId || "N/A"}
-
+                                <td class="student-id">
+                                    ${escapeHtml(
+                                        registration.userId ||
+                                        "N/A"
+                                    )}
                                 </td>
 
-
-                                <td>
-
+                                <td class="registration-date">
                                     ${
-                                        registration.registrationDate
-                                            ? new Date(
-                                                registration.registrationDate
-                                            ).toLocaleString()
-                                            : "N/A"
+                                        formatRegistrationDate(
+                                            registration.registrationDate
+                                        )
                                     }
-
                                 </td>
-
 
                                 <td>
 
                                     <span
-                                        class="badge ${statusClass}"
+                                        class="badge status-badge ${statusClass}"
                                     >
-
-                                        ${
-                                            registration.status ||
-                                            "UNKNOWN"
-                                        }
-
+                                        ${escapeHtml(status)}
                                     </span>
 
+                                </td>
+
+                                <td>
+                                    ${actionButton}
                                 </td>
 
                             </tr>
@@ -498,58 +1851,53 @@
                 );
 
 
-                // ==========================================
-                // DISPLAY REGISTRATION TABLE
-                // ==========================================
+                registrationContent = `
 
-                container.innerHTML = `
+                    <div class="registration-table-wrapper">
 
-                    <h5 class="mb-3">
+                        <div class="table-responsive">
 
-                        Registered Students:
-                        ${registrations.length}
+                            <table
+                                class="table table-hover registration-table"
+                            >
 
-                    </h5>
+                                <thead>
 
+                                    <tr>
 
-                    <div class="table-responsive">
+                                        <th>
+                                            #
+                                        </th>
 
-                        <table
-                            class="table table-bordered table-hover"
-                        >
+                                        <th>
+                                            Student ID
+                                        </th>
 
-                            <thead class="table-light">
+                                        <th>
+                                            Registration Date
+                                        </th>
 
-                                <tr>
+                                        <th>
+                                            Status
+                                        </th>
 
-                                    <th>
-                                        #
-                                    </th>
+                                        <th>
+                                            Action
+                                        </th>
 
-                                    <th>
-                                        Student ID
-                                    </th>
+                                    </tr>
 
-                                    <th>
-                                        Registration Date
-                                    </th>
+                                </thead>
 
-                                    <th>
-                                        Status
-                                    </th>
+                                <tbody>
 
-                                </tr>
+                                    ${tableRows}
 
-                            </thead>
+                                </tbody>
 
+                            </table>
 
-                            <tbody>
-
-                                ${tableRows}
-
-                            </tbody>
-
-                        </table>
+                        </div>
 
                     </div>
 
@@ -557,38 +1905,229 @@
 
             }
 
+
+            // ==================================
+            // EVENT CARD
+            // ==================================
+
+            eventCard.innerHTML = `
+
+                <div class="event-card-header">
+
+                    <div
+                        class="d-flex
+                               flex-column
+                               flex-md-row
+                               justify-content-between
+                               align-items-md-center
+                               gap-3"
+                    >
+
+                        <div>
+
+                            <h4 class="event-card-title mb-2">
+
+                                ${escapeHtml(
+                                    event.title ||
+                                    "Untitled Event"
+                                )}
+
+                            </h4>
+
+
+                            <div class="event-meta">
+
+                                <span>
+                                    📅
+                                    <strong>Date:</strong>
+                                    ${formatDate(
+                                        event.date
+                                    )}
+                                </span>
+
+                                <span class="ms-md-3">
+                                    📍
+                                    <strong>Venue:</strong>
+                                    ${escapeHtml(
+                                        event.venue ||
+                                        "N/A"
+                                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="text-md-end
+                                   d-flex
+                                   flex-md-column
+                                   align-items-center
+                                   align-items-md-end
+                                   gap-2"
+                        >
+
+                            ${getStatusBadge(
+                                event.status
+                            )}
+
+
+                            <span class="registration-count">
+
+                                👥
+
+                                ${count}
+
+                                ${
+                                    count === 1
+                                        ? "Registration"
+                                        : "Registrations"
+                                }
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-card-body">
+
+                    <hr class="event-divider">
+
+                    ${registrationContent}
+
+                </div>
+
+            `;
+
+
+            eventsContainer.appendChild(
+                eventCard
+            );
+
+        }
+
+
+        // ==========================================
+        // GENERATE CERTIFICATE
+        // ==========================================
+
+        async function generateCertificate(
+            userId,
+            eventId,
+            button
+        ) {
+
+            if (
+                !userId ||
+                !eventId
+            ) {
+
+                alert(
+                    "Student or event information is missing."
+                );
+
+                return;
+
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Generate a certificate for this student?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            const originalText =
+                button.innerHTML;
+
+
+            button.disabled =
+                true;
+
+
+            button.innerHTML =
+                "Generating...";
+
+
+            try {
+
+                const certificate =
+                    await apiRequest(
+                        `/api/certificates?userId=${userId}&eventId=${eventId}`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+
+                if (
+                    !certificate
+                ) {
+
+                    throw new Error(
+                        "Certificate was not generated."
+                    );
+
+                }
+
+
+                alert(
+                    "Certificate generated successfully!\n\n" +
+                    "Certificate Number: " +
+                    (
+                        certificate.certificateNumber ||
+                        "N/A"
+                    )
+                );
+
+
+                button.innerHTML =
+                    "✓ Generated";
+
+
+                button.classList.remove(
+                    "btn-primary"
+                );
+
+
+                button.classList.add(
+                    "btn-success"
+                );
+
+            }
+
             catch (error) {
 
                 console.error(
-                    `Error loading registrations for event ${eventId}:`,
+                    "Certificate generation error:",
                     error
                 );
 
 
-                // Show actual error
+                alert(
+                    error.message ||
+                    "Unable to generate certificate."
+                );
 
-                container.innerHTML = `
 
-                    <div
-                        class="alert alert-danger mb-0"
-                    >
+                button.disabled =
+                    false;
 
-                        <strong>
-                            Unable to load registrations.
-                        </strong>
 
-                        <br>
-
-                        <span>
-                            ${
-                                error.message ||
-                                "Unknown error"
-                            }
-                        </span>
-
-                    </div>
-
-                `;
+                button.innerHTML =
+                    originalText;
 
             }
 
@@ -596,12 +2135,54 @@
 
 
         // ==========================================
-        // START PAGE
+        // SEARCH
+        // ==========================================
+
+        searchInput.addEventListener(
+            "input",
+            renderEvents
+        );
+
+
+        // ==========================================
+        // STATUS FILTER
+        // ==========================================
+
+        statusFilter.addEventListener(
+            "change",
+            renderEvents
+        );
+
+
+        // ==========================================
+        // CLEAR FILTERS
+        // ==========================================
+
+        clearFiltersButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value =
+                    "";
+
+                statusFilter.value =
+                    "ALL";
+
+                renderEvents();
+
+            }
+        );
+
+
+        // ==========================================
+        // START
         // ==========================================
 
         loadEvents();
 
+
     </script>
+
 
 </body>
 

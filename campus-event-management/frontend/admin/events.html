@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Manage Events - Campus Event Management</title>
+    <title>Manage Events | Campus Event Management</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -22,25 +22,581 @@
         href="../css/style.css"
     >
 
+    <style>
+
+        body {
+            background:
+                linear-gradient(
+                    180deg,
+                    #f4f7fb 0%,
+                    #eef2f7 100%
+                );
+
+            min-height: 100vh;
+        }
+
+        /* ==========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar-brand {
+            letter-spacing: 0.2px;
+        }
+
+        /* ==========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #15191d 0%,
+                    #212529 55%,
+                    #343a40 100%
+                );
+
+            color: white;
+            padding: 52px 0;
+        }
+
+        .page-header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            right: -90px;
+            top: -120px;
+
+            background:
+                rgba(255, 255, 255, 0.05);
+
+            border-radius: 50%;
+        }
+
+        .page-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            left: -80px;
+            bottom: -100px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            color: rgba(255, 255, 255, 0.82);
+
+            font-size: 0.78rem;
+            font-weight: 600;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            max-width: 650px;
+        }
+
+        /* ==========================
+           MAIN CONTENT
+        ========================== */
+
+        main {
+            min-height: 500px;
+        }
+
+        /* ==========================
+           STAT CARDS
+        ========================== */
+
+        .stat-card {
+            border: none;
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 14px 30px rgba(15, 23, 42, 0.10);
+        }
+
+        .stat-card .card-body {
+            padding: 22px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            font-size: 1.25rem;
+        }
+
+        .stat-icon.total {
+            background: #e9ecef;
+        }
+
+        .stat-icon.pending {
+            background: #fff3cd;
+        }
+
+        .stat-icon.approved {
+            background: #d1e7dd;
+        }
+
+        .stat-icon.rejected {
+            background: #f8d7da;
+        }
+
+        .stat-label {
+            color: #6c757d;
+
+            font-size: 0.86rem;
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            line-height: 1;
+
+            font-weight: 800;
+
+            color: #212529;
+        }
+
+        /* ==========================
+           FILTER CARD
+        ========================== */
+
+        .filter-card {
+            border: none;
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .filter-card .card-body {
+            padding: 24px;
+        }
+
+        .filter-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+
+            color: #212529;
+        }
+
+        .filter-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            color: #495057;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 44px;
+
+            border-radius: 11px;
+
+            border-color: #dfe3e8;
+
+            box-shadow: none;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+
+            box-shadow:
+                0 0 0 0.2rem rgba(
+                    13,
+                    110,
+                    253,
+                    0.10
+                );
+        }
+
+        /* ==========================
+           EVENT CARDS
+        ========================== */
+
+        .event-card {
+            border: none;
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.07);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px rgba(15, 23, 42, 0.11);
+        }
+
+        .event-card .card-body {
+            padding: 28px;
+        }
+
+        .event-title {
+            word-break: break-word;
+
+            color: #212529;
+
+            letter-spacing: -0.2px;
+        }
+
+        .event-description {
+            white-space: pre-line;
+
+            color: #495057;
+
+            line-height: 1.65;
+        }
+
+        .organizer-label {
+            font-size: 0.84rem;
+        }
+
+        .event-divider {
+            margin:
+                22px 0;
+
+            border-color:
+                #edf0f3;
+
+            opacity: 1;
+        }
+
+        /* ==========================
+           DETAIL ITEMS
+        ========================== */
+
+        .detail-item {
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f1f4f8;
+
+            border-radius: 10px;
+
+            font-size: 1rem;
+        }
+
+        .detail-label {
+            color: #6c757d;
+
+            font-size: 0.76rem;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+
+            margin-bottom: 2px;
+        }
+
+        .detail-value {
+            color: #212529;
+
+            font-size: 0.94rem;
+            font-weight: 600;
+
+            word-break: break-word;
+        }
+
+        /* ==========================
+           STATUS
+        ========================== */
+
+        .status-badge {
+            min-width: 95px;
+
+            text-align: center;
+
+            padding: 8px 13px !important;
+
+            border-radius: 999px;
+
+            font-size: 0.73rem;
+
+            letter-spacing: 0.3px;
+        }
+
+        /* ==========================
+           ACTION AREA
+        ========================== */
+
+        .action-area {
+            margin-top: 24px;
+            padding-top: 20px;
+
+            border-top:
+                1px solid #edf0f3;
+        }
+
+        .action-button {
+            min-width: 112px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            padding:
+                9px 16px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .decision-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #6c757d;
+
+            font-size: 0.85rem;
+        }
+
+        /* ==========================
+           LOADING / EMPTY STATES
+        ========================== */
+
+        .loading-box,
+        .empty-box {
+            padding: 65px 20px;
+
+            text-align: center;
+
+            border: none;
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .empty-icon {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 18px;
+
+            border-radius: 18px;
+
+            background: #f1f4f8;
+
+            font-size: 1.8rem;
+        }
+
+        .empty-box h5 {
+            font-weight: 700;
+        }
+
+        /* ==========================
+           ALERT
+        ========================== */
+
+        #errorMessage {
+            border: none;
+
+            border-radius: 13px;
+
+            box-shadow:
+                0 5px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        /* ==========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 767px) {
+
+            .page-header {
+                padding: 38px 0;
+            }
+
+            .page-header .btn {
+                width: 100%;
+            }
+
+            .filter-card .card-body {
+                padding: 20px;
+            }
+
+            .event-card .card-body {
+                padding: 22px;
+            }
+
+            .stat-card .card-body {
+                padding: 18px;
+            }
+
+            .action-button {
+                flex: 1;
+            }
+
+        }
+
+        @media (max-width: 575px) {
+
+            .navbar-brand {
+                font-size: 0.95rem;
+            }
+
+            .navbar .btn {
+                padding:
+                    6px 10px;
+
+                font-size: 0.78rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.9rem;
+            }
+
+            .stat-number {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
 
-    <nav class="navbar navbar-dark bg-dark">
+<!-- ==========================
+     NAVBAR
+========================== -->
 
-        <div class="container">
+<nav class="navbar navbar-dark bg-dark shadow-sm">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand fw-bold"
+            href="dashboard.html"
+        >
+            🎓 Campus Event Management
+        </a>
+
+        <div class="d-flex align-items-center gap-2">
 
             <a
-                class="navbar-brand"
                 href="dashboard.html"
+                class="btn btn-outline-light btn-sm"
             >
-                Campus Event Management
+                Dashboard
             </a>
 
             <button
-                class="btn btn-outline-light"
+                type="button"
+                class="btn btn-danger btn-sm"
                 onclick="logout()"
             >
                 Logout
@@ -48,404 +604,1534 @@
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    <!-- Main Content -->
 
-    <div class="container py-5">
+<!-- ==========================
+     PAGE HEADER
+========================== -->
+
+<section class="page-header">
+
+    <div class="container header-content">
 
         <div
-            class="d-flex justify-content-between align-items-center mb-4"
+            class="
+                d-flex
+                flex-wrap
+                justify-content-between
+                align-items-center
+                gap-4
+            "
         >
 
             <div>
 
-                <h1>
+                <div class="page-kicker">
+                    🛡️ Admin Workspace
+                </div>
+
+                <h1 class="fw-bold mb-2">
                     Manage Events
                 </h1>
 
-                <p class="text-muted mb-0">
-                    Review events submitted by organizers.
+                <p class="text-white-50 mb-0">
+                    Review event submissions and manage organizer requests.
                 </p>
 
             </div>
 
-            <a
-                href="dashboard.html"
-                class="btn btn-secondary"
+
+            <button
+                id="refreshButton"
+                type="button"
+                class="btn btn-light px-4"
+                onclick="loadEvents()"
             >
-                Back to Dashboard
-            </a>
+                🔄 Refresh Events
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================
+     MAIN CONTENT
+========================== -->
+
+<main class="container py-4 py-md-5">
+
+
+    <!-- ==========================
+         SUMMARY
+    ========================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- TOTAL -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="card stat-card h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
+
+                        <div>
+
+                            <div class="stat-label">
+                                Total Events
+                            </div>
+
+                            <div
+                                id="totalEvents"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon total">
+                            📋
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Loading -->
+        <!-- PENDING -->
 
-        <div
-            id="loadingMessage"
-            class="text-center py-5"
-        >
+        <div class="col-6 col-lg-3">
 
-            <div
-                class="spinner-border"
-                role="status"
-            ></div>
+            <div class="card stat-card h-100">
 
-            <p class="mt-3">
-                Loading events...
-            </p>
+                <div class="card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
+
+                        <div>
+
+                            <div class="stat-label">
+                                Pending
+                            </div>
+
+                            <div
+                                id="pendingEvents"
+                                class="stat-number text-warning"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon pending">
+                            ⏳
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Error -->
+        <!-- APPROVED -->
 
-        <div
-            id="errorMessage"
-            class="alert alert-danger"
-            style="display: none;"
-        ></div>
+        <div class="col-6 col-lg-3">
 
+            <div class="card stat-card h-100">
 
-        <!-- No Events -->
+                <div class="card-body">
 
-        <div
-            id="noEventsMessage"
-            class="alert alert-info"
-            style="display: none;"
-        >
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
 
-            No events found.
+                        <div>
+
+                            <div class="stat-label">
+                                Approved
+                            </div>
+
+                            <div
+                                id="approvedEvents"
+                                class="stat-number text-success"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon approved">
+                            ✓
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Events -->
+        <!-- REJECTED -->
 
-        <div id="eventsContainer"></div>
+        <div class="col-6 col-lg-3">
+
+            <div class="card stat-card h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
+
+                        <div>
+
+                            <div class="stat-label">
+                                Rejected
+                            </div>
+
+                            <div
+                                id="rejectedEvents"
+                                class="stat-number text-danger"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon rejected">
+                            ✕
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
-    <script src="../js/api.js"></script>
+
+    <!-- ==========================
+         FILTERS
+    ========================== -->
+
+    <div class="card filter-card mb-4">
+
+        <div class="card-body">
+
+            <div class="mb-3">
+
+                <div class="filter-title">
+                    Find Events
+                </div>
+
+                <div class="filter-subtitle">
+                    Search and filter event submissions.
+                </div>
+
+            </div>
 
 
-    <script>
+            <div class="row g-3 align-items-end">
 
-        // Check login
 
-        if (!isLoggedIn()) {
+                <div class="col-md-6">
 
-            window.location.href = "../login.html";
+                    <label
+                        for="searchInput"
+                        class="form-label fw-semibold"
+                    >
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search by title, venue or category..."
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label
+                        for="statusFilter"
+                        class="form-label fw-semibold"
+                    >
+                        Event Status
+                    </label>
+
+                    <select
+                        id="statusFilter"
+                        class="form-select"
+                    >
+
+                        <option value="ALL">
+                            All Statuses
+                        </option>
+
+                        <option value="PENDING">
+                            Pending
+                        </option>
+
+                        <option value="APPROVED">
+                            Approved
+                        </option>
+
+                        <option value="REJECTED">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        id="clearFiltersButton"
+                        type="button"
+                        class="
+                            btn
+                            btn-outline-secondary
+                            w-100
+                        "
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================
+         LOADING
+    ========================== -->
+
+    <div
+        id="loadingMessage"
+        class="card loading-box"
+    >
+
+        <div
+            class="spinner-border text-primary"
+            role="status"
+            aria-label="Loading"
+        ></div>
+
+        <p class="text-muted mt-3 mb-0">
+            Loading event submissions...
+        </p>
+
+    </div>
+
+
+
+    <!-- ==========================
+         ERROR
+    ========================== -->
+
+    <div
+        id="errorMessage"
+        class="alert alert-danger"
+        style="display:none;"
+        role="alert"
+    ></div>
+
+
+
+    <!-- ==========================
+         NO EVENTS
+    ========================== -->
+
+    <div
+        id="noEventsMessage"
+        class="card empty-box"
+        style="display:none;"
+    >
+
+        <div class="empty-icon">
+            📅
+        </div>
+
+        <h5>
+            No Events Found
+        </h5>
+
+        <p class="text-muted mb-0">
+            There are currently no event submissions to display.
+        </p>
+
+    </div>
+
+
+
+    <!-- ==========================
+         NO FILTER RESULTS
+    ========================== -->
+
+    <div
+        id="noResultsMessage"
+        class="card empty-box"
+        style="display:none;"
+    >
+
+        <div class="empty-icon">
+            🔍
+        </div>
+
+        <h5>
+            No Matching Events
+        </h5>
+
+        <p class="text-muted mb-0">
+            Try changing your search text or status filter.
+        </p>
+
+    </div>
+
+
+
+    <!-- ==========================
+         EVENTS
+    ========================== -->
+
+    <div id="eventsContainer"></div>
+
+
+</main>
+
+
+
+<script src="../js/api.js"></script>
+
+
+<script>
+
+
+    // ==========================
+    // SECURITY CHECK
+    // ==========================
+
+    if (!isLoggedIn()) {
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    if (getUserRole() !== "ADMIN") {
+
+        alert(
+            "Access denied. Admins only."
+        );
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    // ==========================
+    // ELEMENTS
+    // ==========================
+
+    const loadingMessage =
+        document.getElementById(
+            "loadingMessage"
+        );
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+    const noEventsMessage =
+        document.getElementById(
+            "noEventsMessage"
+        );
+
+    const noResultsMessage =
+        document.getElementById(
+            "noResultsMessage"
+        );
+
+    const eventsContainer =
+        document.getElementById(
+            "eventsContainer"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+    const statusFilter =
+        document.getElementById(
+            "statusFilter"
+        );
+
+    const clearFiltersButton =
+        document.getElementById(
+            "clearFiltersButton"
+        );
+
+    const refreshButton =
+        document.getElementById(
+            "refreshButton"
+        );
+
+
+    // ==========================
+    // DATA
+    // ==========================
+
+    let allEvents = [];
+
+
+    // ==========================
+    // LOAD EVENTS
+    // ==========================
+
+    async function loadEvents() {
+
+        try {
+
+            setLoading(true);
+
+            hideMessages();
+
+
+            const response =
+                await apiRequest(
+                    "/api/admin/events"
+                );
+
+
+            allEvents =
+                Array.isArray(response)
+                    ? response
+                    : [];
+
+
+            updateSummary();
+
+            renderEvents();
+
+
+        } catch (error) {
+
+            console.error(
+                "Error loading events:",
+                error
+            );
+
+
+            errorMessage.className =
+                "alert alert-danger";
+
+
+            errorMessage.textContent =
+                error.message ||
+                "Unable to load events.";
+
+
+            errorMessage.style.display =
+                "block";
+
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    }
+
+
+    // ==========================
+    // UPDATE SUMMARY
+    // ==========================
+
+    function updateSummary() {
+
+        let pending = 0;
+        let approved = 0;
+        let rejected = 0;
+
+
+        allEvents.forEach(event => {
+
+            const status =
+                event.status
+                    ? event.status.toUpperCase()
+                    : "";
+
+
+            if (status === "PENDING") {
+                pending++;
+            }
+
+            else if (status === "APPROVED") {
+                approved++;
+            }
+
+            else if (status === "REJECTED") {
+                rejected++;
+            }
+
+        });
+
+
+        document.getElementById(
+            "totalEvents"
+        ).textContent =
+            allEvents.length;
+
+
+        document.getElementById(
+            "pendingEvents"
+        ).textContent =
+            pending;
+
+
+        document.getElementById(
+            "approvedEvents"
+        ).textContent =
+            approved;
+
+
+        document.getElementById(
+            "rejectedEvents"
+        ).textContent =
+            rejected;
+
+    }
+
+
+    // ==========================
+    // RENDER EVENTS
+    // ==========================
+
+    function renderEvents() {
+
+        eventsContainer.innerHTML =
+            "";
+
+
+        if (allEvents.length === 0) {
+
+            noEventsMessage.style.display =
+                "block";
+
+            noResultsMessage.style.display =
+                "none";
+
+            return;
 
         }
 
 
-        // Check admin role
+        noEventsMessage.style.display =
+            "none";
 
-        if (getUserRole() !== "ADMIN") {
 
-            alert("Access denied. Admins only.");
+        const searchText =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
-            window.location.href = "../login.html";
+
+        const selectedStatus =
+            statusFilter.value;
+
+
+        const filteredEvents =
+            allEvents.filter(event => {
+
+                const title =
+                    String(
+                        event.title || ""
+                    ).toLowerCase();
+
+
+                const venue =
+                    String(
+                        event.venue || ""
+                    ).toLowerCase();
+
+
+                const category =
+                    String(
+                        event.category || ""
+                    ).toLowerCase();
+
+
+                const status =
+                    String(
+                        event.status || ""
+                    ).toUpperCase();
+
+
+                const matchesSearch =
+                    !searchText ||
+                    title.includes(searchText) ||
+                    venue.includes(searchText) ||
+                    category.includes(searchText);
+
+
+                const matchesStatus =
+                    selectedStatus === "ALL" ||
+                    status === selectedStatus;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus
+                );
+
+            });
+
+
+        if (filteredEvents.length === 0) {
+
+            noResultsMessage.style.display =
+                "block";
+
+            return;
 
         }
 
 
-        async function loadEvents() {
-
-            try {
-
-                /*
-                 * We will connect this page to the
-                 * Admin Event API in the next backend step.
-                 */
-
-                const response =
-                    await apiRequest("/api/admin/events");
-
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+        noResultsMessage.style.display =
+            "none";
 
 
-                if (!response || response.length === 0) {
+        filteredEvents.forEach(
+            event => {
 
-                    document.getElementById(
-                        "noEventsMessage"
-                    ).style.display = "block";
+                eventsContainer.appendChild(
+                    createEventCard(event)
+                );
 
-                    return;
+            }
+        );
 
-                }
-
-
-                const container =
-                    document.getElementById(
-                        "eventsContainer"
-                    );
-
-                container.innerHTML = "";
+    }
 
 
-                response.forEach(event => {
+    // ==========================
+    // CREATE EVENT CARD
+    // ==========================
 
-                    const card =
-                        document.createElement("div");
+    function createEventCard(event) {
 
-                    card.className =
-                        "card shadow-sm mb-4";
-
-
-                    card.innerHTML = `
-
-                        <div class="card-body">
-
-                            <div class="d-flex justify-content-between align-items-center">
-
-                                <div>
-
-                                    <h4 class="mb-1">
-                                        ${event.title}
-                                    </h4>
-
-                                    <p class="text-muted mb-0">
-
-                                        Organizer ID:
-                                        ${event.organizerId || "N/A"}
-
-                                    </p>
-
-                                </div>
+        const card =
+            document.createElement("div");
 
 
-                                <span
-                                    class="badge ${
-                                        event.status &&
-                                        event.status.toUpperCase() === "APPROVED"
-                                            ? "bg-success"
-                                            : event.status &&
-                                              event.status.toUpperCase() === "REJECTED"
-                                                ? "bg-danger"
-                                                : "bg-warning text-dark"
-                                    }"
-                                >
-
-                                    ${event.status || "UNKNOWN"}
-
-                                </span>
-
-                            </div>
+        card.className =
+            "card event-card mb-4";
 
 
-                            <hr>
+        const status =
+            event.status
+                ? event.status.toUpperCase()
+                : "UNKNOWN";
 
 
-                            <div class="row">
-
-                                <div class="col-md-6">
-
-                                    <p>
-                                        <strong>Description:</strong>
-                                        ${event.description || "N/A"}
-                                    </p>
-
-                                    <p>
-                                        <strong>Date:</strong>
-                                        ${event.date || "N/A"}
-                                    </p>
-
-                                    <p>
-                                        <strong>Time:</strong>
-                                        ${event.time || "N/A"}
-                                    </p>
-
-                                </div>
+        const statusBadge =
+            getStatusBadge(status);
 
 
-                                <div class="col-md-6">
-
-                                    <p>
-                                        <strong>Venue:</strong>
-                                        ${event.venue || "N/A"}
-                                    </p>
-
-                                    <p>
-                                        <strong>Category:</strong>
-                                        ${event.category || "N/A"}
-                                    </p>
-
-                                    <p>
-                                        <strong>Capacity:</strong>
-                                        ${event.capacity || "N/A"}
-                                    </p>
-
-                                </div>
-
-                            </div>
+        const isPending =
+            status === "PENDING";
 
 
-                            ${
-                                event.status &&
-                                event.status.toUpperCase() === "PENDING"
-                                    ? `
+        card.innerHTML = `
 
-                                    <div class="mt-3">
-
-                                        <button
-                                            class="btn btn-success me-2"
-                                            onclick="approveEvent(${event.id})"
-                                        >
-                                            Approve
-                                        </button>
+            <div class="card-body">
 
 
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="rejectEvent(${event.id})"
-                                        >
-                                            Reject
-                                        </button>
+                <!-- HEADER -->
 
-                                    </div>
+                <div
+                    class="
+                        d-flex
+                        flex-wrap
+                        justify-content-between
+                        align-items-start
+                        gap-3
+                    "
+                >
 
-                                    `
-                                    : ""
-                            }
+                    <div class="flex-grow-1">
+
+                        <h4
+                            class="
+                                event-title
+                                fw-bold
+                                mb-2
+                            "
+                        >
+                            ${escapeHtml(
+                                event.title ||
+                                "Untitled Event"
+                            )}
+                        </h4>
+
+                        <div
+                            class="
+                                organizer-label
+                                text-muted
+                            "
+                        >
+
+                            Organizer ID:
+                            <strong class="text-dark">
+
+                                ${escapeHtml(
+                                    String(
+                                        event.organizerId ??
+                                        "N/A"
+                                    )
+                                )}
+
+                            </strong>
 
                         </div>
 
-                    `;
+                    </div>
 
 
-                    container.appendChild(card);
+                    <div>
+                        ${statusBadge}
+                    </div>
 
-                });
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Error loading events:",
-                    error
-                );
+                </div>
 
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+                <hr class="event-divider">
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).textContent =
-                    error.message ||
-                    "Unable to load events.";
+                <!-- EVENT DETAILS -->
+
+                <div class="row g-4">
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).style.display = "block";
+                    <!-- LEFT -->
 
-            }
+                    <div class="col-lg-6">
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                📝
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Description
+                                </div>
+
+                                <div class="detail-value event-description">
+
+                                    ${escapeHtml(
+                                        event.description ||
+                                        "No description provided."
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                📅
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Date
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${formatDate(
+                                        event.date
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                🕐
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Time
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${formatTime(
+                                        event.time
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- RIGHT -->
+
+                    <div class="col-lg-6">
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                📍
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Venue
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${escapeHtml(
+                                        event.venue ||
+                                        "N/A"
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                🏷️
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Category
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${escapeHtml(
+                                        event.category ||
+                                        "N/A"
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+                                👥
+                            </div>
+
+                            <div>
+
+                                <div class="detail-label">
+                                    Capacity
+                                </div>
+
+                                <div class="detail-value">
+
+                                    ${escapeHtml(
+                                        String(
+                                            event.capacity ??
+                                            "N/A"
+                                        )
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                ${
+                    isPending
+
+                    ?
+
+                    `
+
+                    <div class="action-area">
+
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <button
+                                type="button"
+                                class="
+                                    btn
+                                    btn-success
+                                    action-button
+                                "
+                                onclick="approveEvent(
+                                    ${Number(event.id)}
+                                )"
+                            >
+                                ✓ Approve
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="
+                                    btn
+                                    btn-danger
+                                    action-button
+                                "
+                                onclick="rejectEvent(
+                                    ${Number(event.id)}
+                                )"
+                            >
+                                ✕ Reject
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    `
+
+                    :
+
+                    `
+
+                    <div class="action-area">
+
+                        <span class="decision-note">
+
+                            ${
+                                status === "APPROVED"
+
+                                    ? "✓ This event has been approved."
+
+                                    : status === "REJECTED"
+
+                                        ? "✕ This event has been rejected."
+
+                                        : "ℹ No actions available for this event."
+                            }
+
+                        </span>
+
+                    </div>
+
+                    `
+                }
+
+
+            </div>
+
+        `;
+
+
+        return card;
+
+    }
+
+
+    // ==========================
+    // APPROVE EVENT
+    // ==========================
+
+    async function approveEvent(eventId) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to approve this event?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await apiRequest(
+                `/api/admin/events/${eventId}/approve`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            showTemporaryMessage(
+                "Event approved successfully.",
+                "success"
+            );
+
+
+            await loadEvents();
+
+
+        } catch (error) {
+
+            showTemporaryMessage(
+                error.message ||
+                "Unable to approve event.",
+                "danger"
+            );
+
+        }
+
+    }
+
+
+    // ==========================
+    // REJECT EVENT
+    // ==========================
+
+    async function rejectEvent(eventId) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to reject this event?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await apiRequest(
+                `/api/admin/events/${eventId}/reject`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            showTemporaryMessage(
+                "Event rejected successfully.",
+                "warning"
+            );
+
+
+            await loadEvents();
+
+
+        } catch (error) {
+
+            showTemporaryMessage(
+                error.message ||
+                "Unable to reject event.",
+                "danger"
+            );
+
+        }
+
+    }
+
+
+    // ==========================
+    // STATUS BADGE
+    // ==========================
+
+    function getStatusBadge(status) {
+
+        if (status === "APPROVED") {
+
+            return `
+                <span class="
+                    badge
+                    bg-success
+                    status-badge
+                ">
+                    ✓ APPROVED
+                </span>
+            `;
 
         }
 
 
-        async function approveEvent(eventId) {
+        if (status === "REJECTED") {
 
-            if (
-                !confirm(
-                    "Are you sure you want to approve this event?"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            try {
-
-                await apiRequest(
-                    `/api/admin/events/${eventId}/approve`,
-                    {
-                        method: "PUT"
-                    }
-                );
-
-
-                alert(
-                    "Event approved successfully."
-                );
-
-
-                loadEvents();
-
-            }
-
-            catch (error) {
-
-                alert(
-                    error.message ||
-                    "Unable to approve event."
-                );
-
-            }
+            return `
+                <span class="
+                    badge
+                    bg-danger
+                    status-badge
+                ">
+                    ✕ REJECTED
+                </span>
+            `;
 
         }
 
 
-        async function rejectEvent(eventId) {
+        if (status === "PENDING") {
 
-            if (
-                !confirm(
-                    "Are you sure you want to reject this event?"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            try {
-
-                await apiRequest(
-                    `/api/admin/events/${eventId}/reject`,
-                    {
-                        method: "PUT"
-                    }
-                );
-
-
-                alert(
-                    "Event rejected successfully."
-                );
-
-
-                loadEvents();
-
-            }
-
-            catch (error) {
-
-                alert(
-                    error.message ||
-                    "Unable to reject event."
-                );
-
-            }
+            return `
+                <span class="
+                    badge
+                    bg-warning
+                    text-dark
+                    status-badge
+                ">
+                    ⏳ PENDING
+                </span>
+            `;
 
         }
 
 
-        loadEvents();
+        return `
+            <span class="
+                badge
+                bg-secondary
+                status-badge
+            ">
+                ${escapeHtml(status)}
+            </span>
+        `;
 
-    </script>
+    }
+
+
+    // ==========================
+    // DATE FORMAT
+    // ==========================
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "N/A";
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return escapeHtml(
+                String(value)
+            );
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    // ==========================
+    // TIME FORMAT
+    // ==========================
+
+    function formatTime(value) {
+
+        if (!value) {
+            return "N/A";
+        }
+
+
+        return escapeHtml(
+            String(value).substring(
+                0,
+                5
+            )
+        );
+
+    }
+
+
+    // ==========================
+    // LOADING
+    // ==========================
+
+    function setLoading(isLoading) {
+
+        if (isLoading) {
+
+            loadingMessage.style.display =
+                "block";
+
+            eventsContainer.style.display =
+                "none";
+
+            noEventsMessage.style.display =
+                "none";
+
+            noResultsMessage.style.display =
+                "none";
+
+            refreshButton.disabled =
+                true;
+
+        } else {
+
+            loadingMessage.style.display =
+                "none";
+
+            eventsContainer.style.display =
+                "block";
+
+            refreshButton.disabled =
+                false;
+
+        }
+
+    }
+
+
+    // ==========================
+    // HIDE MESSAGES
+    // ==========================
+
+    function hideMessages() {
+
+        errorMessage.style.display =
+            "none";
+
+        noEventsMessage.style.display =
+            "none";
+
+        noResultsMessage.style.display =
+            "none";
+
+    }
+
+
+    // ==========================
+    // TEMPORARY MESSAGE
+    // ==========================
+
+    function showTemporaryMessage(
+        text,
+        type
+    ) {
+
+        errorMessage.className =
+            `alert alert-${type}`;
+
+
+        errorMessage.textContent =
+            text;
+
+
+        errorMessage.style.display =
+            "block";
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+
+        setTimeout(
+            () => {
+
+                errorMessage.style.display =
+                    "none";
+
+            },
+            3000
+        );
+
+    }
+
+
+    // ==========================
+    // ESCAPE HTML
+    // ==========================
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    // ==========================
+    // FILTER EVENTS
+    // ==========================
+
+    searchInput.addEventListener(
+        "input",
+        renderEvents
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        renderEvents
+    );
+
+
+    clearFiltersButton.addEventListener(
+        "click",
+        () => {
+
+            searchInput.value =
+                "";
+
+            statusFilter.value =
+                "ALL";
+
+            renderEvents();
+
+        }
+    );
+
+
+    // ==========================
+    // INITIAL LOAD
+    // ==========================
+
+    loadEvents();
+
+</script>
+
 
 </body>
 

@@ -16,6 +16,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+
     public UserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
@@ -33,15 +34,36 @@ public class UserService {
 
     public User createUser(User user) {
 
+        // Check whether email already exists
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
+
+            throw new RuntimeException(
+                "Email already registered"
+            );
         }
 
-        // Encrypt password before saving
+
+        // ==========================================
+        // SECURITY:
+        // PUBLIC REGISTRATION CAN ONLY CREATE
+        // STUDENT ACCOUNTS
+        // ==========================================
+
+        user.setRole("STUDENT");
+
+
+        // ==========================================
+        // ENCRYPT PASSWORD
+        // ==========================================
+
         user.setPassword(
-            passwordEncoder.encode(user.getPassword())
+            passwordEncoder.encode(
+                user.getPassword()
+            )
         );
 
+
+        // Save user
         return userRepository.save(user);
     }
 
@@ -102,17 +124,22 @@ public class UserService {
             String email,
             String password) {
 
+
         // Find user by email
         User user = userRepository
                 .findByEmail(email)
                 .orElse(null);
 
 
-        // Check user and password
+        // ==========================================
+        // CHECK USER AND PASSWORD
+        // ==========================================
+
         if (user == null ||
             !passwordEncoder.matches(
                 password,
-                user.getPassword())) {
+                user.getPassword()
+            )) {
 
             throw new RuntimeException(
                 "Invalid email or password"
@@ -120,14 +147,20 @@ public class UserService {
         }
 
 
-        // Generate JWT token
+        // ==========================================
+        // GENERATE JWT TOKEN
+        // ==========================================
+
         String token = jwtService.generateToken(
             user.getEmail(),
             user.getRole()
         );
 
 
-        // Return login response
+        // ==========================================
+        // RETURN LOGIN RESPONSE
+        // ==========================================
+
         return new LoginResponse(
             user.getId(),
             user.getName(),

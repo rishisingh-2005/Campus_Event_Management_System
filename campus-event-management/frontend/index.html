@@ -78,6 +78,54 @@
     </section>
 
 
+    <!-- Approved Events Section -->
+    <section class="container py-5">
+
+        <div class="text-center mb-4">
+
+            <h2 class="fw-bold">
+                🎉 Latest Approved Events
+            </h2>
+
+            <p class="text-muted">
+                Check out the latest events happening on campus.
+            </p>
+
+        </div>
+
+
+        <!-- Loading -->
+        <div id="eventsLoading"
+            class="text-center text-muted py-4">
+
+            Loading events...
+
+        </div>
+
+
+        <!-- Events -->
+        <div id="approvedEvents"
+            class="row g-4">
+
+        </div>
+
+
+        <!-- No Events -->
+        <div id="noEvents"
+            class="text-center text-muted py-4"
+            style="display: none;">
+
+            <h5>No approved events available.</h5>
+
+            <p>
+                New events will appear here after they are approved.
+            </p>
+
+        </div>
+
+    </section>
+
+
     <!-- Features -->
     <section class="container py-4">
 
@@ -163,6 +211,183 @@
     <!-- Bootstrap JS -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- Load Approved Events -->
+    <script>
+
+        async function loadApprovedEvents() {
+
+            const eventsContainer =
+                document.getElementById("approvedEvents");
+
+            const loading =
+                document.getElementById("eventsLoading");
+
+            const noEvents =
+                document.getElementById("noEvents");
+
+            try {
+
+                const response =
+                    await fetch("http://localhost:8080/api/events");
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load events"
+                    );
+
+                }
+
+                const events =
+                    await response.json();
+
+                loading.style.display = "none";
+
+                const approvedEvents =
+                    events.filter(event =>
+                        event.status &&
+                        event.status.toUpperCase() === "APPROVED"
+                    );
+
+                if (approvedEvents.length === 0) {
+
+                    noEvents.style.display = "block";
+
+                    return;
+                }
+
+                eventsContainer.innerHTML = "";
+
+                approvedEvents.forEach(event => {
+
+                    const eventCard =
+                        document.createElement("div");
+
+                    eventCard.className =
+                        "col-md-6 col-lg-4";
+
+                    eventCard.innerHTML = `
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+
+                                    <h4 class="card-title fw-bold">
+                                        ${escapeHtml(event.title)}
+                                    </h4>
+
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
+
+                                </div>
+
+                                <p class="text-muted">
+                                    ${escapeHtml(event.description || "No description available.")}
+                                </p>
+
+                                <hr>
+
+                                <p class="mb-2">
+                                    📅
+                                    <strong>Date:</strong>
+                                    ${escapeHtml(event.date || "TBA")}
+                                </p>
+
+                                <p class="mb-2">
+                                    🕐
+                                    <strong>Time:</strong>
+                                    ${escapeHtml(event.time || "TBA")}
+                                </p>
+
+                                <p class="mb-2">
+                                    📍
+                                    <strong>Venue:</strong>
+                                    ${escapeHtml(event.venue || "TBA")}
+                                </p>
+
+                                <p class="mb-2">
+                                    🏷️
+                                    <strong>Category:</strong>
+                                    ${escapeHtml(event.category || "General")}
+                                </p>
+
+                                <p class="mb-3">
+                                    👥
+                                    <strong>Capacity:</strong>
+                                    ${escapeHtml(event.capacity || "N/A")}
+                                </p>
+
+                                <a href="login.html"
+                                    class="btn btn-primary w-100">
+
+                                    Login to Register
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    eventsContainer.appendChild(
+                        eventCard
+                    );
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading events:",
+                    error
+                );
+
+                loading.style.display = "none";
+
+                eventsContainer.innerHTML = `
+
+                    <div class="col-12">
+
+                        <div class="alert alert-warning text-center">
+
+                            Unable to load events right now.
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /*
+         * Prevent event data from being interpreted
+         * as HTML.
+         */
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+
+        // Load events when page opens
+        loadApprovedEvents();
+
     </script>
 
 </body>

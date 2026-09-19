@@ -2,268 +2,484 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Login - Campus Events</title>
 
-    <!-- Bootstrap -->
+
+    <!-- ================= BOOTSTRAP ================= -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- ================= CUSTOM CSS ================= -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+
+    <!-- ================= PAGE STYLING ================= -->
+
+    <style>
+
+        body {
+            min-height: 100vh;
+        }
+
+        .login-wrapper {
+            min-height: calc(100vh - 56px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 560px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .login-card .card-body {
+            padding: 40px;
+        }
+
+        .login-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .login-subtitle {
+            color: #4b5563;
+            font-size: 1.1rem;
+        }
+
+        .form-label {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            min-height: 48px;
+            border-radius: 7px;
+            font-size: 1rem;
+        }
+
+        .login-button {
+            min-height: 48px;
+            border-radius: 7px;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .register-link {
+            font-size: 1.05rem;
+        }
+
+        .register-link a {
+            font-weight: 500;
+        }
+
+        @media (max-width: 576px) {
+
+            .login-card .card-body {
+                padding: 28px 22px;
+            }
+
+            .login-title {
+                font-size: 1.9rem;
+            }
+
+            .login-subtitle {
+                font-size: 1rem;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body class="bg-light">
 
+
     <!-- ================= NAVBAR ================= -->
+
     <nav class="navbar navbar-dark bg-dark">
+
         <div class="container">
 
-            <a class="navbar-brand fw-bold" href="index.html">
+            <a
+                class="navbar-brand fw-bold"
+                href="./index.html">
+
                 Campus Events
+
             </a>
 
-            <a href="register.html" class="btn btn-outline-light">
+
+            <a
+                href="./register.html"
+                class="btn btn-outline-light">
+
                 Register
+
             </a>
 
         </div>
+
     </nav>
 
 
     <!-- ================= LOGIN SECTION ================= -->
-    <div class="container">
 
-        <div class="row justify-content-center mt-5">
+    <main class="login-wrapper">
 
-            <div class="col-md-6 col-lg-5">
+        <div class="login-card card">
 
-                <div class="card shadow">
-
-                    <div class="card-body p-4">
-
-                        <h2 class="text-center mb-4">
-                            Login
-                        </h2>
-
-                        <p class="text-center text-muted">
-                            Login to your Campus Events account
-                        </p>
+            <div class="card-body">
 
 
-                        <!-- LOGIN FORM -->
-                        <form id="loginForm">
+                <!-- ================= TITLE ================= -->
 
-                            <!-- EMAIL -->
-                            <div class="mb-3">
+                <h1 class="login-title text-center mb-4">
 
-                                <label for="email" class="form-label">
-                                    Email
-                                </label>
+                    Login
 
-                                <input
-                                    type="email"
-                                    class="form-control"
-                                    id="email"
-                                    placeholder="Enter your email"
-                                    required>
-
-                            </div>
+                </h1>
 
 
-                            <!-- PASSWORD -->
-                            <div class="mb-3">
+                <p class="login-subtitle text-center mb-4">
 
-                                <label for="password" class="form-label">
-                                    Password
-                                </label>
+                    Login to your Campus Events account
 
-                                <input
-                                    type="password"
-                                    class="form-control"
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    required>
-
-                            </div>
+                </p>
 
 
-                            <!-- ERROR MESSAGE -->
-                            <div
-                                id="errorMessage"
-                                class="alert alert-danger d-none">
-                            </div>
+                <!-- ================= LOGIN FORM ================= -->
+
+                <form id="loginForm">
 
 
-                            <!-- LOGIN BUTTON -->
-                            <button
-                                type="submit"
-                                class="btn btn-primary w-100">
+                    <!-- EMAIL -->
 
-                                Login
+                    <div class="mb-3">
 
-                            </button>
+                        <label
+                            for="email"
+                            class="form-label">
 
-                        </form>
+                            Email
+
+                        </label>
 
 
-                        <!-- REGISTER LINK -->
-                        <p class="text-center mt-4 mb-0">
-
-                            Don't have an account?
-
-                            <a href="register.html">
-                                Register here
-                            </a>
-
-                        </p>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required>
 
                     </div>
 
-                </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="password"
+                            class="form-label">
+
+                            Password
+
+                        </label>
+
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                    </div>
+
+
+                    <!-- ================= ERROR MESSAGE ================= -->
+
+                    <div
+                        id="errorMessage"
+                        class="alert alert-danger d-none"
+                        role="alert">
+
+                    </div>
+
+
+                    <!-- ================= LOGIN BUTTON ================= -->
+
+                    <button
+                        type="submit"
+                        id="loginButton"
+                        class="btn btn-primary w-100 login-button">
+
+                        Login
+
+                    </button>
+
+                </form>
+
+
+                <!-- ================= REGISTER LINK ================= -->
+
+                <p
+                    class="text-center mt-4 mb-0 register-link">
+
+                    Don't have an account?
+
+                    <a
+                        href="./register.html">
+
+                        Register here
+
+                    </a>
+
+                </p>
 
             </div>
 
         </div>
 
-    </div>
+    </main>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- ================= API JAVASCRIPT ================= -->
 
-    <!-- API JavaScript -->
-    <script src="js/api.js"></script>
+    <script src="./js/api.js"></script>
 
 
-    <!-- LOGIN JAVASCRIPT -->
+    <!-- ================= LOGIN JAVASCRIPT ================= -->
+
     <script>
 
         document
             .getElementById("loginForm")
-            .addEventListener("submit", async function(event) {
+            .addEventListener(
+                "submit",
+                async function(event) {
 
-                // Stop page from refreshing
-                event.preventDefault();
-
-
-                // Get email and password
-                const email =
-                    document.getElementById("email").value;
-
-                const password =
-                    document.getElementById("password").value;
+                    // Prevent page refresh
+                    event.preventDefault();
 
 
-                // Error message element
-                const errorMessage =
-                    document.getElementById("errorMessage");
+                    // ===============================
+                    // GET FORM VALUES
+                    // ===============================
+
+                    const email =
+                        document
+                            .getElementById("email")
+                            .value
+                            .trim();
+
+                    const password =
+                        document
+                            .getElementById("password")
+                            .value;
 
 
-                // Hide previous error
-                errorMessage.classList.add("d-none");
+                    const errorMessage =
+                        document
+                            .getElementById("errorMessage");
+
+                    const loginButton =
+                        document
+                            .getElementById("loginButton");
 
 
-                try {
+                    // ===============================
+                    // CLEAR PREVIOUS ERROR
+                    // ===============================
 
-                    console.log("Sending login request...");
+                    errorMessage.textContent = "";
 
-
-                    // Call Spring Boot login API
-                    const data =
-                        await loginUser(email, password);
-
-
-                    console.log("Login successful:");
-                    console.log(data);
-
-
-                    // ================= SAVE LOGIN DATA =================
-
-                    localStorage.setItem(
-                        "token",
-                        data.token
-                    );
-
-                    localStorage.setItem(
-                        "userId",
-                        data.id
-                    );
-
-                    localStorage.setItem(
-                        "userName",
-                        data.name
-                    );
-
-                    localStorage.setItem(
-                        "userEmail",
-                        data.email
-                    );
-
-                    localStorage.setItem(
-                        "userRole",
-                        data.role
+                    errorMessage.classList.add(
+                        "d-none"
                     );
 
 
-                    // ================= ROLE BASED REDIRECT =================
+                    // ===============================
+                    // DISABLE BUTTON
+                    // ===============================
 
-                    if (data.role === "STUDENT") {
+                    loginButton.disabled = true;
 
-                        window.location.href =
-                            "student/dashboard.html";
+                    loginButton.textContent =
+                        "Logging in...";
+
+
+                    try {
+
+                        console.log(
+                            "Sending login request..."
+                        );
+
+
+                        // ===============================
+                        // LOGIN API
+                        // ===============================
+
+                        const data =
+                            await loginUser(
+                                email,
+                                password
+                            );
+
+
+                        console.log(
+                            "Login successful"
+                        );
+
+
+                        // ===============================
+                        // VALIDATE RESPONSE
+                        // ===============================
+
+                        if (!data || !data.token) {
+
+                            throw new Error(
+                                "Login response is incomplete. Please try again."
+                            );
+
+                        }
+
+
+                        // ===============================
+                        // SAVE LOGIN DATA
+                        // ===============================
+
+                        localStorage.setItem(
+                            "token",
+                            data.token
+                        );
+
+                        localStorage.setItem(
+                            "userId",
+                            data.id
+                        );
+
+                        localStorage.setItem(
+                            "userName",
+                            data.name
+                        );
+
+                        localStorage.setItem(
+                            "userEmail",
+                            data.email
+                        );
+
+                        localStorage.setItem(
+                            "userRole",
+                            data.role
+                        );
+
+
+                        // ===============================
+                        // ROLE-BASED REDIRECT
+                        // ===============================
+
+                        if (data.role === "STUDENT") {
+
+                            window.location.href =
+                                "./student/dashboard.html";
+
+                        }
+
+                        else if (
+                            data.role === "ORGANIZER"
+                        ) {
+
+                            window.location.href =
+                                "./organizer/dashboard.html";
+
+                        }
+
+                        else if (
+                            data.role === "ADMIN"
+                        ) {
+
+                            window.location.href =
+                                "./admin/dashboard.html";
+
+                        }
+
+                        else {
+
+                            throw new Error(
+                                "Unknown user role. Please contact the administrator."
+                            );
+
+                        }
 
                     }
 
-                    else if (data.role === "ORGANIZER") {
+                    catch (error) {
 
-                        window.location.href =
-                            "organizer/dashboard.html";
+                        console.error(
+                            "Login error:",
+                            error
+                        );
 
-                    }
 
-                    else if (data.role === "ADMIN") {
-
-                        window.location.href =
-                            "admin/dashboard.html";
-
-                    }
-
-                    else {
+                        // ===============================
+                        // SHOW ERROR
+                        // ===============================
 
                         errorMessage.textContent =
-                            "Unknown user role.";
+                            error.message ||
+                            "Login failed. Please try again.";
 
-                        errorMessage.classList.remove("d-none");
+                        errorMessage.classList.remove(
+                            "d-none"
+                        );
 
                     }
 
-                }
+                    finally {
 
-                catch (error) {
+                        // ===============================
+                        // ENABLE BUTTON AGAIN
+                        // ===============================
 
-                    console.error(
-                        "Login error:",
-                        error
-                    );
+                        loginButton.disabled = false;
 
+                        loginButton.textContent =
+                            "Login";
 
-                    errorMessage.textContent =
-                        error.message ||
-                        "Login failed. Please try again.";
+                    }
 
-                    errorMessage.classList.remove("d-none");
-
-                }
-
-            });
+                });
 
     </script>
 
 
-    <!-- Bootstrap JavaScript -->
+    <!-- ================= BOOTSTRAP JAVASCRIPT ================= -->
+
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
     </script>

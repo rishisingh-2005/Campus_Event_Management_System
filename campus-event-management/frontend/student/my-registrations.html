@@ -1,251 +1,1470 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Registrations - Campus Event Management</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
+    <title>My Registrations | Campus Event Management</title>
+
+    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        body {
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fafc 0%,
+                    #f5f7fb 100%
+                );
+            min-height: 100vh;
+        }
+
+
+        /* ==========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.10);
+        }
+
+        .navbar-brand {
+            letter-spacing: 0.2px;
+        }
+
+
+        /* ==========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+            padding: 42px 0 28px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-icon {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #198754,
+                    #157347
+                );
+
+            color: white;
+
+            border-radius: 18px;
+
+            font-size: 31px;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 8px 20px rgba(25, 135, 84, 0.20);
+        }
+
+        .page-title {
+            font-size: 40px;
+            font-weight: 750;
+            color: #18212f;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+
+        /* ==========================
+           SUMMARY CARDS
+        ========================== */
+
+        .summary-card {
+            border: 1px solid #e8ecf2;
+            border-radius: 16px;
+
+            background: white;
+
+            box-shadow:
+                0 5px 18px rgba(15, 23, 42, 0.055);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 9px 25px rgba(15, 23, 42, 0.09);
+        }
+
+        .summary-card .card-body {
+            padding: 22px;
+        }
+
+        .summary-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #6c757d;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+        .summary-icon {
+            font-size: 17px;
+        }
+
+        .summary-number {
+            font-size: 30px;
+            font-weight: 750;
+            line-height: 1.2;
+        }
+
+
+        /* ==========================
+           ALERTS
+        ========================== */
+
+        .custom-alert {
+            border: none;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, 0.05);
+        }
+
+
+        /* ==========================
+           REGISTRATION CARDS
+        ========================== */
+
+        .registration-card {
+            border: 1px solid #e7ebf0;
+
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 6px 22px rgba(15, 23, 42, 0.065);
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
+
+            overflow: hidden;
+        }
+
+        .registration-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #dce3eb;
+
+            box-shadow:
+                0 13px 32px rgba(15, 23, 42, 0.11);
+        }
+
+        .registration-card-body {
+            padding: 25px;
+        }
+
+
+        /* ==========================
+           EVENT CONTENT
+        ========================== */
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+
+            background: #eef5ff;
+            color: #0d6efd;
+
+            border: 1px solid #dceaff;
+
+            border-radius: 999px;
+
+            padding: 6px 12px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+        }
+
+        .event-title {
+            color: #18212f;
+
+            font-size: 20px;
+            font-weight: 750;
+
+            line-height: 1.35;
+
+            min-height: 54px;
+
+            margin-bottom: 8px;
+        }
+
+        .event-description {
+            color: #6c757d;
+
+            line-height: 1.6;
+
+            min-height: 50px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+        }
+
+
+        /* ==========================
+           EVENT INFORMATION
+        ========================== */
+
+        .event-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+
+            color: #495057;
+
+            font-size: 14px;
+
+            margin-bottom: 11px;
+
+            line-height: 1.45;
+        }
+
+        .event-info strong {
+            color: #212529;
+            font-weight: 650;
+        }
+
+        .event-info-icon {
+            width: 22px;
+            flex-shrink: 0;
+        }
+
+
+        /* ==========================
+           STATUS
+        ========================== */
+
+        .status-section {
+            margin-top: 8px;
+            padding-top: 17px;
+
+            border-top: 1px solid #edf0f3;
+        }
+
+        .status-label {
+            color: #495057;
+            font-size: 14px;
+            font-weight: 650;
+        }
+
+        .status-badge {
+            min-width: 92px;
+
+            padding: 7px 13px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /* ==========================
+           CANCEL BUTTON
+        ========================== */
+
+        .cancel-btn {
+            width: 100%;
+
+            margin-top: 15px;
+
+            border-radius: 10px;
+
+            font-weight: 650;
+
+            padding: 9px 14px;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .cancel-btn:hover {
+            transform: translateY(-1px);
+        }
+
+
+        /* ==========================
+           STATE BOXES
+        ========================== */
+
+        .state-box {
+            padding: 70px 25px;
+
+            text-align: center;
+
+            border: 1px solid #e7ebf0;
+        }
+
+        .state-icon {
+            width: 76px;
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 18px;
+
+            background: #eef7f2;
+
+            border-radius: 50%;
+
+            font-size: 36px;
+        }
+
+        .state-box h5 {
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .state-box p {
+            max-width: 460px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /* ==========================
+           LOADING
+        ========================== */
+
+        .loading-spinner {
+            width: 42px;
+            height: 42px;
+        }
+
+
+        /* ==========================
+           FOOTER SPACE
+        ========================== */
+
+        .page-bottom {
+            height: 30px;
+        }
+
+
+        /* ==========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 768px) {
+
+            .page-header {
+                padding-top: 30px;
+            }
+
+            .page-title {
+                font-size: 31px;
+            }
+
+            .header-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 26px;
+                border-radius: 15px;
+            }
+
+            .header-left {
+                gap: 13px;
+            }
+
+            .registration-card-body {
+                padding: 21px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .page-title {
+                font-size: 27px;
+            }
+
+            .page-header .btn {
+                width: 100%;
+            }
+
+            .header-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 23px;
+            }
+
+            .summary-card .card-body {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard.html">
-                Campus Event Management
-            </a>
 
-            <button
-                class="btn btn-outline-light"
-                onclick="logout()"
-            >
-                Logout
-            </button>
-        </div>
-    </nav>
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <!-- Main Content -->
-    <div class="container mt-5">
+<nav class="navbar navbar-dark bg-dark">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2>My Registrations</h2>
-                <p class="text-muted">
-                    Events you have registered for
-                </p>
-            </div>
+    <div class="container">
 
-            <a
-                href="dashboard.html"
-                class="btn btn-secondary"
-            >
-                Back to Events
-            </a>
-        </div>
-
-        <!-- Loading -->
-        <div id="loadingMessage" class="text-center">
-            <div class="spinner-border" role="status"></div>
-            <p class="mt-2">Loading your registrations...</p>
-        </div>
-
-        <!-- Error -->
-        <div
-            id="errorMessage"
-            class="alert alert-danger"
-            style="display: none;"
-        ></div>
-
-        <!-- No Registrations -->
-        <div
-            id="noRegistrations"
-            class="alert alert-info"
-            style="display: none;"
+        <a
+            class="navbar-brand fw-bold"
+            href="dashboard.html"
         >
-            You have not registered for any events yet.
-        </div>
+            🎓 Campus Event Management
+        </a>
 
-        <!-- Registrations -->
-        <div id="registrationsContainer" class="row g-4"></div>
+        <button
+            class="btn btn-outline-light btn-sm"
+            onclick="logout()"
+        >
+            Logout
+        </button>
 
     </div>
 
-    <script src="../js/api.js"></script>
+</nav>
 
-    <script>
 
-        // Check login
-        if (!isLoggedIn()) {
-            window.location.href = "../login.html";
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================= -->
+
+    <div
+        class="
+            page-header
+            d-flex
+            justify-content-between
+            align-items-center
+            flex-wrap
+            gap-3
+        "
+    >
+
+        <div class="header-left">
+
+            <div class="header-icon">
+                🎟️
+            </div>
+
+            <div>
+
+                <h1 class="page-title">
+                    My Registrations
+                </h1>
+
+                <p class="page-subtitle">
+                    View and manage the events you have registered for.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="btn btn-secondary"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         SUMMARY
+    ================================================= -->
+
+    <div class="row g-3 mb-4">
+
+
+        <div class="col-md-4">
+
+            <div class="card summary-card h-100">
+
+                <div class="card-body">
+
+                    <div class="summary-label">
+                        <span class="summary-icon">🎟️</span>
+                        Total Registrations
+                    </div>
+
+                    <div
+                        id="totalRegistrations"
+                        class="summary-number text-success"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card summary-card h-100">
+
+                <div class="card-body">
+
+                    <div class="summary-label">
+                        <span class="summary-icon">✓</span>
+                        Confirmed
+                    </div>
+
+                    <div
+                        id="confirmedRegistrations"
+                        class="summary-number text-primary"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card summary-card h-100">
+
+                <div class="card-body">
+
+                    <div class="summary-label">
+                        <span class="summary-icon">📅</span>
+                        Events
+                    </div>
+
+                    <div
+                        id="eventCount"
+                        class="summary-number text-dark"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         LOADING
+    ================================================= -->
+
+    <div
+        id="loadingMessage"
+        class="card registration-card state-box"
+    >
+
+        <div
+            class="spinner-border text-success loading-spinner"
+            role="status"
+            aria-label="Loading"
+        ></div>
+
+        <p class="text-muted mt-3 mb-0">
+            Loading your registrations...
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         ERROR
+    ================================================= -->
+
+    <div
+        id="errorMessage"
+        class="alert alert-danger custom-alert"
+        style="display: none;"
+    ></div>
+
+
+
+    <!-- =================================================
+         SUCCESS
+    ================================================= -->
+
+    <div
+        id="successMessage"
+        class="alert alert-success custom-alert"
+        style="display: none;"
+    ></div>
+
+
+
+    <!-- =================================================
+         NO REGISTRATIONS
+    ================================================= -->
+
+    <div
+        id="noRegistrations"
+        class="card registration-card state-box"
+        style="display: none;"
+    >
+
+        <div class="state-icon">
+            🎟️
+        </div>
+
+        <h5>
+            No Registrations Yet
+        </h5>
+
+        <p class="text-muted mb-4">
+            You have not registered for any events yet.
+            Explore upcoming events and register for one.
+        </p>
+
+        <a
+            href="dashboard.html"
+            class="btn btn-primary"
+        >
+            Explore Events
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         REGISTRATIONS
+    ================================================= -->
+
+    <div
+        id="registrationsContainer"
+        class="row g-4 mb-5"
+    ></div>
+
+
+    <div class="page-bottom"></div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     API JS
+===================================================== -->
+
+<script src="../js/api.js"></script>
+
+
+<script>
+
+
+    // =====================================================
+    // LOGIN CHECK
+    // =====================================================
+
+    if (!isLoggedIn()) {
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    // =====================================================
+    // STUDENT ROLE CHECK
+    // =====================================================
+
+    if (getUserRole() !== "STUDENT") {
+
+        alert(
+            "Access denied. Students only."
+        );
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+
+    // =====================================================
+    // LOAD REGISTRATIONS
+    // =====================================================
+
+    async function loadRegistrations() {
+
+        const userId =
+            getUserId();
+
+
+        if (!userId) {
+
+            document.getElementById(
+                "loadingMessage"
+            ).style.display =
+                "none";
+
+
+            showError(
+                "Student information not found. Please login again."
+            );
+
+            return;
+
         }
 
-        // Check student role
-        if (getUserRole() !== "STUDENT") {
-            alert("Access denied. Students only.");
-            window.location.href = "../login.html";
-        }
 
-        // Load registrations
-        async function loadRegistrations() {
+        try {
 
-            const userId = getUserId();
+            // ---------------------------------------------
+            // Get registrations
+            // ---------------------------------------------
 
-            if (!userId) {
-                document.getElementById("loadingMessage").style.display = "none";
+            const registrations =
+                await apiRequest(
+                    `/api/registrations/user/${userId}`
+                );
 
-                document.getElementById("errorMessage").innerText =
-                    "Student information not found. Please login again.";
 
-                document.getElementById("errorMessage").style.display = "block";
+            // ---------------------------------------------
+            // Hide loading
+            // ---------------------------------------------
+
+            document.getElementById(
+                "loadingMessage"
+            ).style.display =
+                "none";
+
+
+            // ---------------------------------------------
+            // Check registrations
+            // ---------------------------------------------
+
+            if (
+                !registrations ||
+                registrations.length === 0
+            ) {
+
+                document.getElementById(
+                    "noRegistrations"
+                ).style.display =
+                    "block";
+
+                updateSummary([]);
 
                 return;
+
             }
 
-            try {
 
-                const registrations =
-                    await apiRequest(
-                        `/api/registrations/user/${userId}`
-                    );
+            // ---------------------------------------------
+            // Load event details
+            // ---------------------------------------------
 
-                document.getElementById("loadingMessage").style.display =
-                    "none";
+            const registrationData =
+                await Promise.all(
+                    registrations.map(
+                        async registration => {
 
-                if (!registrations || registrations.length === 0) {
+                            try {
 
-                    document.getElementById("noRegistrations").style.display =
-                        "block";
+                                const event =
+                                    await apiRequest(
+                                        `/api/student/events/${registration.eventId}`
+                                    );
 
-                    return;
-                }
 
-                const container =
-                    document.getElementById("registrationsContainer");
+                                return {
+                                    registration,
+                                    event
+                                };
 
-                container.innerHTML = "";
+                            }
+                            catch (error) {
 
-                for (const registration of registrations) {
+                                console.error(
+                                    "Could not load event:",
+                                    registration.eventId,
+                                    error
+                                );
 
-                    let event = null;
 
-                    try {
+                                return {
+                                    registration,
+                                    event: null
+                                };
 
-                        event =
-                            await apiRequest(
-                                `/api/student/events/${registration.eventId}`
-                            );
+                            }
 
-                    } catch (error) {
+                        }
+                    )
+                );
 
-                        console.error(
-                            "Could not load event:",
-                            registration.eventId,
-                            error
-                        );
 
-                    }
+            // ---------------------------------------------
+            // Update summary
+            // ---------------------------------------------
+
+            updateSummary(
+                registrations
+            );
+
+
+            // ---------------------------------------------
+            // Render cards
+            // ---------------------------------------------
+
+            const container =
+                document.getElementById(
+                    "registrationsContainer"
+                );
+
+
+            container.innerHTML =
+                "";
+
+
+            let displayedCount =
+                0;
+
+
+            registrationData.forEach(
+                data => {
+
+                    const registration =
+                        data.registration;
+
+
+                    const event =
+                        data.event;
+
 
                     if (!event) {
-                        continue;
+                        return;
                     }
 
-                    const card = document.createElement("div");
 
-                    card.className = "col-md-6 col-lg-4";
+                    displayedCount++;
 
-                    card.innerHTML = `
 
-                        <div class="card h-100 shadow-sm">
+                    const col =
+                        document.createElement(
+                            "div"
+                        );
 
-                            <div class="card-body">
 
-                                <h5 class="card-title">
-                                    ${event.title}
-                                </h5>
+                    col.className =
+                        "col-md-6 col-lg-4";
 
-                                <p class="card-text">
-                                    ${event.description || "No description available."}
-                                </p>
 
-                                <hr>
+                    const status =
+                        registration.status
+                            ? String(
+                                registration.status
+                            ).toUpperCase()
+                            : "REGISTERED";
 
-                                <p class="mb-1">
-                                    <strong>Date:</strong>
-                                    ${event.date || "N/A"}
-                                </p>
 
-                                <p class="mb-1">
-                                    <strong>Time:</strong>
-                                    ${event.time || "N/A"}
-                                </p>
+                    let statusClass =
+                        "bg-success";
 
-                                <p class="mb-1">
-                                    <strong>Venue:</strong>
-                                    ${event.venue || "N/A"}
-                                </p>
 
-                                <p class="mb-1">
-                                    <strong>Category:</strong>
-                                    ${event.category || "N/A"}
-                                </p>
+                    if (
+                        status === "CANCELLED" ||
+                        status === "REJECTED"
+                    ) {
 
-                                <p class="mb-1">
-                                    <strong>Registered On:</strong>
-                                    ${registration.registrationDate
-                                        ? new Date(
-                                            registration.registrationDate
-                                          ).toLocaleString()
-                                        : "N/A"}
-                                </p>
+                        statusClass =
+                            "bg-danger";
 
-                                <p class="mt-3 mb-0">
+                    }
+                    else if (
+                        status === "PENDING"
+                    ) {
 
-                                    <strong>Status:</strong>
+                        statusClass =
+                            "bg-warning text-dark";
 
-                                    <span class="badge bg-success">
-                                        ${registration.status}
+                    }
+
+
+                    const registrationDate =
+                        registration.registrationDate
+                            ? new Date(
+                                registration.registrationDate
+                            ).toLocaleString()
+                            : "N/A";
+
+
+                    // -------------------------------------
+                    // Cancel button
+                    // -------------------------------------
+
+                    let cancelButton = "";
+
+
+                    if (status === "REGISTERED") {
+
+                        cancelButton = `
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger cancel-btn"
+                                onclick="cancelRegistration(${registration.id}, ${registration.userId})"
+                            >
+                                ✕ Cancel Registration
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    col.innerHTML = `
+
+                        <div class="
+                            card
+                            registration-card
+                            h-100
+                        ">
+
+                            <div class="
+                                registration-card-body
+                                d-flex
+                                flex-column
+                            ">
+
+
+                                <div class="mb-3">
+
+                                    <span class="
+                                        category-badge
+                                    ">
+                                        ${escapeHtml(
+                                            event.category ||
+                                            "General"
+                                        )}
                                     </span>
 
+                                </div>
+
+
+                                <h5 class="
+                                    event-title
+                                    mb-2
+                                ">
+
+                                    ${escapeHtml(
+                                        event.title ||
+                                        "Untitled Event"
+                                    )}
+
+                                </h5>
+
+
+                                <p class="
+                                    event-description
+                                    small
+                                    mb-3
+                                ">
+
+                                    ${escapeHtml(
+                                        event.description ||
+                                        "No description available."
+                                    )}
+
                                 </p>
+
+
+                                <hr class="mb-3">
+
+
+                                <div class="event-info">
+
+                                    <span class="event-info-icon">
+                                        📅
+                                    </span>
+
+                                    <span>
+                                        <strong>Date:</strong>
+                                        ${escapeHtml(
+                                            event.date ||
+                                            "N/A"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <span class="event-info-icon">
+                                        🕐
+                                    </span>
+
+                                    <span>
+                                        <strong>Time:</strong>
+                                        ${escapeHtml(
+                                            event.time ||
+                                            "N/A"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <span class="event-info-icon">
+                                        📍
+                                    </span>
+
+                                    <span>
+                                        <strong>Venue:</strong>
+                                        ${escapeHtml(
+                                            event.venue ||
+                                            "N/A"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <span class="event-info-icon">
+                                        🆔
+                                    </span>
+
+                                    <span>
+                                        <strong>Event ID:</strong>
+                                        ${escapeHtml(
+                                            registration.eventId
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="event-info">
+
+                                    <span class="event-info-icon">
+                                        🕒
+                                    </span>
+
+                                    <span>
+                                        <strong>Registered:</strong>
+                                        ${escapeHtml(
+                                            registrationDate
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="
+                                    status-section
+                                    mt-auto
+                                ">
+
+                                    <div class="
+                                        d-flex
+                                        justify-content-between
+                                        align-items-center
+                                    ">
+
+                                        <span class="status-label">
+                                            Registration Status
+                                        </span>
+
+
+                                        <span
+                                            class="
+                                                badge
+                                                ${statusClass}
+                                                status-badge
+                                            "
+                                        >
+                                            ${escapeHtml(
+                                                status
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    ${cancelButton}
+
+                                </div>
+
 
                             </div>
 
                         </div>
+
                     `;
 
-                    container.appendChild(card);
+
+                    container.appendChild(
+                        col
+                    );
+
                 }
+            );
 
-            } catch (error) {
 
-                console.error(
-                    "Error loading registrations:",
-                    error
-                );
+            // ---------------------------------------------
+            // If registrations exist but events failed
+            // ---------------------------------------------
 
-                document.getElementById("loadingMessage").style.display =
-                    "none";
+            if (displayedCount === 0) {
 
-                document.getElementById("errorMessage").innerText =
-                    error.message ||
-                    "Unable to load registrations.";
-
-                document.getElementById("errorMessage").style.display =
+                document.getElementById(
+                    "noRegistrations"
+                ).style.display =
                     "block";
+
             }
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Error loading registrations:",
+                error
+            );
+
+
+            document.getElementById(
+                "loadingMessage"
+            ).style.display =
+                "none";
+
+
+            showError(
+                error.message ||
+                "Unable to load registrations."
+            );
+
         }
 
-        loadRegistrations();
+    }
 
-    </script>
+
+
+    // =====================================================
+    // CANCEL REGISTRATION
+    // =====================================================
+
+    async function cancelRegistration(
+        registrationId,
+        userId
+    ) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to cancel this registration?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            // ---------------------------------------------
+            // Cancel registration
+            // ---------------------------------------------
+
+            await apiRequest(
+                `/api/registrations/${registrationId}/cancel?userId=${userId}`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            // ---------------------------------------------
+            // Show success message
+            // ---------------------------------------------
+
+            showSuccess(
+                "Registration cancelled successfully."
+            );
+
+
+            // ---------------------------------------------
+            // Reload registrations
+            // ---------------------------------------------
+
+            await loadRegistrations();
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Error cancelling registration:",
+                error
+            );
+
+
+            showError(
+                error.message ||
+                "Unable to cancel registration."
+            );
+
+        }
+
+    }
+
+
+
+    // =====================================================
+    // UPDATE SUMMARY
+    // =====================================================
+
+    function updateSummary(registrations) {
+
+        const total =
+            Array.isArray(registrations)
+                ? registrations.length
+                : 0;
+
+
+        let confirmed =
+            0;
+
+
+        if (Array.isArray(registrations)) {
+
+            registrations.forEach(
+                registration => {
+
+                    const status =
+                        registration.status
+                            ? String(
+                                registration.status
+                            ).toUpperCase()
+                            : "";
+
+
+                    if (
+                        status === "REGISTERED" ||
+                        status === "CONFIRMED" ||
+                        status === "APPROVED"
+                    ) {
+
+                        confirmed++;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        document.getElementById(
+            "totalRegistrations"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "confirmedRegistrations"
+        ).textContent =
+            confirmed;
+
+
+        document.getElementById(
+            "eventCount"
+        ).textContent =
+            total;
+
+    }
+
+
+
+    // =====================================================
+    // SHOW ERROR
+    // =====================================================
+
+    function showError(message) {
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        errorMessage.textContent =
+            message;
+
+
+        errorMessage.style.display =
+            "block";
+
+    }
+
+
+
+    // =====================================================
+    // SHOW SUCCESS
+    // =====================================================
+
+    function showSuccess(message) {
+
+        const successMessage =
+            document.getElementById(
+                "successMessage"
+            );
+
+
+        successMessage.textContent =
+            message;
+
+
+        successMessage.style.display =
+            "block";
+
+
+        setTimeout(
+            () => {
+
+                successMessage.style.display =
+                    "none";
+
+            },
+            4000
+        );
+
+    }
+
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
+
+    function escapeHtml(value) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.textContent =
+            value === null ||
+            value === undefined
+                ? ""
+                : value;
+
+
+        return div.innerHTML;
+
+    }
+
+
+
+    // =====================================================
+    // START
+    // =====================================================
+
+    loadRegistrations();
+
+</script>
+
 
 </body>
+
 </html>

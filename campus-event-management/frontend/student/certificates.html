@@ -1,70 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Certificates - Campus Event Management</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
+    <title>My Certificates | Campus Event Management</title>
+
+    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
     <style>
 
         body {
-            background: #f5f7fa;
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fafc 0%,
+                    #f5f7fb 100%
+                );
+
+            min-height: 100vh;
         }
 
-        /* =========================
+
+        /* ==========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.10);
+        }
+
+        .navbar-brand {
+            letter-spacing: 0.2px;
+        }
+
+
+        /* ==========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+            background: white;
+
+            border: 1px solid #e5e9ef;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 28px;
+
+            box-shadow:
+                0 6px 20px rgba(15, 23, 42, 0.055);
+        }
+
+        .page-header-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #212529,
+                    #343a40
+                );
+
+            color: white;
+
+            border-radius: 16px;
+
+            font-size: 26px;
+
+            flex-shrink: 0;
+
+            box-shadow:
+                0 7px 18px rgba(33, 37, 41, 0.18);
+        }
+
+        .page-title {
+            color: #18212f;
+
+            font-size: 30px;
+
+            font-weight: 750;
+
+            letter-spacing: -0.3px;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
+
+            margin-bottom: 0;
+        }
+
+
+        /* ==========================
            CERTIFICATE CARD
-           ========================= */
+        ========================== */
 
         .certificate-card {
             background: white;
-            border-radius: 12px;
+
+            border: 1px solid #e3e7ec;
+
+            border-radius: 18px;
+
             overflow: hidden;
 
+            box-shadow:
+                0 7px 22px rgba(15, 23, 42, 0.065);
+
             transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
         }
 
         .certificate-card:hover {
             transform: translateY(-5px);
 
+            border-color: #d8dee6;
+
             box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.12);
+                0 14px 32px rgba(15, 23, 42, 0.11);
         }
 
 
-        /* =========================
+        /* ==========================
            CERTIFICATE PREVIEW
-           ========================= */
+        ========================== */
 
         .certificate-preview {
+            border: 7px solid #212529;
 
-            border: 8px solid #212529;
+            border-radius: 5px;
 
-            border-radius: 6px;
+            margin: 16px;
 
-            margin: 15px;
-
-            padding: 20px 15px;
+            padding: 24px 15px;
 
             min-height: 390px;
 
             position: relative;
 
-            background: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #fafafa
+                );
+
+            box-shadow:
+                inset 0 0 25px rgba(0, 0, 0, 0.025);
         }
 
-
         .certificate-preview::before {
-
             content: "";
 
             position: absolute;
@@ -74,58 +185,61 @@
             right: 8px;
             bottom: 8px;
 
-            border: 2px solid #6c757d;
+            border: 2px solid #8a9198;
 
             pointer-events: none;
         }
 
-
-        /* =========================
-           LOGO
-           ========================= */
-
-        .certificate-logo {
-
-            width: 85px;
-            height: 85px;
-
-            object-fit: contain;
-
-            display: block;
-
-            margin: 0 auto 8px auto;
-
+        .certificate-preview-content {
             position: relative;
 
             z-index: 2;
         }
 
 
-        .print-logo {
+        /* ==========================
+           LOGO
+        ========================== */
 
-            width: 125px;
-            height: 125px;
+        .certificate-logo {
+            width: 76px;
+            height: 76px;
 
             object-fit: contain;
 
-            display: block;
+            margin-bottom: 8px;
+        }
 
-            margin: 0 auto 10px auto;
+        .modal-certificate-logo {
+            width: 105px;
+            height: 105px;
+
+            object-fit: contain;
+
+            margin-bottom: 10px;
+        }
+
+        .print-logo {
+            width: 110px;
+            height: 110px;
+
+            object-fit: contain;
+
+            margin-bottom: 8px;
         }
 
 
-        /* =========================
-           PREVIEW TEXT
-           ========================= */
+        /* ==========================
+           CERTIFICATE TEXT
+        ========================== */
 
         .college-name-preview {
-
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: 16px;
+            font-size: 15px;
 
             font-weight: bold;
 
@@ -134,50 +248,15 @@
             margin-bottom: 3px;
         }
 
-
         .college-subtitle-preview {
-
-            font-size: 11px;
+            font-size: 10px;
 
             color: #6c757d;
 
             margin-bottom: 10px;
         }
 
-
-        .certificate-icon {
-
-            font-size: 30px;
-
-            margin-bottom: 2px;
-        }
-
-
         .certificate-title {
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 25px;
-
-            font-weight: bold;
-
-            letter-spacing: 1px;
-        }
-
-
-        .certificate-subtitle {
-
-            font-size: 13px;
-
-            color: #6c757d;
-        }
-
-
-        .student-name {
-
             font-family:
                 Georgia,
                 "Times New Roman",
@@ -187,69 +266,317 @@
 
             font-weight: bold;
 
-            margin: 15px 0;
+            letter-spacing: 1px;
         }
 
+        .certificate-subtitle {
+            font-size: 11px;
+
+            color: #6c757d;
+
+            letter-spacing: 0.4px;
+        }
+
+        .student-name {
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            margin: 15px 0;
+
+            color: #18212f;
+
+            word-break: break-word;
+        }
 
         .event-name {
+            font-size: 16px;
 
-            font-size: 18px;
-
-            font-weight: 600;
+            font-weight: 650;
 
             margin-top: 5px;
+
+            color: #212529;
+
+            word-break: break-word;
         }
 
-
         .certificate-number {
+            font-size: 10px;
 
-            font-size: 12px;
+            color: #6c757d;
 
             word-break: break-word;
         }
 
 
-        .certificate-actions {
+        /* ==========================
+           ACTIONS
+        ========================== */
 
+        .certificate-actions {
             padding:
-                0
-                20px
-                20px
-                20px;
+                0 20px 20px;
+        }
+
+        .certificate-actions .btn {
+            border-radius: 10px;
+
+            font-weight: 650;
+
+            padding: 9px 12px;
         }
 
 
-        /* =========================
-           PRINT AREA
-           ========================= */
+        /* ==========================
+           EMPTY STATE
+        ========================== */
+
+        .empty-state {
+            background: white;
+
+            border: 1px solid #e5e9ef;
+
+            border-radius: 18px;
+
+            padding: 70px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 6px 20px rgba(15, 23, 42, 0.055);
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 18px;
+
+            background: #f3f4f6;
+
+            border-radius: 50%;
+
+            font-size: 37px;
+        }
+
+        .empty-state h4 {
+            color: #212529;
+        }
+
+        .empty-state p {
+            max-width: 480px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /* ==========================
+           MODAL
+        ========================== */
+
+        .modal-content {
+            border: none;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 55px rgba(0, 0, 0, 0.20);
+        }
+
+        .modal-header {
+            padding: 17px 22px;
+
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .modal-body {
+            background: #f5f7fb;
+
+            padding: 25px;
+        }
+
+        .modal-certificate {
+            border: 10px solid #212529;
+
+            padding: 25px;
+
+            background: #ffffff;
+
+            position: relative;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .modal-certificate::before {
+            content: "";
+
+            position: absolute;
+
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+
+            border: 2px solid #6c757d;
+
+            pointer-events: none;
+        }
+
+        .modal-certificate-content {
+            position: relative;
+
+            z-index: 2;
+
+            padding: 20px;
+        }
+
+        .modal-college-name {
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            letter-spacing: 0.8px;
+        }
+
+        .modal-college-subtitle {
+            color: #6c757d;
+
+            font-size: 14px;
+
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 36px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            margin: 15px 0 5px;
+        }
+
+        .modal-subtitle {
+            color: #6c757d;
+
+            font-size: 16px;
+        }
+
+        .modal-student {
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            color: #18212f;
+
+            margin: 20px 0;
+
+            word-break: break-word;
+        }
+
+        .modal-event {
+            font-size: 23px;
+
+            font-weight: bold;
+
+            color: #212529;
+
+            margin: 12px 0 20px;
+
+            word-break: break-word;
+        }
+
+        .modal-info {
+            display: flex;
+
+            justify-content: space-around;
+
+            gap: 30px;
+
+            margin-top: 30px;
+
+            font-size: 14px;
+
+            flex-wrap: wrap;
+        }
+
+        .modal-footer {
+            padding: 15px 22px;
+        }
+
+        .modal-footer .btn {
+            border-radius: 9px;
+
+            font-weight: 650;
+        }
+
+
+        /* ==========================
+           LOADING
+        ========================== */
+
+        .loading-container {
+            padding: 70px 20px;
+        }
+
+        .loading-spinner {
+            width: 42px;
+            height: 42px;
+        }
+
+
+        /* ==========================
+           PRINT
+        ========================== */
 
         #printCertificate {
-
             display: none;
         }
 
 
-        /* =========================
-           PRINT DESIGN
-           ========================= */
-
         @media print {
 
             body * {
-
                 visibility: hidden;
             }
 
-
             #printCertificate,
             #printCertificate * {
-
                 visibility: visible;
             }
 
-
             #printCertificate {
-
                 display: block;
 
                 position: absolute;
@@ -261,9 +588,7 @@
                 height: 100%;
             }
 
-
             .print-certificate-page {
-
                 width: 100%;
 
                 min-height: 100vh;
@@ -277,9 +602,7 @@
                 padding: 30px;
             }
 
-
             .print-certificate {
-
                 width: 100%;
 
                 min-height: 650px;
@@ -292,38 +615,26 @@
 
                 position: relative;
 
-                background: white;
+                background: #ffffff;
             }
 
-
             .print-certificate-inner {
-
                 border: 3px solid #6c757d;
 
                 min-height: 550px;
 
-                padding:
-                    25px
-                    40px;
+                padding: 30px 40px;
 
                 display: flex;
 
                 flex-direction: column;
 
                 justify-content: center;
+
+                align-items: center;
             }
-
-
-            .print-icon {
-
-                font-size: 45px;
-
-                margin-bottom: 3px;
-            }
-
 
             .college-name {
-
                 font-family:
                     Georgia,
                     "Times New Roman",
@@ -338,9 +649,7 @@
                 margin-top: 5px;
             }
 
-
             .college-subtitle {
-
                 font-size: 16px;
 
                 color: #666;
@@ -350,9 +659,7 @@
                 margin-bottom: 10px;
             }
 
-
             .print-title {
-
                 font-family:
                     Georgia,
                     "Times New Roman",
@@ -365,17 +672,13 @@
                 margin: 15px 0;
             }
 
-
             .print-subtitle {
-
                 font-size: 18px;
 
                 color: #555;
             }
 
-
             .print-student {
-
                 font-family:
                     Georgia,
                     "Times New Roman",
@@ -388,9 +691,7 @@
                 margin: 22px 0;
             }
 
-
             .print-event {
-
                 font-size: 25px;
 
                 font-weight: bold;
@@ -398,33 +699,31 @@
                 margin: 15px 0;
             }
 
-
             .print-info {
-
-                margin-top: 30px;
+                margin-top: 35px;
 
                 display: flex;
 
                 justify-content: space-between;
+
+                width: 80%;
 
                 font-size: 14px;
 
                 gap: 30px;
             }
 
-
             .print-signature {
-
-                margin-top: 35px;
+                margin-top: 40px;
 
                 display: flex;
 
                 justify-content: space-around;
+
+                width: 80%;
             }
 
-
             .signature-line {
-
                 width: 200px;
 
                 border-top: 1px solid #333;
@@ -432,816 +731,1178 @@
                 padding-top: 8px;
             }
 
-
             @page {
-
                 size: landscape;
-
                 margin: 0;
             }
+
+        }
+
+
+        /* ==========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 768px) {
+
+            .page-title {
+                font-size: 26px;
+            }
+
+            .page-header-icon {
+                width: 52px;
+                height: 52px;
+
+                font-size: 23px;
+            }
+
+            .modal-title {
+                font-size: 28px;
+            }
+
+            .modal-student {
+                font-size: 25px;
+            }
+
+            .modal-event {
+                font-size: 19px;
+            }
+
+            .modal-college-name {
+                font-size: 19px;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            .modal-certificate {
+                border-width: 7px;
+
+                padding: 15px;
+            }
+
+            .modal-certificate-content {
+                padding: 12px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .page-header {
+                padding: 19px;
+            }
+
+            .certificate-preview {
+                margin: 12px;
+
+                min-height: 365px;
+            }
+
+            .certificate-actions {
+                padding:
+                    0 16px 16px;
+            }
+
+            .page-header .btn {
+                width: 100%;
+            }
+
         }
 
     </style>
+
 </head>
 
 
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-         ========================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark">
 
-        <div class="container">
+    <div class="container">
+
+        <a
+            class="navbar-brand fw-bold"
+            href="dashboard.html"
+        >
+            🎓 Campus Events
+        </a>
+
+
+        <div class="d-flex align-items-center">
+
+            <span
+                id="studentName"
+                class="text-white me-3 d-none d-sm-inline"
+            >
+                Student
+            </span>
+
+
+            <button
+                class="btn btn-outline-light"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<div class="container py-4 py-md-5">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div
+            class="
+                d-flex
+                flex-column
+                flex-md-row
+                justify-content-between
+                align-items-md-center
+                gap-3
+            "
+        >
+
+            <div
+                class="
+                    d-flex
+                    align-items-center
+                    gap-3
+                "
+            >
+
+                <div class="page-header-icon">
+                    🏆
+                </div>
+
+
+                <div>
+
+                    <h1 class="page-title mb-1">
+                        My Certificates
+                    </h1>
+
+
+                    <p class="page-subtitle">
+                        View and print certificates issued for your events.
+                    </p>
+
+                </div>
+
+            </div>
+
 
             <a
-                class="navbar-brand fw-bold"
                 href="dashboard.html"
+                class="btn btn-outline-secondary"
             >
-                Campus Event Management
+                ← Back to Dashboard
             </a>
 
+        </div>
 
-            <div class="d-flex align-items-center">
+    </div>
 
-                <span
-                    id="studentName"
-                    class="text-white me-3"
-                >
-                    Student
-                </span>
+
+
+    <!-- LOADING -->
+
+    <div
+        id="loadingMessage"
+        class="text-center loading-container"
+    >
+
+        <div
+            class="
+                spinner-border
+                text-primary
+                loading-spinner
+            "
+            role="status"
+            aria-label="Loading"
+        ></div>
+
+
+        <p class="mt-3 text-muted mb-0">
+            Loading your certificates...
+        </p>
+
+    </div>
+
+
+
+    <!-- ERROR -->
+
+    <div
+        id="errorMessage"
+        class="alert alert-danger d-none"
+    ></div>
+
+
+
+    <!-- EMPTY STATE -->
+
+    <div
+        id="noCertificatesMessage"
+        class="empty-state d-none"
+    >
+
+        <div class="empty-icon">
+            🏆
+        </div>
+
+
+        <h4 class="fw-bold">
+            No Certificates Yet
+        </h4>
+
+
+        <p class="text-muted mb-4">
+            Certificates will appear here after
+            you attend eligible campus events.
+        </p>
+
+
+        <a
+            href="dashboard.html"
+            class="btn btn-primary"
+        >
+            Browse Events
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATES -->
+
+    <div
+        id="certificatesContainer"
+        class="row g-4"
+    ></div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     CERTIFICATE MODAL
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="certificateModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div
+        class="
+            modal-dialog
+            modal-xl
+            modal-dialog-centered
+            modal-dialog-scrollable
+        "
+    >
+
+        <div class="modal-content">
+
+
+            <!-- MODAL HEADER -->
+
+            <div class="modal-header">
+
+                <h5 class="modal-title fw-bold">
+                    🏆 Certificate Preview
+                </h5>
 
 
                 <button
-                    class="btn btn-outline-light"
-                    onclick="logout()"
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+
+            </div>
+
+
+            <!-- MODAL BODY -->
+
+            <div class="modal-body">
+
+                <div
+                    id="modalCertificateContent"
+                    class="modal-certificate"
                 >
-                    Logout
+
+                    <div
+                        class="modal-certificate-content"
+                    >
+
+                        <img
+                            id="modalCertificateLogo"
+                            src="../image/rkgiot-logo.jpeg"
+                            alt="RKGIOT Logo"
+                            class="modal-certificate-logo"
+                        >
+
+
+                        <div class="modal-college-name">
+                            RAJ KUMAR GOEL
+                            INSTITUTE OF TECHNOLOGY
+                        </div>
+
+
+                        <div class="modal-college-subtitle">
+                            Campus Event Management System
+                        </div>
+
+
+                        <div class="modal-title">
+                            CERTIFICATE
+                        </div>
+
+
+                        <div class="modal-subtitle">
+                            OF PARTICIPATION
+                        </div>
+
+
+                        <hr>
+
+
+                        <div class="text-muted">
+                            This certificate is proudly
+                            presented to
+                        </div>
+
+
+                        <div
+                            id="modalStudentName"
+                            class="modal-student"
+                        >
+                            Student
+                        </div>
+
+
+                        <div class="text-muted">
+                            for participating in
+                        </div>
+
+
+                        <div
+                            id="modalEventName"
+                            class="modal-event"
+                        >
+                            Event
+                        </div>
+
+
+                        <div class="modal-info">
+
+
+                            <div>
+
+                                <strong>
+                                    Certificate No:
+                                </strong>
+
+                                <br>
+
+                                <span
+                                    id="modalCertificateNumber"
+                                >
+                                    -
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Issue Date:
+                                </strong>
+
+                                <br>
+
+                                <span
+                                    id="modalIssueDate"
+                                >
+                                    -
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MODAL FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-dark"
+                    id="modalPrintButton"
+                >
+                    🖨️ Print Certificate
                 </button>
 
             </div>
 
         </div>
 
-    </nav>
-
-
-
-    <!-- =========================
-         MAIN CONTENT
-         ========================= -->
-
-    <div class="container py-5">
-
-
-        <div
-            class="d-flex justify-content-between align-items-center mb-4"
-        >
-
-            <div>
-
-                <h1>
-                    My Certificates
-                </h1>
-
-                <p class="text-muted mb-0">
-
-                    View and print certificates
-                    issued for your events.
-
-                </p>
-
-            </div>
-
-
-            <a
-                href="dashboard.html"
-                class="btn btn-secondary"
-            >
-                Back to Dashboard
-            </a>
-
-        </div>
-
-
-
-        <!-- =========================
-             LOADING
-             ========================= -->
-
-        <div
-            id="loadingMessage"
-            class="text-center py-5"
-        >
-
-            <div
-                class="spinner-border text-primary"
-                role="status"
-            ></div>
-
-            <p class="mt-3">
-                Loading your certificates...
-            </p>
-
-        </div>
-
-
-
-        <!-- =========================
-             ERROR
-             ========================= -->
-
-        <div
-            id="errorMessage"
-            class="alert alert-danger d-none"
-        ></div>
-
-
-
-        <!-- =========================
-             NO CERTIFICATES
-             ========================= -->
-
-        <div
-            id="noCertificatesMessage"
-            class="alert alert-info d-none"
-        >
-            You do not have any certificates yet.
-        </div>
-
-
-
-        <!-- =========================
-             CERTIFICATES
-             ========================= -->
-
-        <div
-            id="certificatesContainer"
-            class="row"
-        ></div>
-
     </div>
 
-
-
-    <!-- =========================
-         PRINT CERTIFICATE
-         ========================= -->
-
-    <div id="printCertificate"></div>
+</div>
 
 
 
-    <!-- API JS -->
+<!-- =====================================================
+     PRINT CERTIFICATE
+===================================================== -->
 
-    <script src="../js/api.js"></script>
-
-
-
-    <script>
-
-        /* =========================
-           LOGIN CHECK
-           ========================= */
-
-        if (!isLoggedIn()) {
-
-            window.location.href =
-                "../login.html";
-        }
-
-
-        /* =========================
-           ROLE CHECK
-           ========================= */
-
-        if (getUserRole() !== "STUDENT") {
-
-            alert(
-                "Access denied. Students only."
-            );
-
-            window.location.href =
-                "../login.html";
-        }
-
-
-        /* =========================
-           STUDENT NAME
-           ========================= */
-
-        const loggedInStudentName =
-            getUserName();
-
-
-        if (loggedInStudentName) {
-
-            document.getElementById(
-                "studentName"
-            ).textContent =
-                loggedInStudentName;
-        }
+<div id="printCertificate"></div>
 
 
 
-        /* =========================
-           LOAD CERTIFICATES
-           ========================= */
+<!-- =====================================================
+     API
+===================================================== -->
 
-        async function loadCertificates() {
-
-            try {
-
-                const userId =
-                    getUserId();
+<script src="../js/api.js"></script>
 
 
-                if (!userId) {
+<!-- Bootstrap JS -->
 
-                    throw new Error(
-                        "Student information not found. Please login again."
-                    );
-                }
-
-
-                const certificates =
-                    await apiRequest(
-                        `/api/certificates/user/${userId}`
-                    );
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
 
 
-                document.getElementById(
+<script>
+
+
+    // ==========================================
+    // LOGIN CHECK
+    // ==========================================
+
+    if (!isLoggedIn()) {
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    // ==========================================
+    // ROLE CHECK
+    // ==========================================
+
+    if (getUserRole() !== "STUDENT") {
+
+        alert(
+            "Access denied. Students only."
+        );
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    // ==========================================
+    // STUDENT NAME
+    // ==========================================
+
+    const loggedInStudentName =
+        getUserName();
+
+
+    if (loggedInStudentName) {
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            loggedInStudentName;
+
+    }
+
+
+    // ==========================================
+    // CURRENT CERTIFICATE
+    // ==========================================
+
+    let currentCertificateId = null;
+
+
+    // ==========================================
+    // LOAD CERTIFICATES
+    // ==========================================
+
+    async function loadCertificates() {
+
+        try {
+
+            const userId =
+                getUserId();
+
+
+            if (!userId) {
+
+                throw new Error(
+                    "Student information not found. Please login again."
+                );
+
+            }
+
+
+            const certificates =
+                await apiRequest(
+                    `/api/certificates/user/${userId}`
+                );
+
+
+            document
+                .getElementById(
                     "loadingMessage"
-                ).classList.add("d-none");
+                )
+                .classList
+                .add("d-none");
 
 
-                if (
-                    !certificates ||
-                    certificates.length === 0
-                ) {
+            if (
+                !certificates ||
+                certificates.length === 0
+            ) {
 
-                    document.getElementById(
+                document
+                    .getElementById(
                         "noCertificatesMessage"
-                    ).classList.remove("d-none");
+                    )
+                    .classList
+                    .remove("d-none");
 
-                    return;
-                }
+                return;
 
-
-                const container =
-                    document.getElementById(
-                        "certificatesContainer"
-                    );
+            }
 
 
-                container.innerHTML = "";
+            const container =
+                document.getElementById(
+                    "certificatesContainer"
+                );
 
 
-                certificates.forEach(
-                    certificate => {
-
-                        const col =
-                            document.createElement(
-                                "div"
-                            );
+            container.innerHTML =
+                "";
 
 
-                        col.className =
-                            "col-md-6 col-xl-4 mb-4";
+            certificates.forEach(
+                certificate => {
+
+                    const col =
+                        document.createElement(
+                            "div"
+                        );
 
 
-                        const studentName =
-                            certificate.studentName ||
-                            getUserName() ||
-                            "Student";
+                    col.className =
+                        "col-md-6 col-xl-4";
 
 
-                        const eventName =
-                            certificate.eventName ||
-                            "Event";
+                    const studentName =
+                        certificate.studentName ||
+                        getUserName() ||
+                        "Student";
 
 
-                        const certificateNumber =
-                            certificate.certificateNumber ||
-                            "Not available";
+                    const eventName =
+                        certificate.eventName ||
+                        "Event";
 
 
-                        const issueDate =
-                            certificate.issueDate ||
-                            "Not available";
+                    const certificateNumber =
+                        certificate.certificateNumber ||
+                        "Not available";
 
 
+                    const issueDate =
+                        certificate.issueDate ||
+                        "Not available";
 
-                        col.innerHTML = `
+
+                    col.innerHTML = `
+
+                        <div
+                            class="
+                                certificate-card
+                                h-100
+                            "
+                        >
 
                             <div
-                                class="certificate-card h-100 shadow-sm"
+                                class="certificate-preview"
                             >
 
                                 <div
-                                    class="certificate-preview"
+                                    class="
+                                        certificate-preview-content
+                                        text-center
+                                    "
                                 >
 
-                                    <div
-                                        class="text-center"
+                                    <img
+                                        src="../image/rkgiot-logo.jpeg"
+                                        alt="RKGIOT Logo"
+                                        class="certificate-logo"
                                     >
 
-                                        <!-- COLLEGE LOGO -->
 
-                                        <img
-                                            src="../images/rkgiot-logo.jpeg"
-                                            alt="RKGIOT Logo"
-                                            class="certificate-logo"
-                                        >
+                                    <div
+                                        class="college-name-preview"
+                                    >
+                                        RAJ KUMAR GOEL
+                                        INSTITUTE OF TECHNOLOGY
+                                    </div>
 
 
-                                        <!-- COLLEGE NAME -->
+                                    <div
+                                        class="college-subtitle-preview"
+                                    >
+                                        Campus Event Management System
+                                    </div>
+
+
+                                    <div
+                                        class="certificate-title"
+                                    >
+                                        CERTIFICATE
+                                    </div>
+
+
+                                    <div
+                                        class="certificate-subtitle"
+                                    >
+                                        OF PARTICIPATION
+                                    </div>
+
+
+                                    <hr class="my-3">
+
+
+                                    <div
+                                        class="small text-muted"
+                                    >
+                                        This certificate is proudly
+                                        presented to
+                                    </div>
+
+
+                                    <div
+                                        class="student-name"
+                                    >
+                                        ${escapeHtml(
+                                            studentName
+                                        )}
+                                    </div>
+
+
+                                    <div
+                                        class="small text-muted"
+                                    >
+                                        for participating in
+                                    </div>
+
+
+                                    <div
+                                        class="event-name"
+                                    >
+                                        ${escapeHtml(
+                                            eventName
+                                        )}
+                                    </div>
+
+
+                                    <div class="mt-4">
 
                                         <div
-                                            class="college-name-preview"
+                                            class="certificate-number"
                                         >
-                                            RAJ KUMAR GOEL
-                                            INSTITUTE OF TECHNOLOGY
+                                            <strong>
+                                                Certificate No:
+                                            </strong>
+
+                                            ${escapeHtml(
+                                                certificateNumber
+                                            )}
                                         </div>
 
 
                                         <div
-                                            class="college-subtitle-preview"
+                                            class="
+                                                certificate-number
+                                                mt-1
+                                            "
                                         >
-                                            Campus Event Management System
-                                        </div>
+                                            <strong>
+                                                Issue Date:
+                                            </strong>
 
-
-                                        <!-- TITLE -->
-
-                                        <div
-                                            class="certificate-title"
-                                        >
-                                            CERTIFICATE
-                                        </div>
-
-
-                                        <div
-                                            class="certificate-subtitle"
-                                        >
-                                            OF PARTICIPATION
-                                        </div>
-
-
-                                        <hr class="my-3">
-
-
-                                        <div
-                                            class="small text-muted"
-                                        >
-                                            This certificate is proudly
-                                            presented to
-                                        </div>
-
-
-                                        <!-- STUDENT -->
-
-                                        <div
-                                            class="student-name"
-                                        >
-                                            ${escapeHtml(studentName)}
-                                        </div>
-
-
-                                        <div
-                                            class="small text-muted"
-                                        >
-                                            for participating in
-                                        </div>
-
-
-                                        <!-- EVENT -->
-
-                                        <div
-                                            class="event-name"
-                                        >
-                                            ${escapeHtml(eventName)}
-                                        </div>
-
-
-                                        <!-- DETAILS -->
-
-                                        <div class="mt-4">
-
-                                            <div
-                                                class="certificate-number"
-                                            >
-
-                                                <strong>
-                                                    Certificate No:
-                                                </strong>
-
-                                                ${escapeHtml(
-                                                    certificateNumber
-                                                )}
-
-                                            </div>
-
-
-                                            <div
-                                                class="certificate-number mt-1"
-                                            >
-
-                                                <strong>
-                                                    Issue Date:
-                                                </strong>
-
-                                                ${escapeHtml(
-                                                    issueDate
-                                                )}
-
-                                            </div>
-
+                                            ${escapeHtml(
+                                                issueDate
+                                            )}
                                         </div>
 
                                     </div>
-
-                                </div>
-
-
-
-                                <!-- BUTTONS -->
-
-                                <div
-                                    class="certificate-actions"
-                                >
-
-                                    <button
-                                        class="btn btn-primary w-100 mb-2"
-                                        onclick="viewCertificate(${certificate.id})"
-                                    >
-                                        View Certificate
-                                    </button>
-
-
-                                    <button
-                                        class="btn btn-outline-dark w-100"
-                                        onclick="printCertificate(${certificate.id})"
-                                    >
-                                        🖨️ Print Certificate
-                                    </button>
 
                                 </div>
 
                             </div>
 
-                        `;
+
+                            <div
+                                class="certificate-actions"
+                            >
+
+                                <button
+                                    type="button"
+                                    class="
+                                        btn
+                                        btn-primary
+                                        w-100
+                                        mb-2
+                                    "
+                                    onclick="
+                                        viewCertificate(
+                                            ${certificate.id}
+                                        )
+                                    "
+                                >
+                                    👁️ View Certificate
+                                </button>
 
 
-                        container.appendChild(col);
+                                <button
+                                    type="button"
+                                    class="
+                                        btn
+                                        btn-outline-dark
+                                        w-100
+                                    "
+                                    onclick="
+                                        printCertificate(
+                                            ${certificate.id}
+                                        )
+                                    "
+                                >
+                                    🖨️ Print Certificate
+                                </button>
 
-                    }
-                );
+                            </div>
 
-            }
+                        </div>
 
-
-            catch (error) {
-
-                console.error(
-                    "Error loading certificates:",
-                    error
-                );
+                    `;
 
 
-                document.getElementById(
+                    container.appendChild(
+                        col
+                    );
+
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Error loading certificates:",
+                error
+            );
+
+
+            document
+                .getElementById(
                     "loadingMessage"
-                ).classList.add("d-none");
+                )
+                .classList
+                .add("d-none");
 
 
-                const errorMessage =
-                    document.getElementById(
-                        "errorMessage"
-                    );
-
-
-                errorMessage.textContent =
-                    error.message ||
-                    "Unable to load certificates.";
-
-
-                errorMessage.classList.remove(
-                    "d-none"
+            const errorMessage =
+                document.getElementById(
+                    "errorMessage"
                 );
-            }
+
+
+            errorMessage.textContent =
+                error.message ||
+                "Unable to load certificates.";
+
+
+            errorMessage.classList
+                .remove("d-none");
 
         }
 
+    }
 
 
-        /* =========================
-           VIEW CERTIFICATE
-           ========================= */
+    // ==========================================
+    // VIEW CERTIFICATE
+    // ==========================================
 
-        async function viewCertificate(
-            certificateId
-        ) {
+    async function viewCertificate(
+        certificateId
+    ) {
 
-            try {
+        try {
 
-                const certificate =
-                    await apiRequest(
-                        `/api/certificates/${certificateId}`
-                    );
-
-
-                if (!certificate) {
-
-                    throw new Error(
-                        "Certificate not found."
-                    );
-                }
+            const certificate =
+                await apiRequest(
+                    `/api/certificates/${certificateId}`
+                );
 
 
-                const studentName =
-                    certificate.studentName ||
-                    getUserName() ||
-                    "Student";
+            if (!certificate) {
 
-
-                const eventName =
-                    certificate.eventName ||
-                    "Event";
-
-
-                alert(
-
-                    "CERTIFICATE OF PARTICIPATION\n\n" +
-
-                    "College: " +
-
-                    "Raj Kumar Goel Institute of Technology" +
-
-                    "\n\nStudent: " +
-
-                    studentName +
-
-                    "\n\nEvent: " +
-
-                    eventName +
-
-                    "\n\nCertificate Number: " +
-
-                    (
-                        certificate.certificateNumber ||
-                        "N/A"
-                    ) +
-
-                    "\n\nIssue Date: " +
-
-                    (
-                        certificate.issueDate ||
-                        "N/A"
-                    )
+                throw new Error(
+                    "Certificate not found."
                 );
 
             }
 
 
-            catch (error) {
+            currentCertificateId =
+                certificateId;
 
-                console.error(
-                    "Error viewing certificate:",
-                    error
+
+            document.getElementById(
+                "modalStudentName"
+            ).textContent =
+                certificate.studentName ||
+                getUserName() ||
+                "Student";
+
+
+            document.getElementById(
+                "modalEventName"
+            ).textContent =
+                certificate.eventName ||
+                "Event";
+
+
+            document.getElementById(
+                "modalCertificateNumber"
+            ).textContent =
+                certificate.certificateNumber ||
+                "N/A";
+
+
+            document.getElementById(
+                "modalIssueDate"
+            ).textContent =
+                certificate.issueDate ||
+                "N/A";
+
+
+            const modalElement =
+                document.getElementById(
+                    "certificateModal"
                 );
 
 
-                alert(
-                    error.message ||
-                    "Unable to view certificate."
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    modalElement
                 );
-            }
+
+
+            modal.show();
 
         }
 
+        catch (error) {
+
+            console.error(
+                "Error viewing certificate:",
+                error
+            );
 
 
-        /* =========================
-           PRINT CERTIFICATE
-           ========================= */
+            alert(
+                error.message ||
+                "Unable to view certificate."
+            );
 
-        async function printCertificate(
-            certificateId
-        ) {
+        }
 
-            try {
+    }
 
-                const certificate =
-                    await apiRequest(
-                        `/api/certificates/${certificateId}`
+
+    // ==========================================
+    // MODAL PRINT
+    // ==========================================
+
+    document
+        .getElementById(
+            "modalPrintButton"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                if (
+                    currentCertificateId
+                ) {
+
+                    printCertificate(
+                        currentCertificateId
                     );
 
-
-                if (!certificate) {
-
-                    throw new Error(
-                        "Certificate not found."
-                    );
                 }
 
-
-                const studentName =
-                    certificate.studentName ||
-                    getUserName() ||
-                    "Student";
+            }
+        );
 
 
-                const eventName =
-                    certificate.eventName ||
-                    "Event";
+    // ==========================================
+    // PRINT CERTIFICATE
+    // ==========================================
+
+    async function printCertificate(
+        certificateId
+    ) {
+
+        try {
+
+            const certificate =
+                await apiRequest(
+                    `/api/certificates/${certificateId}`
+                );
 
 
-                const certificateNumber =
-                    certificate.certificateNumber ||
-                    "N/A";
+            if (!certificate) {
+
+                throw new Error(
+                    "Certificate not found."
+                );
+
+            }
 
 
-                const issueDate =
-                    certificate.issueDate ||
-                    "N/A";
+            const studentName =
+                certificate.studentName ||
+                getUserName() ||
+                "Student";
 
 
-                const printContainer =
-                    document.getElementById(
-                        "printCertificate"
-                    );
+            const eventName =
+                certificate.eventName ||
+                "Event";
 
 
+            const certificateNumber =
+                certificate.certificateNumber ||
+                "N/A";
 
-                printContainer.innerHTML = `
+
+            const issueDate =
+                certificate.issueDate ||
+                "N/A";
+
+
+            const printContainer =
+                document.getElementById(
+                    "printCertificate"
+                );
+
+
+            printContainer.innerHTML = `
+
+                <div
+                    class="print-certificate-page"
+                >
 
                     <div
-                        class="print-certificate-page"
+                        class="print-certificate"
                     >
 
                         <div
-                            class="print-certificate"
+                            class="print-certificate-inner"
                         >
 
-                            <div
-                                class="print-certificate-inner"
+                            <img
+                                src="../image/rkgiot-logo.jpeg"
+                                alt="RKGIOT Logo"
+                                class="print-logo"
                             >
 
 
-                                <!-- LOGO -->
-
-                                <img
-                                    src="../images/rkgiot-logo.jpeg"
-                                    alt="RKGIOT Logo"
-                                    class="print-logo"
-                                >
-
+                            <div
+                                class="college-name"
+                            >
+                                RAJ KUMAR GOEL
+                                INSTITUTE OF TECHNOLOGY
+                            </div>
 
 
-                                <!-- COLLEGE NAME -->
+                            <div
+                                class="college-subtitle"
+                            >
+                                Campus Event Management System
+                            </div>
 
-                                <div
-                                    class="college-name"
-                                >
-                                    RAJ KUMAR GOEL
-                                    INSTITUTE OF TECHNOLOGY
+
+                            <div
+                                class="print-title"
+                            >
+                                CERTIFICATE OF PARTICIPATION
+                            </div>
+
+
+                            <div
+                                class="print-subtitle"
+                            >
+                                This certificate is proudly
+                                presented to
+                            </div>
+
+
+                            <div
+                                class="print-student"
+                            >
+                                ${escapeHtml(
+                                    studentName
+                                )}
+                            </div>
+
+
+                            <div
+                                class="print-subtitle"
+                            >
+                                for successfully participating in
+                            </div>
+
+
+                            <div
+                                class="print-event"
+                            >
+                                ${escapeHtml(
+                                    eventName
+                                )}
+                            </div>
+
+
+                            <div
+                                class="print-subtitle"
+                            >
+                                as part of the
+                                Campus Event Management System
+                            </div>
+
+
+                            <div
+                                class="print-info"
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        Certificate No:
+                                    </strong>
+
+                                    <br>
+
+                                    ${escapeHtml(
+                                        certificateNumber
+                                    )}
+
                                 </div>
 
 
-                                <div
-                                    class="college-subtitle"
-                                >
-                                    Campus Event Management System
+                                <div>
+
+                                    <strong>
+                                        Issue Date:
+                                    </strong>
+
+                                    <br>
+
+                                    ${escapeHtml(
+                                        issueDate
+                                    )}
+
                                 </div>
 
+                            </div>
 
 
-                                <!-- CERTIFICATE TITLE -->
+                            <div
+                                class="print-signature"
+                            >
 
-                                <div
-                                    class="print-title"
-                                >
-                                    CERTIFICATE OF PARTICIPATION
-                                </div>
+                                <div>
 
-
-
-                                <div
-                                    class="print-subtitle"
-                                >
-                                    This certificate is proudly
-                                    presented to
-                                </div>
-
-
-
-                                <!-- STUDENT -->
-
-                                <div
-                                    class="print-student"
-                                >
-                                    ${escapeHtml(studentName)}
-                                </div>
-
-
-
-                                <div
-                                    class="print-subtitle"
-                                >
-                                    for successfully participating in
-                                </div>
-
-
-
-                                <!-- EVENT -->
-
-                                <div
-                                    class="print-event"
-                                >
-                                    ${escapeHtml(eventName)}
-                                </div>
-
-
-
-                                <div
-                                    class="print-subtitle"
-                                >
-                                    as part of the Campus Event
-                                    Management System
-                                </div>
-
-
-
-                                <!-- DETAILS -->
-
-                                <div
-                                    class="print-info"
-                                >
-
-                                    <div>
-
-                                        <strong>
-                                            Certificate No:
-                                        </strong>
-
-                                        <br>
-
-                                        ${escapeHtml(
-                                            certificateNumber
-                                        )}
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <strong>
-                                            Issue Date:
-                                        </strong>
-
-                                        <br>
-
-                                        ${escapeHtml(
-                                            issueDate
-                                        )}
-
+                                    <div
+                                        class="signature-line"
+                                    >
+                                        Organizer
                                     </div>
 
                                 </div>
 
 
+                                <div>
 
-                                <!-- SIGNATURES -->
-
-                                <div
-                                    class="print-signature"
-                                >
-
-                                    <div>
-
-                                        <div
-                                            class="signature-line"
-                                        >
-                                            Organizer
-                                        </div>
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <div
-                                            class="signature-line"
-                                        >
-                                            Authorized Signature
-                                        </div>
-
+                                    <div
+                                        class="signature-line"
+                                    >
+                                        Authorized Signature
                                     </div>
 
                                 </div>
-
 
                             </div>
 
@@ -1249,70 +1910,89 @@
 
                     </div>
 
-                `;
+                </div>
+
+            `;
 
 
+            // Close modal if open
 
-                /* =========================
-                   OPEN PRINT
-                   ========================= */
+            const modalElement =
+                document.getElementById(
+                    "certificateModal"
+                );
 
-                window.print();
+
+            const modal =
+                bootstrap.Modal.getInstance(
+                    modalElement
+                );
+
+
+            if (modal) {
+
+                modal.hide();
 
             }
 
 
-            catch (error) {
+            // Print
 
-                console.error(
-                    "Error printing certificate:",
-                    error
-                );
-
-
-                alert(
-                    error.message ||
-                    "Unable to print certificate."
-                );
-            }
+            window.print();
 
         }
 
+        catch (error) {
+
+            console.error(
+                "Error printing certificate:",
+                error
+            );
 
 
-        /* =========================
-           HTML ESCAPE
-           ========================= */
+            alert(
+                error.message ||
+                "Unable to print certificate."
+            );
 
-        function escapeHtml(value) {
-
-            const div =
-                document.createElement("div");
-
-
-            div.textContent =
-                value;
-
-
-            return div.innerHTML;
         }
 
+    }
 
 
-        /* =========================
-           START
-           ========================= */
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
 
-        loadCertificates();
+    function escapeHtml(value) {
 
-    </script>
+        const div =
+            document.createElement(
+                "div"
+            );
 
 
+        div.textContent =
+            value === null ||
+            value === undefined
+                ? ""
+                : value;
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+
+        return div.innerHTML;
+
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
+
+    loadCertificates();
+
+</script>
 
 
 </body>
+
 </html>

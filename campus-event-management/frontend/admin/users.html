@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Manage Users - Campus Event Management</title>
+    <title>Manage Users | Campus Event Management</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -22,25 +22,544 @@
         href="../css/style.css"
     >
 
+    <style>
+
+        body {
+            background:
+                linear-gradient(
+                    180deg,
+                    #f4f7fb 0%,
+                    #eef2f7 100%
+                );
+
+            min-height: 100vh;
+        }
+
+        /* ==========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar-brand {
+            letter-spacing: 0.2px;
+        }
+
+        /* ==========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #15191d 0%,
+                    #212529 55%,
+                    #343a40 100%
+                );
+
+            color: white;
+            padding: 52px 0;
+        }
+
+        .page-header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            right: -90px;
+            top: -120px;
+
+            background:
+                rgba(255, 255, 255, 0.05);
+
+            border-radius: 50%;
+        }
+
+        .page-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            left: -80px;
+            bottom: -100px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            color:
+                rgba(255, 255, 255, 0.82);
+
+            font-size: 0.78rem;
+            font-weight: 600;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-size:
+                clamp(2rem, 4vw, 2.8rem);
+
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            max-width: 700px;
+        }
+
+        /* ==========================
+           STAT CARDS
+        ========================== */
+
+        .stat-card {
+            border: none;
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 14px 30px rgba(15, 23, 42, 0.10);
+        }
+
+        .stat-card .card-body {
+            padding: 22px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            font-size: 1.2rem;
+        }
+
+        .stat-icon.total {
+            background: #e9ecef;
+        }
+
+        .stat-icon.student {
+            background: #d1e7dd;
+        }
+
+        .stat-icon.organizer {
+            background: #cfe2ff;
+        }
+
+        .stat-icon.admin {
+            background: #f8d7da;
+        }
+
+        .stat-label {
+            color: #6c757d;
+
+            font-size: 0.86rem;
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            line-height: 1;
+
+            font-weight: 800;
+
+            color: #212529;
+        }
+
+        /* ==========================
+           FILTER CARD
+        ========================== */
+
+        .filter-card {
+            border: none;
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .filter-card .card-body {
+            padding: 24px;
+        }
+
+        .filter-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+
+            color: #212529;
+        }
+
+        .filter-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+
+            color: #495057;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 44px;
+
+            border-radius: 11px;
+
+            border-color: #dfe3e8;
+
+            box-shadow: none;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(
+                    13,
+                    110,
+                    253,
+                    0.10
+                );
+        }
+
+        /* ==========================
+           USERS CARD
+        ========================== */
+
+        .users-card {
+            border: none;
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.07);
+
+            overflow: hidden;
+        }
+
+        .users-card-header {
+            padding: 25px 28px;
+
+            border-bottom:
+                1px solid #edf0f3;
+        }
+
+        .users-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+
+            color: #212529;
+        }
+
+        .users-card-subtitle {
+            color: #6c757d;
+
+            font-size: 0.86rem;
+        }
+
+        /* ==========================
+           TABLE
+        ========================== */
+
+        .users-table {
+            margin-bottom: 0;
+        }
+
+        .users-table thead th {
+            padding:
+                14px 18px;
+
+            background: #212529;
+
+            color: white;
+
+            border: none;
+
+            font-size: 0.76rem;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.45px;
+
+            white-space: nowrap;
+        }
+
+        .users-table tbody td {
+            padding:
+                17px 18px;
+
+            border-color:
+                #edf0f3;
+
+            color: #495057;
+
+            font-size: 0.92rem;
+
+            vertical-align: middle;
+        }
+
+        .users-table tbody tr {
+            transition:
+                background 0.15s ease;
+        }
+
+        .users-table tbody tr:hover {
+            background:
+                #f8fafc;
+        }
+
+        .user-number {
+            color: #6c757d;
+
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .user-name {
+            color: #212529;
+
+            font-weight: 700;
+        }
+
+        .user-email {
+            word-break: break-word;
+        }
+
+        /* ==========================
+           ROLE BADGES
+        ========================== */
+
+        .role-badge {
+            min-width: 95px;
+
+            text-align: center;
+
+            padding:
+                8px 13px !important;
+
+            border-radius: 999px;
+
+            font-size: 0.72rem;
+
+            letter-spacing: 0.3px;
+        }
+
+        /* ==========================
+           LOADING / EMPTY
+        ========================== */
+
+        .loading-box,
+        .empty-box {
+            padding: 65px 20px;
+
+            text-align: center;
+
+            border: none;
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .empty-icon {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 18px;
+
+            border-radius: 18px;
+
+            background: #f1f4f8;
+
+            font-size: 1.8rem;
+        }
+
+        .empty-box h5 {
+            font-weight: 700;
+        }
+
+        /* ==========================
+           ALERT
+        ========================== */
+
+        #errorMessage {
+            border: none;
+
+            border-radius: 13px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.05
+                );
+        }
+
+        /* ==========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 767px) {
+
+            .page-header {
+                padding: 38px 0;
+            }
+
+            .page-header .btn {
+                width: 100%;
+            }
+
+            .filter-card .card-body {
+                padding: 20px;
+            }
+
+            .users-card-header {
+                padding: 21px;
+            }
+
+            .stat-card .card-body {
+                padding: 18px;
+            }
+
+        }
+
+        @media (max-width: 575px) {
+
+            .navbar-brand {
+                font-size: 0.95rem;
+            }
+
+            .navbar .btn {
+                padding:
+                    6px 10px;
+
+                font-size: 0.78rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.9rem;
+            }
+
+            .stat-number {
+                font-size: 26px;
+            }
+
+            .users-table thead th,
+            .users-table tbody td {
+                padding:
+                    13px 14px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
 
-    <nav class="navbar navbar-dark bg-dark">
+<!-- ==========================
+     NAVBAR
+========================== -->
 
-        <div class="container">
+<nav class="navbar navbar-dark bg-dark shadow-sm">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand fw-bold"
+            href="dashboard.html"
+        >
+            🎓 Campus Event Management
+        </a>
+
+
+        <div class="d-flex align-items-center gap-2">
 
             <a
-                class="navbar-brand"
                 href="dashboard.html"
+                class="btn btn-outline-light btn-sm"
             >
-                Campus Event Management
+                Dashboard
             </a>
 
             <button
-                class="btn btn-outline-light"
+                type="button"
+                class="btn btn-danger btn-sm"
                 onclick="logout()"
             >
                 Logout
@@ -48,120 +567,356 @@
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    <!-- Main Content -->
 
-    <div class="container py-5">
+<!-- ==========================
+     PAGE HEADER
+========================== -->
+
+<section class="page-header">
+
+    <div class="container header-content">
 
         <div
-            class="d-flex justify-content-between align-items-center mb-4"
+            class="
+                d-flex
+                flex-wrap
+                justify-content-between
+                align-items-center
+                gap-4
+            "
         >
 
             <div>
 
-                <h1>
+                <div class="page-kicker">
+                    🛡️ Admin Workspace
+                </div>
+
+                <h1 class="fw-bold mb-2">
                     Manage Users
                 </h1>
 
-                <p class="text-muted mb-0">
-                    View users registered in the system.
+                <p class="text-white-50 mb-0">
+                    View and monitor students, organizers, and administrators registered in the system.
                 </p>
 
             </div>
 
-            <a
-                href="dashboard.html"
-                class="btn btn-secondary"
+
+            <button
+                id="refreshButton"
+                type="button"
+                class="btn btn-light px-4"
+                onclick="loadUsers()"
             >
-                Back to Dashboard
-            </a>
+                🔄 Refresh Users
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================
+     MAIN CONTENT
+========================== -->
+
+<main class="container py-4 py-md-5">
+
+
+    <!-- ==========================
+         SUMMARY
+    ========================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- TOTAL -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="card stat-card h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
+
+                        <div>
+
+                            <div class="stat-label">
+                                Total Users
+                            </div>
+
+                            <div
+                                id="totalUsers"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon total">
+                            👥
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Loading -->
+        <!-- STUDENTS -->
 
-        <div
-            id="loadingMessage"
-            class="text-center py-5"
-        >
+        <div class="col-6 col-lg-3">
 
-            <div
-                class="spinner-border"
-                role="status"
-            ></div>
+            <div class="card stat-card h-100">
 
-            <p class="mt-3">
-                Loading users...
-            </p>
+                <div class="card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
+
+                        <div>
+
+                            <div class="stat-label">
+                                Students
+                            </div>
+
+                            <div
+                                id="totalStudents"
+                                class="stat-number text-success"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon student">
+                            🎓
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Error -->
+        <!-- ORGANIZERS -->
 
-        <div
-            id="errorMessage"
-            class="alert alert-danger"
-            style="display: none;"
-        ></div>
+        <div class="col-6 col-lg-3">
 
+            <div class="card stat-card h-100">
 
-        <!-- No Users -->
+                <div class="card-body">
 
-        <div
-            id="noUsersMessage"
-            class="alert alert-info"
-            style="display: none;"
-        >
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
 
-            No users found.
+                        <div>
+
+                            <div class="stat-label">
+                                Organizers
+                            </div>
+
+                            <div
+                                id="totalOrganizers"
+                                class="stat-number text-primary"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                        <div class="stat-icon organizer">
+                            📋
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Users Table -->
+        <!-- ADMINS -->
 
-        <div
-            id="usersContainer"
-            style="display: none;"
-        >
+        <div class="col-6 col-lg-3">
 
-            <div class="table-responsive">
+            <div class="card stat-card h-100">
 
-                <table
-                    class="table table-bordered table-hover align-middle"
-                >
+                <div class="card-body">
 
-                    <thead class="table-dark">
+                    <div
+                        class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                            gap-3
+                        "
+                    >
 
-                        <tr>
+                        <div>
 
-                            <th>
-                                #
-                            </th>
+                            <div class="stat-label">
+                                Administrators
+                            </div>
 
-                            <th>
-                                Name
-                            </th>
+                            <div
+                                id="totalAdmins"
+                                class="stat-number text-danger"
+                            >
+                                0
+                            </div>
 
-                            <th>
-                                Email
-                            </th>
+                        </div>
 
-                            <th>
-                                Role
-                            </th>
+                        <div class="stat-icon admin">
+                            🛡️
+                        </div>
 
-                        </tr>
+                    </div>
 
-                    </thead>
+                </div>
 
-                    <tbody id="usersTableBody"></tbody>
+            </div>
 
-                </table>
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==========================
+         FILTERS
+    ========================== -->
+
+    <div class="card filter-card mb-4">
+
+        <div class="card-body">
+
+            <div class="mb-3">
+
+                <div class="filter-title">
+                    Find Users
+                </div>
+
+                <div class="filter-subtitle">
+                    Search accounts or filter them by role.
+                </div>
+
+            </div>
+
+
+            <div class="row g-3 align-items-end">
+
+
+                <div class="col-md-6">
+
+                    <label
+                        for="searchInput"
+                        class="form-label fw-semibold"
+                    >
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search by name or email..."
+                    >
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label
+                        for="roleFilter"
+                        class="form-label fw-semibold"
+                    >
+                        User Role
+                    </label>
+
+                    <select
+                        id="roleFilter"
+                        class="form-select"
+                    >
+
+                        <option value="ALL">
+                            All Roles
+                        </option>
+
+                        <option value="STUDENT">
+                            Student
+                        </option>
+
+                        <option value="ORGANIZER">
+                            Organizer
+                        </option>
+
+                        <option value="ADMIN">
+                            Admin
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        id="clearFiltersButton"
+                        type="button"
+                        class="
+                            btn
+                            btn-outline-secondary
+                            w-100
+                        "
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
 
             </div>
 
@@ -170,170 +925,735 @@
     </div>
 
 
-    <script src="../js/api.js"></script>
+
+    <!-- ==========================
+         LOADING
+    ========================== -->
+
+    <div
+        id="loadingMessage"
+        class="card loading-box"
+    >
+
+        <div
+            class="spinner-border text-primary"
+            role="status"
+            aria-label="Loading"
+        ></div>
+
+        <p class="text-muted mt-3 mb-0">
+            Loading registered users...
+        </p>
+
+    </div>
 
 
-    <script>
 
-        // Check login
+    <!-- ==========================
+         ERROR
+    ========================== -->
 
-        if (!isLoggedIn()) {
-
-            window.location.href = "../login.html";
-
-        }
-
-
-        // Check admin role
-
-        if (getUserRole() !== "ADMIN") {
-
-            alert("Access denied. Admins only.");
-
-            window.location.href = "../login.html";
-
-        }
+    <div
+        id="errorMessage"
+        class="alert alert-danger"
+        style="display:none;"
+        role="alert"
+    ></div>
 
 
-        async function loadUsers() {
 
-            try {
+    <!-- ==========================
+         NO USERS
+    ========================== -->
 
-                const users =
-                    await apiRequest(
-                        "/api/admin/users"
-                    );
+    <div
+        id="noUsersMessage"
+        class="card empty-box"
+        style="display:none;"
+    >
 
+        <div class="empty-icon">
+            👥
+        </div>
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+        <h5>
+            No Users Found
+        </h5>
 
+        <p class="text-muted mb-0">
+            There are currently no users registered in the system.
+        </p>
 
-                if (!users || users.length === 0) {
-
-                    document.getElementById(
-                        "noUsersMessage"
-                    ).style.display = "block";
-
-                    return;
-
-                }
-
-
-                const tableBody =
-                    document.getElementById(
-                        "usersTableBody"
-                    );
-
-                tableBody.innerHTML = "";
+    </div>
 
 
-                users.forEach((user, index) => {
 
-                    const row =
-                        document.createElement("tr");
+    <!-- ==========================
+         NO FILTER RESULTS
+    ========================== -->
 
+    <div
+        id="noResultsMessage"
+        class="card empty-box"
+        style="display:none;"
+    >
 
-                    let roleClass =
-                        "bg-secondary";
+        <div class="empty-icon">
+            🔍
+        </div>
 
-                    if (
-                        user.role &&
-                        user.role.toUpperCase() === "ADMIN"
-                    ) {
+        <h5>
+            No Matching Users
+        </h5>
 
-                        roleClass = "bg-danger";
+        <p class="text-muted mb-0">
+            Try changing your search text or role filter.
+        </p>
 
-                    }
-                    else if (
-                        user.role &&
-                        user.role.toUpperCase() === "ORGANIZER"
-                    ) {
-
-                        roleClass = "bg-primary";
-
-                    }
-                    else if (
-                        user.role &&
-                        user.role.toUpperCase() === "STUDENT"
-                    ) {
-
-                        roleClass = "bg-success";
-
-                    }
+    </div>
 
 
-                    row.innerHTML = `
 
-                        <td>
-                            ${index + 1}
-                        </td>
+    <!-- ==========================
+         USERS TABLE
+    ========================== -->
 
-                        <td>
-                            ${user.name || "N/A"}
-                        </td>
+    <div
+        id="usersContainer"
+        class="card users-card"
+        style="display:none;"
+    >
 
-                        <td>
-                            ${user.email || "N/A"}
-                        </td>
+        <div class="users-card-header">
 
-                        <td>
+            <div class="users-card-title">
+                Registered Users
+            </div>
 
-                            <span class="badge ${roleClass}">
+            <div class="users-card-subtitle">
+                User accounts currently registered in the system.
+            </div>
 
-                                ${user.role || "UNKNOWN"}
-
-                            </span>
-
-                        </td>
-
-                    `;
+        </div>
 
 
-                    tableBody.appendChild(row);
+        <div class="table-responsive">
 
-                });
+            <table
+                class="
+                    table
+                    table-hover
+                    align-middle
+                    users-table
+                "
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Role
+                        </th>
+
+                    </tr>
+
+                </thead>
 
 
-                document.getElementById(
-                    "usersContainer"
-                ).style.display = "block";
+                <tbody id="usersTableBody"></tbody>
 
-            }
+            </table>
 
-            catch (error) {
+        </div>
 
-                console.error(
-                    "Error loading users:",
-                    error
+    </div>
+
+
+</main>
+
+
+
+<script src="../js/api.js"></script>
+
+
+<script>
+
+
+    // ==========================
+    // SECURITY CHECK
+    // ==========================
+
+    if (!isLoggedIn()) {
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    if (getUserRole() !== "ADMIN") {
+
+        alert(
+            "Access denied. Admins only."
+        );
+
+        window.location.href =
+            "../login.html";
+
+    }
+
+
+    // ==========================
+    // ELEMENTS
+    // ==========================
+
+    const loadingMessage =
+        document.getElementById(
+            "loadingMessage"
+        );
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+    const noUsersMessage =
+        document.getElementById(
+            "noUsersMessage"
+        );
+
+    const noResultsMessage =
+        document.getElementById(
+            "noResultsMessage"
+        );
+
+    const usersContainer =
+        document.getElementById(
+            "usersContainer"
+        );
+
+    const usersTableBody =
+        document.getElementById(
+            "usersTableBody"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+    const roleFilter =
+        document.getElementById(
+            "roleFilter"
+        );
+
+    const clearFiltersButton =
+        document.getElementById(
+            "clearFiltersButton"
+        );
+
+    const refreshButton =
+        document.getElementById(
+            "refreshButton"
+        );
+
+
+    // ==========================
+    // DATA
+    // ==========================
+
+    let allUsers = [];
+
+
+    // ==========================
+    // LOAD USERS
+    // ==========================
+
+    async function loadUsers() {
+
+        try {
+
+            setLoading(true);
+
+            hideMessages();
+
+
+            const response =
+                await apiRequest(
+                    "/api/admin/users"
                 );
 
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+            allUsers =
+                Array.isArray(response)
+                    ? response
+                    : [];
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).textContent =
-                    error.message ||
-                    "Unable to load users.";
+            updateSummary();
+
+            renderUsers();
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).style.display = "block";
+        } catch (error) {
 
+            console.error(
+                "Error loading users:",
+                error
+            );
+
+
+            errorMessage.className =
+                "alert alert-danger";
+
+
+            errorMessage.textContent =
+                error.message ||
+                "Unable to load users.";
+
+
+            errorMessage.style.display =
+                "block";
+
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    }
+
+
+    // ==========================
+    // UPDATE SUMMARY
+    // ==========================
+
+    function updateSummary() {
+
+        let students = 0;
+        let organizers = 0;
+        let admins = 0;
+
+
+        allUsers.forEach(user => {
+
+            const role =
+                user.role
+                    ? user.role.toUpperCase()
+                    : "";
+
+
+            if (role === "STUDENT") {
+                students++;
             }
+
+            else if (role === "ORGANIZER") {
+                organizers++;
+            }
+
+            else if (role === "ADMIN") {
+                admins++;
+            }
+
+        });
+
+
+        document.getElementById(
+            "totalUsers"
+        ).textContent =
+            allUsers.length;
+
+
+        document.getElementById(
+            "totalStudents"
+        ).textContent =
+            students;
+
+
+        document.getElementById(
+            "totalOrganizers"
+        ).textContent =
+            organizers;
+
+
+        document.getElementById(
+            "totalAdmins"
+        ).textContent =
+            admins;
+
+    }
+
+
+    // ==========================
+    // RENDER USERS
+    // ==========================
+
+    function renderUsers() {
+
+        usersTableBody.innerHTML =
+            "";
+
+
+        if (allUsers.length === 0) {
+
+            usersContainer.style.display =
+                "none";
+
+            noUsersMessage.style.display =
+                "block";
+
+            noResultsMessage.style.display =
+                "none";
+
+            return;
 
         }
 
 
-        loadUsers();
+        noUsersMessage.style.display =
+            "none";
 
-    </script>
+
+        const searchText =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const selectedRole =
+            roleFilter.value;
+
+
+        const filteredUsers =
+            allUsers.filter(user => {
+
+                const name =
+                    String(
+                        user.name || ""
+                    ).toLowerCase();
+
+
+                const email =
+                    String(
+                        user.email || ""
+                    ).toLowerCase();
+
+
+                const role =
+                    String(
+                        user.role || ""
+                    ).toUpperCase();
+
+
+                const matchesSearch =
+                    !searchText ||
+                    name.includes(searchText) ||
+                    email.includes(searchText);
+
+
+                const matchesRole =
+                    selectedRole === "ALL" ||
+                    role === selectedRole;
+
+
+                return (
+                    matchesSearch &&
+                    matchesRole
+                );
+
+            });
+
+
+        if (filteredUsers.length === 0) {
+
+            usersContainer.style.display =
+                "none";
+
+            noResultsMessage.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        noResultsMessage.style.display =
+            "none";
+
+        usersContainer.style.display =
+            "block";
+
+
+        filteredUsers.forEach(
+            (user, index) => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const role =
+                    user.role
+                        ? user.role.toUpperCase()
+                        : "UNKNOWN";
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <span class="user-number">
+                            ${index + 1}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="user-name">
+                            ${escapeHtml(
+                                user.name ||
+                                "N/A"
+                            )}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="user-email">
+
+                            ${escapeHtml(
+                                user.email ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        ${getRoleBadge(role)}
+
+                    </td>
+
+                `;
+
+
+                usersTableBody.appendChild(row);
+
+            }
+        );
+
+    }
+
+
+    // ==========================
+    // ROLE BADGE
+    // ==========================
+
+    function getRoleBadge(role) {
+
+        if (role === "ADMIN") {
+
+            return `
+                <span class="
+                    badge
+                    bg-danger
+                    role-badge
+                ">
+                    🛡️ ADMIN
+                </span>
+            `;
+
+        }
+
+
+        if (role === "ORGANIZER") {
+
+            return `
+                <span class="
+                    badge
+                    bg-primary
+                    role-badge
+                ">
+                    📋 ORGANIZER
+                </span>
+            `;
+
+        }
+
+
+        if (role === "STUDENT") {
+
+            return `
+                <span class="
+                    badge
+                    bg-success
+                    role-badge
+                ">
+                    🎓 STUDENT
+                </span>
+            `;
+
+        }
+
+
+        return `
+            <span class="
+                badge
+                bg-secondary
+                role-badge
+            ">
+                ${escapeHtml(role)}
+            </span>
+        `;
+
+    }
+
+
+    // ==========================
+    // LOADING STATE
+    // ==========================
+
+    function setLoading(isLoading) {
+
+        if (isLoading) {
+
+            loadingMessage.style.display =
+                "block";
+
+            usersContainer.style.display =
+                "none";
+
+            noUsersMessage.style.display =
+                "none";
+
+            noResultsMessage.style.display =
+                "none";
+
+            refreshButton.disabled =
+                true;
+
+        } else {
+
+            loadingMessage.style.display =
+                "none";
+
+            refreshButton.disabled =
+                false;
+
+        }
+
+    }
+
+
+    // ==========================
+    // HIDE MESSAGES
+    // ==========================
+
+    function hideMessages() {
+
+        errorMessage.style.display =
+            "none";
+
+        noUsersMessage.style.display =
+            "none";
+
+        noResultsMessage.style.display =
+            "none";
+
+    }
+
+
+    // ==========================
+    // ESCAPE HTML
+    // ==========================
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    // ==========================
+    // FILTER LISTENERS
+    // ==========================
+
+    searchInput.addEventListener(
+        "input",
+        renderUsers
+    );
+
+
+    roleFilter.addEventListener(
+        "change",
+        renderUsers
+    );
+
+
+    clearFiltersButton.addEventListener(
+        "click",
+        () => {
+
+            searchInput.value =
+                "";
+
+            roleFilter.value =
+                "ALL";
+
+            renderUsers();
+
+        }
+    );
+
+
+    // ==========================
+    // INITIAL LOAD
+    // ==========================
+
+    loadUsers();
+
+</script>
+
 
 </body>
 

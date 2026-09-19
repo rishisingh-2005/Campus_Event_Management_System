@@ -1,249 +1,2243 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Attendance Management</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Attendance Management | Campus Event Management</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           PAGE
+        ========================================== */
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f3f6fa 0%,
+                    #ffffff 52%,
+                    #f8f9fa 100%
+                );
+        }
+
+
+        /* ==========================================
+           NAVBAR
+        ========================================== */
+
+        .navbar {
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .nav-action {
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        .attendance-header {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937 55%,
+                    #343a40
+                );
+
+            color: white;
+
+            padding: 42px 0;
+
+            box-shadow:
+                0 12px 30px rgba(17, 24, 39, 0.14);
+        }
+
+        .attendance-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            right: -85px;
+            top: -125px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-label {
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            opacity: 0.7;
+
+            margin-bottom: 8px;
+        }
+
+        .attendance-header h1 {
+            font-size: 2.15rem;
+            font-weight: 800;
+        }
+
+        .header-description {
+            font-size: 15px;
+        }
+
+        .header-btn {
+            border-radius: 10px;
+            font-weight: 650;
+            min-height: 42px;
+        }
+
+
+        /* ==========================================
+           CARDS
+        ========================================== */
+
+        .attendance-card {
+            border: none;
+            border-radius: 19px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.065);
+        }
+
+        .event-info-card {
+            overflow: hidden;
+        }
+
+        .event-info-header {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f8fafc
+                );
+        }
+
+
+        /* ==========================================
+           EVENT INFORMATION
+        ========================================== */
+
+        .event-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #212529;
+        }
+
+        .event-info-item {
+            height: 100%;
+
+            padding: 15px;
+
+            background: #f8f9fa;
+
+            border-radius: 12px;
+
+            border: 1px solid #edf0f2;
+        }
+
+        .event-info-label {
+            font-size: 12px;
+            font-weight: 650;
+
+            color: #6c757d;
+
+            margin-bottom: 5px;
+        }
+
+        .event-info-value {
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #343a40;
+        }
+
+
+        /* ==========================================
+           SUMMARY
+        ========================================== */
+
+        .stat-card {
+            border: none;
+            border-radius: 17px;
+
+            box-shadow:
+                0 7px 22px rgba(0, 0, 0, 0.055);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+        }
+
+        .icon-total {
+            background: #e9f2ff;
+        }
+
+        .icon-present {
+            background: #e8f7ee;
+        }
+
+        .icon-absent {
+            background: #fdecec;
+        }
+
+        .stat-label {
+            color: #6c757d;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 1.85rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+
+        /* ==========================================
+           TABLE CARD
+        ========================================== */
+
+        .attendance-table-header {
+            padding: 23px 25px;
+
+            border-bottom:
+                1px solid #edf0f2;
+        }
+
+        .attendance-table-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .attendance-table-description {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .table-wrapper {
+            overflow: hidden;
+        }
+
+        .attendance-table {
+            margin-bottom: 0;
+
+            vertical-align: middle;
+        }
+
+        .attendance-table thead th {
+            background: #f8f9fa;
+
+            color: #495057;
+
+            font-size: 12px;
+            font-weight: 750;
+
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+
+            white-space: nowrap;
+
+            padding: 14px 15px;
+
+            border-bottom:
+                1px solid #e9ecef;
+        }
+
+        .attendance-table tbody td {
+            padding: 15px;
+
+            font-size: 14px;
+
+            border-color: #edf0f2;
+        }
+
+        .attendance-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .attendance-table tbody tr {
+            transition:
+                background-color 0.15s ease;
+        }
+
+        .attendance-table tbody tr:hover {
+            background: #fafcff;
+        }
+
+        .student-id {
+            font-weight: 750;
+            color: #343a40;
+        }
+
+        .registration-id {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+
+        /* ==========================================
+           BADGES
+        ========================================== */
+
+        .status-badge {
+            min-width: 96px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            padding: 7px 11px;
+
+            font-size: 11px;
+            font-weight: 750;
+
+            letter-spacing: 0.25px;
+        }
+
+        .event-status-badge {
+            border-radius: 20px;
+
+            padding: 7px 11px;
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+
+        /* ==========================================
+           ACTION BUTTONS
+        ========================================== */
+
+        .action-btn {
+            min-width: 91px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* ==========================================
+           MESSAGE
+        ========================================== */
+
+        #message {
+            display: none;
+
+            border: none;
+            border-radius: 13px;
+
+            padding: 14px 17px;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.04);
+        }
+
+
+        /* ==========================================
+           LOADING
+        ========================================== */
+
+        .loading-box {
+            padding: 58px 20px;
+
+            text-align: center;
+        }
+
+        .loading-box .spinner-border {
+            width: 2.4rem;
+            height: 2.4rem;
+        }
+
+
+        /* ==========================================
+           EMPTY STATE
+        ========================================== */
+
+        .empty-box {
+            padding: 58px 20px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #f1f3f5;
+
+            font-size: 30px;
+        }
+
+        .empty-box h5 {
+            font-weight: 800;
+        }
+
+        .empty-box p {
+            max-width: 480px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /* ==========================================
+           FOOTER NOTE
+        ========================================== */
+
+        .page-note {
+            text-align: center;
+
+            color: #6c757d;
+
+            font-size: 13px;
+
+            margin: 30px 0 10px;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 992px) {
+
+            .navbar .container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .navbar .d-flex {
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .attendance-header {
+                padding: 34px 0;
+            }
+
+            .attendance-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions .btn {
+                flex: 1;
+            }
+
+            .event-info-item {
+                padding: 13px;
+            }
+
+            .attendance-table-header {
+                padding: 20px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .navbar .container {
+                align-items: flex-start;
+            }
+
+            .navbar-brand {
+                font-size: 15px;
+            }
+
+            .navbar .d-flex {
+                width: 100%;
+            }
+
+            .navbar .d-flex .btn {
+                flex: 1;
+            }
+
+            .attendance-header {
+                padding: 28px 0;
+            }
+
+            .attendance-header h1 {
+                font-size: 1.55rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+            }
+
+            .event-title {
+                font-size: 1.25rem;
+            }
+
+            .attendance-table-header {
+                padding: 19px;
+            }
+
+            .action-btn {
+                min-width: 82px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <header>
-        <h1>Attendance Management</h1>
 
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="my-events.html">My Events</a>
-            <a href="create-event.html">Create Event</a>
-            <button onclick="logout()">Logout</button>
-        </nav>
-    </header>
+    <!-- ==========================================
+         NAVBAR
+    ========================================== -->
 
-    <main>
+    <nav class="navbar navbar-dark bg-dark">
 
-        <h2 id="eventTitle">Event Attendance</h2>
+        <div class="container">
 
-        <p id="eventInfo"></p>
+            <a
+                class="navbar-brand"
+                href="dashboard.html"
+            >
+                🎓 Campus Event Management
+            </a>
 
-        <div id="message"></div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Registration ID</th>
-                    <th>Student ID</th>
-                    <th>Attendance</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <div
+                class="d-flex
+                       align-items-center
+                       gap-2"
+            >
 
-            <tbody id="attendanceTableBody">
-                <tr>
-                    <td colspan="4">Loading attendance...</td>
-                </tr>
-            </tbody>
-        </table>
+                <a
+                    href="dashboard.html"
+                    class="btn btn-outline-light btn-sm nav-action"
+                >
+                    Dashboard
+                </a>
+
+                <a
+                    href="my-events.html"
+                    class="btn btn-outline-light btn-sm nav-action"
+                >
+                    My Events
+                </a>
+
+                <a
+                    href="create-event.html"
+                    class="btn btn-outline-light btn-sm nav-action"
+                >
+                    Create Event
+                </a>
+
+                <button
+                    class="btn btn-danger btn-sm nav-action"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==========================================
+         HEADER
+    ========================================== -->
+
+    <section class="attendance-header">
+
+        <div class="container header-content">
+
+            <div
+                class="d-flex
+                       flex-column
+                       flex-md-row
+                       justify-content-between
+                       align-items-md-center
+                       gap-4"
+            >
+
+                <div>
+
+                    <div class="header-label">
+                        Organizer Workspace
+                    </div>
+
+                    <h1 class="mb-2">
+                        Attendance Management
+                    </h1>
+
+                    <p
+                        class="header-description
+                               mb-0
+                               text-white-50"
+                    >
+                        Manage student attendance for your event.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="header-actions
+                           d-flex
+                           gap-2"
+                >
+
+                    <button
+                        class="btn btn-light header-btn"
+                        onclick="loadAttendance()"
+                        id="refreshButton"
+                    >
+                        🔄 Refresh
+                    </button>
+
+                    <a
+                        href="my-events.html"
+                        class="btn btn-outline-light header-btn"
+                    >
+                        ← My Events
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         MAIN
+    ========================================== -->
+
+    <main class="container py-4">
+
+
+        <!-- ==========================================
+             EVENT INFORMATION
+        ========================================== -->
+
+        <div
+            class="card attendance-card event-info-card mb-4"
+        >
+
+            <div class="card-body p-0">
+
+
+                <!-- LOADING -->
+
+                <div
+                    id="eventLoading"
+                    class="p-4"
+                >
+
+                    <div
+                        class="d-flex
+                               align-items-center
+                               gap-2"
+                    >
+
+                        <div
+                            class="spinner-border
+                                   spinner-border-sm
+                                   text-primary"
+                            role="status"
+                        ></div>
+
+                        <span class="text-muted">
+                            Loading event information...
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EVENT CONTENT -->
+
+                <div
+                    id="eventContent"
+                    style="display:none;"
+                >
+
+                    <div
+                        class="event-info-header
+                               p-4
+                               border-bottom"
+                    >
+
+                        <div
+                            class="d-flex
+                                   flex-column
+                                   flex-md-row
+                                   justify-content-between
+                                   align-items-md-center
+                                   gap-2"
+                        >
+
+                            <div>
+
+                                <div
+                                    class="text-muted
+                                           small
+                                           mb-1"
+                                >
+                                    Event Attendance
+                                </div>
+
+                                <h2
+                                    id="eventTitle"
+                                    class="event-title mb-0"
+                                >
+                                    Event Attendance
+                                </h2>
+
+                            </div>
+
+                            <div
+                                id="eventStatus"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-4">
+
+                        <div class="row g-3">
+
+
+                            <!-- DATE -->
+
+                            <div class="col-6 col-md-3">
+
+                                <div class="event-info-item">
+
+                                    <div class="event-info-label">
+                                        📅 Date
+                                    </div>
+
+                                    <div
+                                        id="eventDate"
+                                        class="event-info-value"
+                                    >
+                                        -
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- TIME -->
+
+                            <div class="col-6 col-md-3">
+
+                                <div class="event-info-item">
+
+                                    <div class="event-info-label">
+                                        🕐 Time
+                                    </div>
+
+                                    <div
+                                        id="eventTime"
+                                        class="event-info-value"
+                                    >
+                                        -
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- VENUE -->
+
+                            <div class="col-6 col-md-3">
+
+                                <div class="event-info-item">
+
+                                    <div class="event-info-label">
+                                        📍 Venue
+                                    </div>
+
+                                    <div
+                                        id="eventVenue"
+                                        class="event-info-value"
+                                    >
+                                        -
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- STATUS -->
+
+                            <div class="col-6 col-md-3">
+
+                                <div class="event-info-item">
+
+                                    <div class="event-info-label">
+                                        📊 Status
+                                    </div>
+
+                                    <div
+                                        id="eventStatusMobile"
+                                        class="event-info-value"
+                                    >
+                                        -
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             MESSAGE
+        ========================================== -->
+
+        <div
+            id="message"
+            class="alert"
+            role="alert"
+        ></div>
+
+
+        <!-- ==========================================
+             SUMMARY
+        ========================================== -->
+
+        <div
+            id="summarySection"
+            class="row g-3 mb-4"
+            style="display:none;"
+        >
+
+
+            <!-- REGISTERED -->
+
+            <div class="col-md-4">
+
+                <div class="card stat-card h-100">
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="stat-icon icon-total">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <div class="stat-label mb-2">
+                                Registered Students
+                            </div>
+
+                            <div
+                                id="totalStudents"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRESENT -->
+
+            <div class="col-md-4">
+
+                <div class="card stat-card h-100">
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="stat-icon icon-present">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <div class="stat-label mb-2">
+                                Present
+                            </div>
+
+                            <div
+                                id="presentStudents"
+                                class="stat-number text-success"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ABSENT -->
+
+            <div class="col-md-4">
+
+                <div class="card stat-card h-100">
+
+                    <div
+                        class="card-body
+                               d-flex
+                               align-items-center
+                               gap-3"
+                    >
+
+                        <div class="stat-icon icon-absent">
+                            ✕
+                        </div>
+
+                        <div>
+
+                            <div class="stat-label mb-2">
+                                Absent
+                            </div>
+
+                            <div
+                                id="absentStudents"
+                                class="stat-number text-danger"
+                            >
+                                0
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             ATTENDANCE TABLE
+        ========================================== -->
+
+        <div class="card attendance-card">
+
+            <div class="card-body p-0">
+
+
+                <!-- TABLE HEADER -->
+
+                <div class="attendance-table-header">
+
+                    <div
+                        class="d-flex
+                               flex-column
+                               flex-md-row
+                               justify-content-between
+                               align-items-md-center
+                               gap-2"
+                    >
+
+                        <div>
+
+                            <h4
+                                class="attendance-table-title mb-1"
+                            >
+                                Student Attendance
+                            </h4>
+
+                            <p
+                                class="attendance-table-description mb-0"
+                            >
+                                Mark each registered student's attendance.
+                            </p>
+
+                        </div>
+
+                        <span
+                            class="badge bg-light text-dark border"
+                        >
+                            Attendance Records
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    id="loadingBox"
+                    class="loading-box"
+                >
+
+                    <div
+                        class="spinner-border
+                               text-primary
+                               mb-3"
+                        role="status"
+                    ></div>
+
+                    <div class="text-muted">
+                        Loading attendance records...
+                    </div>
+
+                </div>
+
+
+                <!-- NO EVENT -->
+
+                <div
+                    id="noEventBox"
+                    class="empty-box"
+                    style="display:none;"
+                >
+
+                    <div class="empty-icon">
+                        📅
+                    </div>
+
+                    <h5>
+                        No Event Selected
+                    </h5>
+
+                    <p class="text-muted">
+                        Please select an event from My Events.
+                    </p>
+
+                    <a
+                        href="my-events.html"
+                        class="btn btn-primary"
+                    >
+                        Go to My Events
+                    </a>
+
+                </div>
+
+
+                <!-- NO STUDENTS -->
+
+                <div
+                    id="noStudentsBox"
+                    class="empty-box"
+                    style="display:none;"
+                >
+
+                    <div class="empty-icon">
+                        👥
+                    </div>
+
+                    <h5>
+                        No Registered Students
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        There are no registered students for this event yet.
+                    </p>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div
+                    id="tableContainer"
+                    class="table-wrapper table-responsive"
+                    style="display:none;"
+                >
+
+                    <table
+                        class="table table-hover attendance-table"
+                    >
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="ps-4">
+                                    #
+                                </th>
+
+                                <th>
+                                    Registration ID
+                                </th>
+
+                                <th>
+                                    Student ID
+                                </th>
+
+                                <th>
+                                    Attendance
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="attendanceTableBody"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="page-note">
+
+            Attendance records are used to determine certificate eligibility.
+
+        </div>
 
     </main>
 
+
+    <!-- ==========================================
+         API JAVASCRIPT
+    ========================================== -->
+
     <script src="../js/api.js"></script>
+
 
     <script>
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const eventId = urlParams.get("eventId");
 
-        const eventTitle = document.getElementById("eventTitle");
-        const eventInfo = document.getElementById("eventInfo");
+        // ==========================================
+        // URL
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const eventId =
+            urlParams.get("eventId");
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const eventLoading =
+            document.getElementById(
+                "eventLoading"
+            );
+
+
+        const eventContent =
+            document.getElementById(
+                "eventContent"
+            );
+
+
+        const eventTitle =
+            document.getElementById(
+                "eventTitle"
+            );
+
+
+        const eventDate =
+            document.getElementById(
+                "eventDate"
+            );
+
+
+        const eventTime =
+            document.getElementById(
+                "eventTime"
+            );
+
+
+        const eventVenue =
+            document.getElementById(
+                "eventVenue"
+            );
+
+
+        const eventStatus =
+            document.getElementById(
+                "eventStatus"
+            );
+
+
+        const eventStatusMobile =
+            document.getElementById(
+                "eventStatusMobile"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const loadingBox =
+            document.getElementById(
+                "loadingBox"
+            );
+
+
+        const noEventBox =
+            document.getElementById(
+                "noEventBox"
+            );
+
+
+        const noStudentsBox =
+            document.getElementById(
+                "noStudentsBox"
+            );
+
+
+        const tableContainer =
+            document.getElementById(
+                "tableContainer"
+            );
+
+
         const attendanceTableBody =
-            document.getElementById("attendanceTableBody");
-        const message = document.getElementById("message");
+            document.getElementById(
+                "attendanceTableBody"
+            );
 
+
+        const summarySection =
+            document.getElementById(
+                "summarySection"
+            );
+
+
+        const totalStudents =
+            document.getElementById(
+                "totalStudents"
+            );
+
+
+        const presentStudents =
+            document.getElementById(
+                "presentStudents"
+            );
+
+
+        const absentStudents =
+            document.getElementById(
+                "absentStudents"
+            );
+
+
+        const refreshButton =
+            document.getElementById(
+                "refreshButton"
+            );
+
+
+        // ==========================================
+        // DATA
+        // ==========================================
+
+        let registrations = [];
+
+        let attendanceRecords = [];
+
+
+        // ==========================================
+        // SECURITY CHECK
+        // ==========================================
 
         if (!isLoggedIn()) {
-            window.location.href = "../login.html";
+
+            window.location.href =
+                "../login.html";
+
         }
 
 
         if (getUserRole() !== "ORGANIZER") {
-            alert("Only organizers can access attendance management.");
-            window.location.href = "../login.html";
+
+            alert(
+                "Only organizers can access attendance management."
+            );
+
+            window.location.href =
+                "../login.html";
+
         }
 
 
+        // ==========================================
+        // INITIAL LOAD
+        // ==========================================
+
         if (!eventId) {
 
-            attendanceTableBody.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        No event selected.
-                    </td>
-                </tr>
-            `;
+            loadingBox.style.display =
+                "none";
+
+            noEventBox.style.display =
+                "block";
+
+            refreshButton.disabled =
+                true;
 
         } else {
 
             loadAttendance();
+
         }
 
+
+        // ==========================================
+        // LOAD ATTENDANCE
+        // ==========================================
 
         async function loadAttendance() {
 
             try {
 
-                // Load event details
-                const event = await apiRequest(
-                    `/api/organizer/events/${eventId}`
-                );
+                setLoading(true);
+
+                hideMessage();
+
+
+                // ==================================
+                // LOAD EVENT
+                // ==================================
+
+                const event =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}`
+                    );
+
 
                 eventTitle.textContent =
-                    `Attendance - ${event.title}`;
+                    `Attendance - ${
+                        event.title || "Event"
+                    }`;
 
-                eventInfo.textContent =
-                    `${event.date} | ${event.time} | ${event.venue}`;
+
+                eventDate.textContent =
+                    formatDate(
+                        event.date
+                    );
 
 
-                // Load registrations
-                const registrations = await apiRequest(
-                    `/api/organizer/events/${eventId}/registrations`
+                eventTime.textContent =
+                    formatTime(
+                        event.time
+                    );
+
+
+                eventVenue.textContent =
+                    event.venue || "-";
+
+
+                const statusBadge =
+                    getStatusBadge(
+                        event.status
+                    );
+
+
+                eventStatus.innerHTML =
+                    statusBadge;
+
+
+                eventStatusMobile.innerHTML =
+                    statusBadge;
+
+
+                eventLoading.style.display =
+                    "none";
+
+
+                eventContent.style.display =
+                    "block";
+
+
+                // ==================================
+                // LOAD REGISTRATIONS
+                // ==================================
+
+                const registrationResponse =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}/registrations`
+                    );
+
+
+                registrations =
+                    Array.isArray(
+                        registrationResponse
+                    )
+                        ? registrationResponse
+                        : [];
+
+
+                // ==================================
+                // LOAD ATTENDANCE
+                // ==================================
+
+                const attendanceResponse =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}/attendance`
+                    );
+
+
+                attendanceRecords =
+                    Array.isArray(
+                        attendanceResponse
+                    )
+                        ? attendanceResponse
+                        : [];
+
+
+                renderAttendance();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Attendance loading error:",
+                    error
                 );
 
 
-                // Load attendance records
-                const attendance = await apiRequest(
-                    `/api/organizer/events/${eventId}/attendance`
+                loadingBox.style.display =
+                    "none";
+
+
+                showMessage(
+                    error.message ||
+                    "Failed to load attendance.",
+                    "danger"
                 );
 
+            }
 
-                if (!registrations || registrations.length === 0) {
+            finally {
 
-                    attendanceTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="4">
-                                No students are registered for this event.
-                            </td>
-                        </tr>
-                    `;
+                setLoading(false);
 
-                    return;
-                }
+            }
+
+        }
 
 
-                attendanceTableBody.innerHTML = "";
+        // ==========================================
+        // RENDER ATTENDANCE
+        // ==========================================
+
+        function renderAttendance() {
+
+            const activeRegistrations =
+                registrations.filter(
+                    registration => {
+
+                        if (
+                            !registration.status
+                        ) {
+
+                            return true;
+
+                        }
 
 
-                registrations.forEach(registration => {
+                        return (
+                            registration.status.toUpperCase() ===
+                            "REGISTERED"
+                        );
 
-                    // Only show active registrations
-                    if (
-                        registration.status &&
-                        registration.status.toUpperCase() !== "REGISTERED"
-                    ) {
-                        return;
                     }
+                );
+
+
+            if (
+                activeRegistrations.length === 0
+            ) {
+
+                tableContainer.style.display =
+                    "none";
+
+
+                noStudentsBox.style.display =
+                    "block";
+
+
+                summarySection.style.display =
+                    "none";
+
+
+                return;
+
+            }
+
+
+            noStudentsBox.style.display =
+                "none";
+
+
+            tableContainer.style.display =
+                "block";
+
+
+            summarySection.style.display =
+                "flex";
+
+
+            attendanceTableBody.innerHTML =
+                "";
+
+
+            let presentCount = 0;
+
+            let absentCount = 0;
+
+
+            activeRegistrations.forEach(
+                (
+                    registration,
+                    index
+                ) => {
 
 
                     const existingAttendance =
-                        attendance.find(
+                        attendanceRecords.find(
                             record =>
-                                Number(record.userId) ===
-                                Number(registration.userId)
+                                Number(
+                                    record.userId
+                                ) ===
+                                Number(
+                                    registration.userId
+                                )
                         );
 
 
                     const currentStatus =
-                        existingAttendance
-                            ? existingAttendance.status
+                        existingAttendance &&
+                        existingAttendance.status
+                            ? existingAttendance.status.toUpperCase()
                             : "NOT MARKED";
 
 
-                    const row = document.createElement("tr");
+                    if (
+                        currentStatus ===
+                        "PRESENT"
+                    ) {
+
+                        presentCount++;
+
+                    }
+
+
+                    if (
+                        currentStatus ===
+                        "ABSENT"
+                    ) {
+
+                        absentCount++;
+
+                    }
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
 
 
                     row.innerHTML = `
-                        <td>${registration.id}</td>
 
-                        <td>${registration.userId}</td>
+                        <td class="ps-4 fw-semibold text-muted">
+                            ${index + 1}
+                        </td>
 
-                        <td id="status-${registration.userId}">
-                            ${currentStatus}
+                        <td class="registration-id">
+                            ${escapeHtml(
+                                String(
+                                    registration.id ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td class="student-id">
+                            ${escapeHtml(
+                                String(
+                                    registration.userId ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td
+                            id="status-cell-${registration.userId}"
+                        >
+                            ${getAttendanceBadge(
+                                currentStatus
+                            )}
                         </td>
 
                         <td>
 
-                            <button
-                                onclick="markAttendance(${registration.userId}, 'PRESENT')">
-                                Present
-                            </button>
+                            <div
+                                class="d-flex
+                                       flex-wrap
+                                       gap-2"
+                            >
 
-                            <button
-                                onclick="markAttendance(${registration.userId}, 'ABSENT')">
-                                Absent
-                            </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-success btn-sm action-btn"
+                                    onclick="markAttendance(
+                                        ${registration.userId},
+                                        'PRESENT'
+                                    )"
+                                >
+                                    ✓ Present
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger btn-sm action-btn"
+                                    onclick="markAttendance(
+                                        ${registration.userId},
+                                        'ABSENT'
+                                    )"
+                                >
+                                    ✕ Absent
+                                </button>
+
+                            </div>
 
                         </td>
+
                     `;
 
 
-                    attendanceTableBody.appendChild(row);
+                    attendanceTableBody.appendChild(
+                        row
+                    );
 
-                });
+                }
+            );
 
-            } catch (error) {
 
-                console.error(error);
+            totalStudents.textContent =
+                activeRegistrations.length;
 
-                attendanceTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="4">
-                            Failed to load attendance.
-                        </td>
-                    </tr>
-                `;
 
-                message.textContent = error.message;
-            }
+            presentStudents.textContent =
+                presentCount;
+
+
+            absentStudents.textContent =
+                absentCount;
+
         }
 
 
-        async function markAttendance(userId, status) {
+        // ==========================================
+        // MARK ATTENDANCE
+        // ==========================================
+
+        async function markAttendance(
+            userId,
+            status
+        ) {
 
             try {
 
+                showMessage(
+                    "Saving attendance...",
+                    "info"
+                );
+
+
+                const buttons =
+                    document.querySelectorAll(
+                        `button[onclick*="${userId}"]`
+                    );
+
+
+                buttons.forEach(
+                    button => {
+
+                        button.disabled =
+                            true;
+
+                    }
+                );
+
+
                 const response =
                     await apiRequest(
-                        `/api/organizer/events/${eventId}/attendance?userId=${userId}&status=${status}`,
+                        `/api/organizer/events/${eventId}/attendance?userId=${encodeURIComponent(userId)}&status=${encodeURIComponent(status)}`,
                         {
                             method: "POST"
                         }
                     );
 
 
-                const statusCell =
-                    document.getElementById(`status-${userId}`);
+                // ==================================
+                // UPDATE LOCAL DATA
+                // ==================================
+
+                const existingIndex =
+                    attendanceRecords.findIndex(
+                        record =>
+                            Number(
+                                record.userId
+                            ) ===
+                            Number(
+                                userId
+                            )
+                    );
 
 
-                if (statusCell) {
-                    statusCell.textContent = response.status;
+                if (
+                    existingIndex >= 0
+                ) {
+
+                    attendanceRecords[
+                        existingIndex
+                    ].status =
+                        response.status;
+
+                }
+
+                else {
+
+                    attendanceRecords.push({
+                        userId:
+                            userId,
+
+                        status:
+                            response.status
+                    });
+
                 }
 
 
-                message.textContent =
-                    `Attendance marked as ${response.status}.`;
+                renderAttendance();
 
-            } catch (error) {
 
-                console.error(error);
+                showMessage(
+                    `Attendance marked as ${response.status}.`,
+                    "success"
+                );
 
-                message.textContent =
-                    error.message;
+
             }
+
+            catch (error) {
+
+                console.error(
+                    "Attendance update error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Failed to update attendance.",
+                    "danger"
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ATTENDANCE BADGE
+        // ==========================================
+
+        function getAttendanceBadge(
+            status
+        ) {
+
+            if (
+                status ===
+                "PRESENT"
+            ) {
+
+                return `
+
+                    <span
+                        class="badge bg-success status-badge"
+                    >
+                        ✓ PRESENT
+                    </span>
+
+                `;
+
+            }
+
+
+            if (
+                status ===
+                "ABSENT"
+            ) {
+
+                return `
+
+                    <span
+                        class="badge bg-danger status-badge"
+                    >
+                        ✕ ABSENT
+                    </span>
+
+                `;
+
+            }
+
+
+            return `
+
+                <span
+                    class="badge bg-secondary status-badge"
+                >
+                    NOT MARKED
+                </span>
+
+            `;
+
+        }
+
+
+        // ==========================================
+        // EVENT STATUS BADGE
+        // ==========================================
+
+        function getStatusBadge(
+            status
+        ) {
+
+            const normalized =
+                status
+                    ? status.toUpperCase()
+                    : "UNKNOWN";
+
+
+            if (
+                normalized ===
+                "APPROVED"
+            ) {
+
+                return `
+
+                    <span
+                        class="badge bg-success event-status-badge"
+                    >
+                        APPROVED
+                    </span>
+
+                `;
+
+            }
+
+
+            if (
+                normalized ===
+                "PENDING"
+            ) {
+
+                return `
+
+                    <span
+                        class="badge bg-warning text-dark event-status-badge"
+                    >
+                        PENDING
+                    </span>
+
+                `;
+
+            }
+
+
+            if (
+                normalized ===
+                "REJECTED"
+            ) {
+
+                return `
+
+                    <span
+                        class="badge bg-danger event-status-badge"
+                    >
+                        REJECTED
+                    </span>
+
+                `;
+
+            }
+
+
+            return `
+
+                <span
+                    class="badge bg-secondary event-status-badge"
+                >
+                    ${escapeHtml(
+                        normalized
+                    )}
+                </span>
+
+            `;
+
+        }
+
+
+        // ==========================================
+        // DATE FORMAT
+        // ==========================================
+
+        function formatDate(
+            dateValue
+        ) {
+
+            if (!dateValue) {
+
+                return "-";
+
+            }
+
+
+            const date =
+                new Date(
+                    dateValue
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return escapeHtml(
+                    dateValue
+                );
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // TIME FORMAT
+        // ==========================================
+
+        function formatTime(
+            timeValue
+        ) {
+
+            if (!timeValue) {
+
+                return "-";
+
+            }
+
+
+            return escapeHtml(
+                timeValue.substring(
+                    0,
+                    5
+                )
+            );
+
+        }
+
+
+        // ==========================================
+        // MESSAGE
+        // ==========================================
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.className =
+                `alert alert-${type}`;
+
+
+            message.textContent =
+                text;
+
+
+            message.style.display =
+                "block";
+
+        }
+
+
+        function hideMessage() {
+
+            message.style.display =
+                "none";
+
+
+            message.textContent =
+                "";
+
+        }
+
+
+        // ==========================================
+        // LOADING STATE
+        // ==========================================
+
+        function setLoading(
+            isLoading
+        ) {
+
+            if (isLoading) {
+
+                loadingBox.style.display =
+                    "block";
+
+
+                tableContainer.style.display =
+                    "none";
+
+
+                noStudentsBox.style.display =
+                    "none";
+
+
+                refreshButton.disabled =
+                    true;
+
+            }
+
+            else {
+
+                loadingBox.style.display =
+                    "none";
+
+
+                refreshButton.disabled =
+                    false;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // HTML ESCAPE
+        // ==========================================
+
+        function escapeHtml(
+            value
+        ) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
         }
 
     </script>
 
+
 </body>
+
 </html>

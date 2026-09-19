@@ -5,22 +5,393 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Edit Event - Campus Event Management</title>
 
+    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           PAGE
+        ========================================== */
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f3f6fa 0%,
+                    #ffffff 55%,
+                    #f8f9fa 100%
+                );
+        }
+
+
+        /* ==========================================
+           NAVBAR
+        ========================================== */
+
+        .navbar {
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .logout-btn {
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 8px 18px;
+        }
+
+
+        /* ==========================================
+           MAIN
+        ========================================== */
+
+        .main-container {
+            max-width: 900px;
+        }
+
+
+        /* ==========================================
+           FORM CARD
+        ========================================== */
+
+        .event-form-card {
+            border: none;
+            border-radius: 22px;
+            overflow: hidden;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.08) !important;
+        }
+
+
+        /* ==========================================
+           FORM HEADER
+        ========================================== */
+
+        .form-header {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937 55%,
+                    #343a40
+                );
+
+            color: white;
+            padding: 34px;
+        }
+
+        .form-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            right: -65px;
+            top: -85px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 50%;
+        }
+
+        .form-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .form-header p {
+            font-size: 15px;
+        }
+
+
+        /* ==========================================
+           FORM BODY
+        ========================================== */
+
+        .form-body {
+            padding: 34px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 1rem;
+            font-weight: 800;
+            color: #212529;
+
+            margin-bottom: 18px;
+        }
+
+        .section-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e9f2ff;
+            border-radius: 9px;
+        }
+
+
+        /* ==========================================
+           FORM CONTROLS
+        ========================================== */
+
+        .form-label {
+            font-weight: 650;
+            font-size: 14px;
+            color: #343a40;
+        }
+
+        .required-star {
+            color: #dc3545;
+            font-weight: 700;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 46px;
+
+            border-radius: 10px;
+            border-color: #dee2e6;
+
+            padding-left: 13px;
+            padding-right: 13px;
+        }
+
+        textarea.form-control {
+            min-height: 125px;
+            resize: vertical;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(13, 110, 253, 0.12);
+        }
+
+        .form-text {
+            color: #6c757d;
+            font-size: 12px;
+            margin-top: 7px;
+        }
+
+
+        /* ==========================================
+           INFORMATION BOX
+        ========================================== */
+
+        .approval-note {
+            border: none;
+            border-left: 4px solid #0d6efd;
+
+            background:
+                #eef6ff;
+
+            border-radius: 10px;
+
+            padding: 15px 17px;
+
+            color: #31506f;
+        }
+
+        .approval-note strong {
+            color: #1d4f7a;
+        }
+
+
+        /* ==========================================
+           BUTTONS
+        ========================================== */
+
+        .action-buttons {
+            padding-top: 5px;
+        }
+
+        .submit-btn,
+        .cancel-btn {
+            min-height: 44px;
+
+            border-radius: 10px;
+
+            padding: 9px 20px;
+
+            font-weight: 650;
+        }
+
+        .submit-btn {
+            min-width: 165px;
+        }
+
+        .cancel-btn {
+            min-width: 100px;
+        }
+
+
+        /* ==========================================
+           LOADING
+        ========================================== */
+
+        .loading-container {
+            min-height: 360px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #6c757d;
+        }
+
+        .loading-container .spinner-border {
+            width: 2.7rem;
+            height: 2.7rem;
+        }
+
+
+        /* ==========================================
+           ALERTS
+        ========================================== */
+
+        #successMessage,
+        #errorMessage {
+            border: none;
+            border-radius: 12px;
+            padding: 14px 17px;
+        }
+
+
+        /* ==========================================
+           FOOTER NOTE
+        ========================================== */
+
+        .page-note {
+            text-align: center;
+
+            color: #6c757d;
+
+            font-size: 13px;
+
+            margin-top: 25px;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 768px) {
+
+            .form-header {
+                padding: 28px 23px;
+            }
+
+            .form-header h2 {
+                font-size: 1.7rem;
+            }
+
+            .form-body {
+                padding: 25px 22px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .main-container {
+                padding-left: 13px;
+                padding-right: 13px;
+            }
+
+            .form-header {
+                padding: 24px 19px;
+            }
+
+            .form-body {
+                padding: 22px 18px;
+            }
+
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .submit-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-    <!-- Navbar -->
+
+    <!-- ==========================================
+         NAVBAR
+    ========================================== -->
+
     <nav class="navbar navbar-dark bg-dark">
 
         <div class="container">
@@ -29,11 +400,11 @@
                 class="navbar-brand"
                 href="dashboard.html"
             >
-                Campus Event Management
+                🎓 Campus Event Management
             </a>
 
             <button
-                class="btn btn-outline-light"
+                class="btn btn-outline-light logout-btn"
                 onclick="logout()"
             >
                 Logout
@@ -44,174 +415,290 @@
     </nav>
 
 
-    <!-- Main Content -->
-    <div class="container py-5">
+    <!-- ==========================================
+         MAIN
+    ========================================== -->
+
+    <main class="container main-container py-5">
 
         <div class="row justify-content-center">
 
-            <div class="col-md-8 col-lg-7">
+            <div class="col-12">
 
-                <div class="card shadow-sm">
-
-                    <div class="card-body p-4">
-
-                        <h2 class="mb-2">
-                            Edit Event
-                        </h2>
-
-                        <p class="text-muted mb-4">
-                            Update your event details.
-                        </p>
+                <div class="card event-form-card">
 
 
-                        <!-- Loading -->
+                    <!-- ======================================
+                         HEADER
+                    ====================================== -->
+
+                    <div class="form-header">
+
+                        <div class="form-header-content">
+
+                            <div class="header-label">
+                                Organizer Workspace
+                            </div>
+
+                            <h2 class="mb-2">
+                                Edit Event
+                            </h2>
+
+                            <p class="mb-0 opacity-75">
+                                Update your event information and submit the changes for review.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         BODY
+                    ====================================== -->
+
+                    <div class="form-body">
+
+
+                        <!-- ======================================
+                             LOADING
+                        ====================================== -->
+
                         <div
                             id="loadingMessage"
-                            class="text-center py-4"
+                            class="loading-container"
                         >
 
                             <div
-                                class="spinner-border"
+                                class="spinner-border text-primary"
                                 role="status"
-                            ></div>
+                            >
 
-                            <p class="mt-3">
-                                Loading event...
+                                <span class="visually-hidden">
+                                    Loading
+                                </span>
+
+                            </div>
+
+                            <p class="mt-3 mb-0">
+                                Loading event details...
                             </p>
 
                         </div>
 
 
-                        <!-- Success -->
+                        <!-- ======================================
+                             SUCCESS
+                        ====================================== -->
+
                         <div
                             id="successMessage"
-                            class="alert alert-success"
-                            style="display: none;"
+                            class="alert alert-success d-none"
+                            role="alert"
                         ></div>
 
 
-                        <!-- Error -->
+                        <!-- ======================================
+                             ERROR
+                        ====================================== -->
+
                         <div
                             id="errorMessage"
-                            class="alert alert-danger"
-                            style="display: none;"
+                            class="alert alert-danger d-none"
+                            role="alert"
                         ></div>
 
 
-                        <!-- Form -->
+                        <!-- ======================================
+                             FORM
+                        ====================================== -->
+
                         <form
                             id="eventForm"
-                            style="display: none;"
+                            class="d-none"
                         >
 
-                            <!-- Title -->
-                            <div class="mb-3">
+
+                            <!-- ==================================
+                                 EVENT INFORMATION
+                            ================================== -->
+
+                            <div class="section-title">
+
+                                <span class="section-icon">
+                                    📝
+                                </span>
+
+                                Event Information
+
+                            </div>
+
+
+                            <!-- TITLE -->
+
+                            <div class="mb-4">
 
                                 <label
                                     for="title"
                                     class="form-label"
                                 >
                                     Event Title
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <input
                                     type="text"
                                     id="title"
                                     class="form-control"
+                                    placeholder="Enter event title"
+                                    maxlength="150"
                                     required
                                 >
 
                             </div>
 
 
-                            <!-- Description -->
-                            <div class="mb-3">
+                            <!-- DESCRIPTION -->
+
+                            <div class="mb-4">
 
                                 <label
                                     for="description"
                                     class="form-label"
                                 >
                                     Description
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <textarea
                                     id="description"
                                     class="form-control"
-                                    rows="4"
+                                    rows="5"
+                                    maxlength="1000"
+                                    placeholder="Describe your event..."
                                     required
                                 ></textarea>
 
-                            </div>
-
-
-                            <!-- Date -->
-                            <div class="mb-3">
-
-                                <label
-                                    for="date"
-                                    class="form-label"
-                                >
-                                    Event Date
-                                </label>
-
-                                <input
-                                    type="date"
-                                    id="date"
-                                    class="form-control"
-                                    required
-                                >
+                                <div class="form-text">
+                                    Provide useful information that helps students understand the event.
+                                </div>
 
                             </div>
 
 
-                            <!-- Time -->
-                            <div class="mb-3">
+                            <!-- ==================================
+                                 SCHEDULE
+                            ================================== -->
 
-                                <label
-                                    for="time"
-                                    class="form-label"
-                                >
-                                    Event Time
-                                </label>
+                            <div class="section-title mt-4">
 
-                                <input
-                                    type="time"
-                                    id="time"
-                                    class="form-control"
-                                    required
-                                >
+                                <span class="section-icon">
+                                    🗓️
+                                </span>
+
+                                Schedule
 
                             </div>
 
 
-                            <!-- Venue -->
-                            <div class="mb-3">
+                            <div class="row g-3 mb-4">
+
+
+                                <!-- DATE -->
+
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="date"
+                                        class="form-label"
+                                    >
+                                        Event Date
+                                        <span class="required-star">*</span>
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        id="date"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- TIME -->
+
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="time"
+                                        class="form-label"
+                                    >
+                                        Event Time
+                                        <span class="required-star">*</span>
+                                    </label>
+
+                                    <input
+                                        type="time"
+                                        id="time"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ==================================
+                                 VENUE & CATEGORY
+                            ================================== -->
+
+                            <div class="section-title mt-4">
+
+                                <span class="section-icon">
+                                    📍
+                                </span>
+
+                                Venue & Category
+
+                            </div>
+
+
+                            <!-- VENUE -->
+
+                            <div class="mb-4">
 
                                 <label
                                     for="venue"
                                     class="form-label"
                                 >
                                     Venue
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <input
                                     type="text"
                                     id="venue"
                                     class="form-control"
+                                    placeholder="Example: Seminar Hall, Block A"
+                                    maxlength="200"
                                     required
                                 >
 
                             </div>
 
 
-                            <!-- Category -->
-                            <div class="mb-3">
+                            <!-- CATEGORY -->
+
+                            <div class="mb-4">
 
                                 <label
                                     for="category"
                                     class="form-label"
                                 >
                                     Category
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <select
@@ -253,28 +740,49 @@
                             </div>
 
 
-                            <!-- Capacity -->
-                            <div class="mb-3">
+                            <!-- ==================================
+                                 REGISTRATION
+                            ================================== -->
+
+                            <div class="section-title mt-4">
+
+                                <span class="section-icon">
+                                    👥
+                                </span>
+
+                                Registration
+
+                            </div>
+
+
+                            <!-- CAPACITY -->
+
+                            <div class="mb-4">
 
                                 <label
                                     for="capacity"
                                     class="form-label"
                                 >
-                                    Capacity
+                                    Maximum Capacity
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <input
                                     type="number"
                                     id="capacity"
                                     class="form-control"
+                                    placeholder="Enter maximum number of students"
                                     min="1"
+                                    max="100000"
+                                    step="1"
                                     required
                                 >
 
                             </div>
 
 
-                            <!-- Registration Deadline -->
+                            <!-- DEADLINE -->
+
                             <div class="mb-4">
 
                                 <label
@@ -282,6 +790,7 @@
                                     class="form-label"
                                 >
                                     Registration Deadline
+                                    <span class="required-star">*</span>
                                 </label>
 
                                 <input
@@ -291,46 +800,88 @@
                                     required
                                 >
 
+                                <div class="form-text">
+                                    Registration must close on or before the event date.
+                                </div>
+
                             </div>
 
 
-                            <!-- Buttons -->
-                            <div class="d-flex gap-2">
+                            <!-- ==================================
+                                 APPROVAL NOTE
+                            ================================== -->
+
+                            <div class="approval-note mb-4">
+
+                                <strong>
+                                    ℹ️ Approval Notice
+                                </strong>
+
+                                <div class="mt-1">
+                                    Updating an event may send it back
+                                    for administrator approval.
+                                </div>
+
+                            </div>
+
+
+                            <!-- ==================================
+                                 BUTTONS
+                            ================================== -->
+
+                            <div
+                                class="action-buttons
+                                       d-flex
+                                       gap-2
+                                       flex-wrap"
+                            >
 
                                 <button
                                     type="submit"
-                                    class="btn btn-primary"
+                                    id="updateEventButton"
+                                    class="btn btn-primary submit-btn"
                                 >
                                     Update Event
                                 </button>
 
                                 <a
                                     href="my-events.html"
-                                    class="btn btn-secondary"
+                                    class="btn btn-secondary cancel-btn"
                                 >
                                     Cancel
                                 </a>
 
                             </div>
 
+
                         </form>
+
 
                     </div>
 
+                </div>
+
+
+                <div class="page-note">
+                    Make sure all event details are accurate before submitting your changes.
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+    </main>
 
 
-    <!-- API -->
+    <!-- ==========================================
+         API JAVASCRIPT
+    ========================================== -->
+
     <script src="../js/api.js"></script>
 
 
     <script>
+
 
         // ==========================================
         // LOGIN CHECK
@@ -338,7 +889,8 @@
 
         if (!isLoggedIn()) {
 
-            window.location.href = "../login.html";
+            window.location.href =
+                "../login.html";
 
         }
 
@@ -349,9 +901,12 @@
 
         if (getUserRole() !== "ORGANIZER") {
 
-            alert("Access denied. Organizers only.");
+            alert(
+                "Access denied. Organizers only."
+            );
 
-            window.location.href = "../login.html";
+            window.location.href =
+                "../login.html";
 
         }
 
@@ -361,28 +916,190 @@
         // ==========================================
 
         const urlParams =
-            new URLSearchParams(window.location.search);
+            new URLSearchParams(
+                window.location.search
+            );
+
 
         const eventId =
             urlParams.get("id");
 
 
-        if (!eventId) {
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
 
+        const loadingMessage =
             document.getElementById(
                 "loadingMessage"
-            ).style.display = "none";
+            );
 
+
+        const successMessage =
+            document.getElementById(
+                "successMessage"
+            );
+
+
+        const errorMessage =
             document.getElementById(
                 "errorMessage"
-            ).textContent =
-                "Event ID was not provided.";
+            );
 
+
+        const eventForm =
             document.getElementById(
-                "errorMessage"
-            ).style.display = "block";
+                "eventForm"
+            );
+
+
+        const updateButton =
+            document.getElementById(
+                "updateEventButton"
+            );
+
+
+        const dateInput =
+            document.getElementById(
+                "date"
+            );
+
+
+        const deadlineInput =
+            document.getElementById(
+                "registrationDeadline"
+            );
+
+
+        // ==========================================
+        // TODAY'S DATE
+        // ==========================================
+
+        function getToday() {
+
+            const today =
+                new Date();
+
+
+            const year =
+                today.getFullYear();
+
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+
+            return `${year}-${month}-${day}`;
 
         }
+
+
+        const today =
+            getToday();
+
+
+        dateInput.min =
+            today;
+
+
+        deadlineInput.min =
+            today;
+
+
+        // ==========================================
+        // SHOW ERROR
+        // ==========================================
+
+        function showError(message) {
+
+            errorMessage.textContent =
+                message;
+
+
+            errorMessage.classList.remove(
+                "d-none"
+            );
+
+        }
+
+
+        // ==========================================
+        // HIDE ERROR
+        // ==========================================
+
+        function hideError() {
+
+            errorMessage.classList.add(
+                "d-none"
+            );
+
+        }
+
+
+        // ==========================================
+        // HIDE SUCCESS
+        // ==========================================
+
+        function hideSuccess() {
+
+            successMessage.classList.add(
+                "d-none"
+            );
+
+        }
+
+
+        // ==========================================
+        // EVENT DATE CHANGE
+        // ==========================================
+
+        dateInput.addEventListener(
+            "change",
+            function () {
+
+                const eventDate =
+                    dateInput.value;
+
+
+                if (!eventDate) {
+
+                    deadlineInput.max =
+                        "";
+
+                    return;
+
+                }
+
+
+                // Registration deadline
+                // cannot be after event date.
+
+                deadlineInput.max =
+                    eventDate;
+
+
+                // Clear invalid existing deadline.
+
+                if (
+                    deadlineInput.value &&
+                    deadlineInput.value > eventDate
+                ) {
+
+                    deadlineInput.value =
+                        "";
+
+                }
+
+            }
+        );
 
 
         // ==========================================
@@ -392,8 +1109,19 @@
         async function loadEvent() {
 
             if (!eventId) {
+
+                loadingMessage.classList.add(
+                    "d-none"
+                );
+
+                showError(
+                    "Event ID was not provided."
+                );
+
                 return;
+
             }
+
 
             try {
 
@@ -402,6 +1130,10 @@
                         `/api/organizer/events/${eventId}`
                     );
 
+
+                // ==================================
+                // FILL FORM
+                // ==================================
 
                 document.getElementById(
                     "title"
@@ -415,9 +1147,7 @@
                     event.description || "";
 
 
-                document.getElementById(
-                    "date"
-                ).value =
+                dateInput.value =
                     event.date || "";
 
 
@@ -447,20 +1177,34 @@
                     event.capacity || "";
 
 
-                document.getElementById(
-                    "registrationDeadline"
-                ).value =
+                deadlineInput.value =
                     event.registrationDeadline || "";
 
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+                // ==================================
+                // SET DEADLINE LIMIT
+                // ==================================
+
+                if (dateInput.value) {
+
+                    deadlineInput.max =
+                        dateInput.value;
+
+                }
 
 
-                document.getElementById(
-                    "eventForm"
-                ).style.display = "block";
+                // ==================================
+                // SHOW FORM
+                // ==================================
+
+                loadingMessage.classList.add(
+                    "d-none"
+                );
+
+
+                eventForm.classList.remove(
+                    "d-none"
+                );
 
             }
 
@@ -472,21 +1216,15 @@
                 );
 
 
-                document.getElementById(
-                    "loadingMessage"
-                ).style.display = "none";
+                loadingMessage.classList.add(
+                    "d-none"
+                );
 
 
-                document.getElementById(
-                    "errorMessage"
-                ).textContent =
+                showError(
                     error.message ||
-                    "Unable to load event.";
-
-
-                document.getElementById(
-                    "errorMessage"
-                ).style.display = "block";
+                    "Unable to load event."
+                );
 
             }
 
@@ -497,141 +1235,327 @@
         // UPDATE EVENT
         // ==========================================
 
-        document
-            .getElementById("eventForm")
-            .addEventListener(
-                "submit",
-                async function(event) {
+        eventForm.addEventListener(
+            "submit",
+            async function(event) {
 
-                    event.preventDefault();
+                event.preventDefault();
 
 
+                hideError();
+
+                hideSuccess();
+
+
+                // ==================================
+                // GET VALUES
+                // ==================================
+
+                const title =
                     document.getElementById(
-                        "successMessage"
-                    ).style.display = "none";
+                        "title"
+                    ).value.trim();
 
 
+                const description =
                     document.getElementById(
-                        "errorMessage"
-                    ).style.display = "none";
+                        "description"
+                    ).value.trim();
 
 
-                    try {
-
-                        const updatedEvent = {
-
-                            title:
-                                document
-                                    .getElementById("title")
-                                    .value
-                                    .trim(),
-
-                            description:
-                                document
-                                    .getElementById("description")
-                                    .value
-                                    .trim(),
-
-                            date:
-                                document
-                                    .getElementById("date")
-                                    .value,
-
-                            time:
-                                document
-                                    .getElementById("time")
-                                    .value,
-
-                            venue:
-                                document
-                                    .getElementById("venue")
-                                    .value
-                                    .trim(),
-
-                            category:
-                                document
-                                    .getElementById("category")
-                                    .value,
-
-                            capacity:
-                                Number(
-                                    document
-                                        .getElementById("capacity")
-                                        .value
-                                ),
-
-                            registrationDeadline:
-                                document
-                                    .getElementById(
-                                        "registrationDeadline"
-                                    )
-                                    .value
-
-                        };
+                const date =
+                    dateInput.value;
 
 
-                        const data =
-                            await apiRequest(
-                                `/api/organizer/events/${eventId}`,
-                                {
-                                    method: "PUT",
-
-                                    body:
-                                        JSON.stringify(
-                                            updatedEvent
-                                        )
-                                }
-                            );
+                const time =
+                    document.getElementById(
+                        "time"
+                    ).value;
 
 
-                        console.log(
-                            "Updated event:",
-                            data
-                        );
+                const venue =
+                    document.getElementById(
+                        "venue"
+                    ).value.trim();
 
 
+                const category =
+                    document.getElementById(
+                        "category"
+                    ).value;
+
+
+                const capacity =
+                    Number(
                         document.getElementById(
-                            "successMessage"
-                        ).textContent =
-                            "Event updated successfully and submitted for admin approval.";
+                            "capacity"
+                        ).value
+                    );
 
 
-                        document.getElementById(
-                            "successMessage"
-                        ).style.display = "block";
+                const registrationDeadline =
+                    deadlineInput.value;
 
 
-                        // Scroll to message
-                        window.scrollTo({
-                            top: 0,
-                            behavior: "smooth"
-                        });
+                // ==================================
+                // VALIDATION
+                // ==================================
 
-                    }
+                if (!title) {
 
-                    catch (error) {
+                    showError(
+                        "Please enter an event title."
+                    );
 
-                        console.error(
-                            "Error updating event:",
-                            error
-                        );
-
-
-                        document.getElementById(
-                            "errorMessage"
-                        ).textContent =
-                            error.message ||
-                            "Unable to update event.";
-
-
-                        document.getElementById(
-                            "errorMessage"
-                        ).style.display = "block";
-
-                    }
+                    return;
 
                 }
-            );
+
+
+                if (!description) {
+
+                    showError(
+                        "Please enter an event description."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!date) {
+
+                    showError(
+                        "Please select the event date."
+                    );
+
+                    return;
+
+                }
+
+
+                if (date < today) {
+
+                    showError(
+                        "Event date cannot be in the past."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!time) {
+
+                    showError(
+                        "Please select the event time."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!venue) {
+
+                    showError(
+                        "Please enter the event venue."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!category) {
+
+                    showError(
+                        "Please select an event category."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !Number.isInteger(
+                        capacity
+                    ) ||
+                    capacity < 1
+                ) {
+
+                    showError(
+                        "Capacity must be a whole number greater than 0."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!registrationDeadline) {
+
+                    showError(
+                        "Please select the registration deadline."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    registrationDeadline < today
+                ) {
+
+                    showError(
+                        "Registration deadline cannot be in the past."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    registrationDeadline > date
+                ) {
+
+                    showError(
+                        "Registration deadline must be on or before the event date."
+                    );
+
+                    return;
+
+                }
+
+
+                // ==================================
+                // DISABLE BUTTON
+                // ==================================
+
+                updateButton.disabled =
+                    true;
+
+
+                updateButton.textContent =
+                    "Updating Event...";
+
+
+                try {
+
+                    // ==================================
+                    // UPDATED EVENT
+                    // ==================================
+
+                    const updatedEvent = {
+
+                        title:
+                            title,
+
+                        description:
+                            description,
+
+                        date:
+                            date,
+
+                        time:
+                            time,
+
+                        venue:
+                            venue,
+
+                        category:
+                            category,
+
+                        capacity:
+                            capacity,
+
+                        registrationDeadline:
+                            registrationDeadline
+
+                    };
+
+
+                    // ==================================
+                    // API REQUEST
+                    // ==================================
+
+                    const data =
+                        await apiRequest(
+                            `/api/organizer/events/${eventId}`,
+                            {
+                                method: "PUT",
+
+                                body:
+                                    JSON.stringify(
+                                        updatedEvent
+                                    )
+                            }
+                        );
+
+
+                    console.log(
+                        "Updated event:",
+                        data
+                    );
+
+
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
+
+                    successMessage.textContent =
+                        "Event updated successfully and submitted for admin approval.";
+
+
+                    successMessage.classList.remove(
+                        "d-none"
+                    );
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Error updating event:",
+                        error
+                    );
+
+
+                    showError(
+                        error.message ||
+                        "Unable to update event."
+                    );
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                }
+
+                finally {
+
+                    updateButton.disabled =
+                        false;
+
+
+                    updateButton.textContent =
+                        "Update Event";
+
+                }
+
+            }
+        );
 
 
         // ==========================================
@@ -640,7 +1564,9 @@
 
         loadEvent();
 
+
     </script>
+
 
 </body>
 
