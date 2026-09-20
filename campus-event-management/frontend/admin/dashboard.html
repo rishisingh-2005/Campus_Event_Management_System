@@ -26,19 +26,10 @@
 
     <style>
 
-        /* ==========================
-           PAGE
-        ========================== */
-
         body {
             background: #f5f7fb;
             min-height: 100vh;
         }
-
-
-        /* ==========================
-           NAVBAR
-        ========================== */
 
         .navbar {
             box-shadow:
@@ -59,11 +50,6 @@
             min-width: 90px;
             border-radius: 8px;
         }
-
-
-        /* ==========================
-           HERO
-        ========================== */
 
         .admin-header {
             position: relative;
@@ -142,7 +128,6 @@
 
         .admin-header h1 {
             font-weight: 700;
-
             margin-bottom: 10px;
         }
 
@@ -151,37 +136,20 @@
                 rgba(255, 255, 255, 0.75);
         }
 
-
-        /* ==========================
-           MAIN CONTENT
-        ========================== */
-
         .dashboard-container {
             padding-top: 42px;
             padding-bottom: 50px;
         }
 
-
-        /* ==========================
-           SECTION HEADER
-        ========================== */
-
         .section-title {
             font-weight: 700;
-
             margin-bottom: 5px;
         }
 
         .section-subtitle {
             color: #6c757d;
-
             margin-bottom: 25px;
         }
-
-
-        /* ==========================
-           DASHBOARD CARDS
-        ========================== */
 
         .dashboard-card {
             border: none;
@@ -214,11 +182,6 @@
             padding: 28px;
         }
 
-
-        /* ==========================
-           CARD ICON
-        ========================== */
-
         .card-icon {
             width: 62px;
             height: 62px;
@@ -247,10 +210,9 @@
             background: #f0e8ff;
         }
 
-
-        /* ==========================
-           CARD CONTENT
-        ========================== */
+        .organizer-icon {
+            background: #fff3cd;
+        }
 
         .dashboard-card h4 {
             font-weight: 700;
@@ -276,11 +238,6 @@
             font-weight: 600;
         }
 
-
-        /* ==========================
-           QUICK ACTION LINKS
-        ========================== */
-
         .quick-action {
             text-decoration: none;
 
@@ -294,11 +251,6 @@
         .quick-action:hover {
             color: inherit;
         }
-
-
-        /* ==========================
-           ADMIN INFO
-        ========================== */
 
         .info-card {
             border: none;
@@ -331,10 +283,103 @@
             letter-spacing: 0.5px;
         }
 
-
         /* ==========================
-           SECURITY NOTE
+           ORGANIZER REQUESTS
         ========================== */
+
+        .organizer-request-section {
+            border: none;
+
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.07);
+        }
+
+        .request-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .request-count {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            border-radius: 20px;
+        }
+
+        .request-card {
+            border: 1px solid #e9ecef;
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            transition:
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .request-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(0, 0, 0, 0.07);
+        }
+
+        .request-name {
+            font-weight: 700;
+
+            font-size: 17px;
+        }
+
+        .request-email {
+            color: #6c757d;
+
+            font-size: 14px;
+        }
+
+        .request-actions {
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+        }
+
+        .request-actions button {
+            min-width: 90px;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+        }
+
+        .empty-requests {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: #6c757d;
+        }
+
+        .loading-requests {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #6c757d;
+        }
 
         .security-note {
             background: #f8f9fa;
@@ -352,11 +397,6 @@
             color: #6c757d;
         }
 
-
-        /* ==========================
-           FOOTER
-        ========================== */
-
         .dashboard-footer {
             text-align: center;
 
@@ -364,11 +404,6 @@
 
             padding: 35px 0 10px;
         }
-
-
-        /* ==========================
-           MOBILE
-        ========================== */
 
         @media (max-width: 768px) {
 
@@ -429,7 +464,6 @@
             🎓 Campus Event Management
         </a>
 
-
         <div class="d-flex align-items-center gap-2">
 
             <span
@@ -438,7 +472,6 @@
             >
                 Admin
             </span>
-
 
             <button
                 class="btn btn-outline-light btn-sm logout-btn"
@@ -452,7 +485,6 @@
     </div>
 
 </nav>
-
 
 
 <!-- =====================================================
@@ -476,6 +508,7 @@
             <p class="welcome-text mb-0">
 
                 Welcome back,
+
                 <strong id="adminName">
                     Admin
                 </strong>
@@ -489,7 +522,6 @@
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -510,11 +542,10 @@
         </h3>
 
         <p class="section-subtitle">
-            Manage events, users, and campus activities.
+            Manage events, users, organizer requests, and campus activities.
         </p>
 
     </section>
-
 
 
     <!-- =================================================
@@ -524,9 +555,7 @@
     <div class="row g-4">
 
 
-        <!-- =================================================
-             EVENT MANAGEMENT
-        ================================================= -->
+        <!-- EVENT MANAGEMENT -->
 
         <div class="col-md-6 col-lg-4">
 
@@ -572,10 +601,7 @@
         </div>
 
 
-
-        <!-- =================================================
-             USER MANAGEMENT
-        ================================================= -->
+        <!-- USER MANAGEMENT -->
 
         <div class="col-md-6 col-lg-4">
 
@@ -621,10 +647,54 @@
         </div>
 
 
+        <!-- ORGANIZER REQUESTS -->
 
-        <!-- =================================================
-             REPORTS
-        ================================================= -->
+        <div class="col-md-6 col-lg-4">
+
+            <a
+                href="#organizerRequests"
+                class="quick-action"
+                onclick="scrollToOrganizerRequests(event)"
+            >
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body d-flex flex-column">
+
+                        <div class="card-icon organizer-icon">
+                            🧑‍💼
+                        </div>
+
+                        <h4>
+                            Organizer Requests
+                        </h4>
+
+                        <p>
+                            Review requests from users
+                            who want to become event
+                            organizers.
+                        </p>
+
+                        <div class="mt-auto">
+
+                            <span
+                                class="btn btn-warning action-btn"
+                            >
+                                Review Requests →
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- REPORTS -->
 
         <div class="col-md-6 col-lg-4">
 
@@ -667,6 +737,56 @@
     </div>
 
 
+    <!-- =================================================
+         ORGANIZER REQUESTS
+    ================================================= -->
+
+    <section
+        class="card organizer-request-section mt-5"
+        id="organizerRequests"
+    >
+
+        <div class="card-body p-4">
+
+            <div class="request-header mb-4">
+
+                <div>
+
+                    <h4 class="section-title mb-1">
+                        🧑‍💼 Organizer Requests
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Review and approve users who requested organizer access.
+                    </p>
+
+                </div>
+
+                <span
+                    id="requestCount"
+                    class="badge bg-warning text-dark request-count px-3 py-2"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <!-- REQUEST LIST -->
+
+            <div id="organizerRequestList">
+
+                <div class="loading-requests">
+                    Loading organizer requests...
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
 
     <!-- =================================================
          ADMINISTRATOR WORKSPACE
@@ -687,13 +807,13 @@
                     <p class="text-muted mb-0">
 
                         Use the administration tools above
-                        to review campus events and manage
-                        registered users.
+                        to review campus events, manage
+                        registered users, and approve
+                        organizer account requests.
 
                     </p>
 
                 </div>
-
 
                 <div
                     class="col-md-4 text-md-end mt-3 mt-md-0"
@@ -726,7 +846,6 @@
     </section>
 
 
-
     <!-- =================================================
          FOOTER
     ================================================= -->
@@ -745,7 +864,6 @@
 
 
 </main>
-
 
 
 <!-- =====================================================
@@ -803,6 +921,325 @@
         "navbarAdminName"
     ).textContent =
         adminName;
+
+
+    // =====================================================
+    // LOAD ORGANIZER REQUESTS
+    // =====================================================
+
+    async function loadOrganizerRequests() {
+
+        const requestList =
+            document.getElementById(
+                "organizerRequestList"
+            );
+
+        const requestCount =
+            document.getElementById(
+                "requestCount"
+            );
+
+        try {
+
+            requestList.innerHTML = `
+                <div class="loading-requests">
+                    Loading organizer requests...
+                </div>
+            `;
+
+            const requests =
+                await apiRequest(
+                    "/api/organizer-requests/pending"
+                );
+
+            if (!Array.isArray(requests)) {
+
+                throw new Error(
+                    "Invalid organizer request response."
+                );
+
+            }
+
+
+            requestCount.textContent =
+                `${requests.length} Pending`;
+
+
+            if (requests.length === 0) {
+
+                requestList.innerHTML = `
+                    <div class="empty-requests">
+
+                        <div style="font-size: 40px;">
+                            ✅
+                        </div>
+
+                        <h5 class="mt-3">
+                            No Pending Requests
+                        </h5>
+
+                        <p class="mb-0">
+                            There are currently no organizer
+                            account requests waiting for approval.
+                        </p>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            requestList.innerHTML =
+                requests.map(request => `
+
+                    <div class="request-card mb-3">
+
+                        <div class="row align-items-center">
+
+                            <div class="col-md-7">
+
+                                <div class="request-name">
+                                    ${escapeHtml(request.name || "Unnamed User")}
+                                </div>
+
+                                <div class="request-email">
+                                    ${escapeHtml(request.email || "No email")}
+                                </div>
+
+                                <div class="mt-2">
+
+                                    <span class="badge bg-warning text-dark">
+                                        PENDING
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-5 mt-3 mt-md-0">
+
+                                <div class="request-actions justify-content-md-end">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        onclick="approveOrganizerRequest(${request.id})"
+                                    >
+                                        ✓ Approve
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger"
+                                        onclick="rejectOrganizerRequest(${request.id})"
+                                    >
+                                        ✕ Reject
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `).join("");
+
+
+        } catch (error) {
+
+            console.error(
+                "Error loading organizer requests:",
+                error
+            );
+
+            requestCount.textContent =
+                "Error";
+
+            requestList.innerHTML = `
+
+                <div class="alert alert-danger">
+
+                    <strong>
+                        Unable to load organizer requests.
+                    </strong>
+
+                    <br>
+
+                    ${escapeHtml(error.message)}
+
+                    <div class="mt-3">
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            onclick="loadOrganizerRequests()"
+                        >
+                            Try Again
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // =====================================================
+    // APPROVE ORGANIZER REQUEST
+    // =====================================================
+
+    async function approveOrganizerRequest(id) {
+
+        const confirmed =
+            confirm(
+                "Approve this organizer request?\n\nThe user will become an ORGANIZER and will be able to log in."
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await apiRequest(
+                `/api/organizer-requests/${id}/approve`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            alert(
+                "Organizer request approved successfully."
+            );
+
+
+            await loadOrganizerRequests();
+
+
+        } catch (error) {
+
+            console.error(
+                "Approve organizer request error:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to approve organizer request."
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // REJECT ORGANIZER REQUEST
+    // =====================================================
+
+    async function rejectOrganizerRequest(id) {
+
+        const confirmed =
+            confirm(
+                "Reject this organizer request?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await apiRequest(
+                `/api/organizer-requests/${id}/reject`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            alert(
+                "Organizer request rejected."
+            );
+
+
+            await loadOrganizerRequests();
+
+
+        } catch (error) {
+
+            console.error(
+                "Reject organizer request error:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to reject organizer request."
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // SCROLL TO ORGANIZER REQUESTS
+    // =====================================================
+
+    function scrollToOrganizerRequests(event) {
+
+        event.preventDefault();
+
+        const section =
+            document.getElementById(
+                "organizerRequests"
+            );
+
+        if (section) {
+
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+    }
+
+
+    // =====================================================
+    // HTML ESCAPE
+    // =====================================================
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    // =====================================================
+    // LOAD DATA
+    // =====================================================
+
+    loadOrganizerRequests();
 
 </script>
 
