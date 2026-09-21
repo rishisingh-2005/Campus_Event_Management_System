@@ -2,333 +2,1633 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Campus Event Management System</title>
+    <title>Campus Event Management | RKGIT</title>
 
-    <!-- Bootstrap CSS -->
+
+    <!-- Bootstrap -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
-    <!-- Our CSS -->
-    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #0f172a;
+
+            background: #ffffff;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            background: #07162f;
+
+            padding: 8px 0;
+
+            position: relative;
+
+            z-index: 1000;
+        }
+
+
+        .navbar-brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: white !important;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .navbar-brand img {
+            width: 40px;
+
+            height: 40px;
+
+            object-fit: contain;
+
+            background: white;
+
+            border-radius: 5px;
+        }
+
+
+        .navbar .nav-link {
+            color: #ffffff !important;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            margin-left: 20px;
+        }
+
+
+        .navbar .nav-link:hover {
+            color: #93c5fd !important;
+        }
+
+
+        .student-login-nav {
+            background: #1769e8;
+
+            padding: 8px 17px !important;
+
+            border-radius: 7px;
+
+            margin-left: 22px !important;
+
+            font-weight: 600 !important;
+        }
+
+
+        .student-login-nav:hover {
+            background: #0f5bd3;
+
+            color: white !important;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+    position: relative;
+
+    height: 360px;
+
+    min-height: 360px;
+
+            overflow: hidden;
+
+            background-image:
+                url("image/rkgit-campus.jpg");
+
+            background-size: cover;
+
+            background-position: center center;
+
+            color: white;
+        }
+
+
+        /*
+         * Dark blue overlay on the left,
+         * transparent toward the campus image.
+         */
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(4, 28, 70, 0.98) 0%,
+                    rgba(5, 35, 82, 0.91) 28%,
+                    rgba(5, 35, 82, 0.66) 47%,
+                    rgba(5, 35, 82, 0.15) 100%,
+                    rgba(5, 35, 82, 0.00) 150%
+                );
+        }
+
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        .hero-inner {
+            width: 100%;
+
+            padding-bottom: 2px;
+        }
+
+
+        .hero-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background:
+                rgba(29, 78, 216, 0.78);
+
+            border-radius: 20px;
+
+            padding: 6px 13px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 9px;
+
+            border: 1px solid
+                rgba(147, 197, 253, 0.25);
+        }
+
+
+        .hero-title {
+            font-size: 38px;
+
+            line-height: 1.08;
+
+            font-weight: 800;
+
+            margin: 0 0 10px;
+
+            letter-spacing: -0.8px;
+        }
+
+
+        .hero-title .blue {
+            color: #2681ff;
+        }
+
+
+        .hero-description {
+            max-width: 575px;
+
+            font-size: 14px;
+
+            line-height: 1.65;
+
+            color: #f1f5f9;
+
+            margin: 0 0 16px;
+        }
+
+
+        .hero-buttons {
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+
+        .hero-primary {
+            display: inline-block;
+
+            background: #1769e8;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 22px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+
+        .hero-primary:hover {
+            background: #0f5bd3;
+
+            color: white;
+
+            transform: translateY(-1px);
+        }
+
+
+        .hero-secondary {
+            display: inline-block;
+
+            background: transparent;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 9px 21px;
+
+            border: 1px solid
+                rgba(255,255,255,0.75);
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .hero-secondary:hover {
+            background:
+                rgba(255,255,255,0.12);
+
+            color: white;
+        }
+
+
+        /* =========================================
+           ABOUT
+        ========================================= */
+
+        .about-section {
+            background: #ffffff;
+
+            padding: 17px 20px 20px;
+
+            text-align: center;
+        }
+
+
+        .section-title {
+            color: #0d2f66;
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            margin-bottom: 5px;
+        }
+
+
+        .section-subtitle {
+            color: #6b86a8;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            max-width: 580px;
+
+            margin: 0 auto;
+        }
+
+
+        .about-description {
+            max-width: 650px;
+
+            margin: 10px auto 0;
+
+            color: #607895;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+        }
+
+
+        /* =========================================
+           UPCOMING EVENTS
+        ========================================= */
+
+        .events-section {
+            background: #f1f7ff;
+
+            padding: 17px 20px 18px;
+
+            text-align: center;
+        }
+
+
+        .events-section .section-title {
+            margin-bottom: 4px;
+        }
+
+
+        .events-grid {
+            max-width: 1100px;
+
+            margin: 18px auto 0;
+        }
+
+
+        .event-card {
+            height: 136px;
+
+            display: flex;
+
+            align-items: stretch;
+
+            text-align: left;
+
+            background: white;
+
+            border-radius: 9px;
+
+            overflow: hidden;
+
+            border: 1px solid #e5edf7;
+
+            box-shadow:
+                0 4px 14px
+                rgba(25, 73, 125, 0.07);
+
+            transition: 0.2s;
+        }
+
+
+        .event-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 22px
+                rgba(25, 73, 125, 0.12);
+        }
+
+
+        .event-date {
+            width: 64px;
+
+            min-width: 64px;
+
+            margin: 9px;
+
+            border-radius: 6px;
+
+            background: #1769e8;
+
+            color: white;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        .event-date-day {
+            font-size: 22px;
+
+            line-height: 1;
+
+            margin-bottom: 3px;
+        }
+
+
+        .event-date-month {
+            font-size: 10px;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .event-body {
+            padding: 14px 13px 12px;
+
+            min-width: 0;
+
+            flex: 1;
+        }
+
+
+        .event-category {
+            display: inline-block;
+
+            background: #e8f1ff;
+
+            color: #1769e8;
+
+            padding: 3px 9px;
+
+            border-radius: 15px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin-bottom: 6px;
+        }
+
+
+        .event-title {
+            color: #0c326d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .event-description {
+            color: #7187a4;
+
+            font-size: 10px;
+
+            line-height: 1.4;
+
+            margin-bottom: 8px;
+
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+        }
+
+
+        .event-details {
+            display: flex;
+
+            gap: 12px;
+
+            color: #597392;
+
+            font-size: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .events-button-wrapper {
+            margin-top: 17px;
+        }
+
+
+        .events-login-button {
+            display: inline-block;
+
+            background: #1769e8;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 8px 18px;
+
+            border-radius: 6px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+
+        .events-login-button:hover {
+            background: #0f5bd3;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           HOW IT WORKS
+        ========================================= */
+
+        .how-section {
+            background: #f1f7ff;
+
+            padding: 16px 20px 60px;
+
+            text-align: center;
+        }
+
+
+        .how-section .section-subtitle {
+            margin-bottom: 25px;
+        }
+
+
+        .step-number {
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #1769e8;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: auto;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .step-title {
+            color: #0d326d;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            margin-top: 10px;
+        }
+
+
+        .step-description {
+            color: #7187a4;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            max-width: 250px;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           CTA
+        ========================================= */
+
+        .cta-section {
+            padding: 55px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b397e,
+                    #1769e8
+                );
+
+            text-align: center;
+
+            color: white;
+        }
+
+
+        .cta-section h2 {
+            font-size: 30px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+
+        .cta-section p {
+            max-width: 600px;
+
+            margin: 0 auto 22px;
+
+            color: #dbeafe;
+
+            font-size: 14px;
+        }
+
+
+        .cta-button {
+            display: inline-block;
+
+            background: white;
+
+            color: #1769e8;
+
+            text-decoration: none;
+
+            padding: 10px 21px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .cta-button:hover {
+            color: #0f5bd3;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+            background: #07162f;
+
+            color: #8ea5c3;
+
+            padding: 35px 20px 20px;
+        }
+
+
+        .footer-title {
+            color: white;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+        }
+
+
+        footer p {
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        footer a {
+            color: #8ea5c3;
+
+            text-decoration: none;
+
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+
+        footer a:hover {
+            color: white;
+        }
+
+
+        .footer-bottom {
+            border-top: 1px solid #1c3150;
+
+            margin-top: 25px;
+
+            padding-top: 17px;
+
+            text-align: center;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 991px) {
+
+            .navbar .nav-link {
+                margin-left: 0;
+
+                margin-top: 5px;
+
+                margin-bottom: 5px;
+            }
+
+
+            .student-login-nav {
+                margin-left: 0 !important;
+
+                display: inline-block;
+            }
+
+
+            .hero {
+                height: 380px;
+
+                min-height: 380px;
+            }
+
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+        }
+
+
+        @media (max-width: 767px) {
+
+            .hero {
+                height: 500px;
+
+                min-height: 500px;
+
+                background-position:
+                    60% center;
+            }
+
+
+            .hero::before {
+                background:
+                    linear-gradient(
+                        90deg,
+                        rgba(4,28,70,0.95),
+                        rgba(4,28,70,0.72)
+                    );
+            }
+
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+
+            .hero-description {
+                font-size: 13px;
+
+                max-width: 500px;
+            }
+
+
+            .event-card {
+                height: auto;
+
+                min-height: 136px;
+            }
+
+
+            .section-title {
+                font-size: 25px;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .hero {
+                height: 520px;
+
+                min-height: 520px;
+            }
+
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+
+            .hero-buttons {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .event-card {
+                height: 145px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        <div class="container">
+<!-- =========================================
+     NAVBAR
+========================================= -->
 
-            <a class="navbar-brand fw-bold"
-                href="index.html">
-                Campus Events
-            </a>
+<nav class="navbar navbar-expand-lg navbar-dark">
 
-            <div class="d-flex">
+    <div class="container">
 
-                <a href="login.html"
-                    class="btn btn-outline-light me-2">
-                    Login
+        <a
+            class="navbar-brand"
+            href="index.html"
+        >
+
+            <img
+                src="image/rkgiot-logo.jpeg"
+                alt="RKGIT Logo"
+            >
+
+            Campus Event Management
+
+        </a>
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+        >
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavbar"
+        >
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#about"
+                    >
+                        About
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#features"
+                    >
+                        Features
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#upcoming-events"
+                    >
+                        Events
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#how-it-works"
+                    >
+                        How It Works
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link student-login-nav"
+                        href="login.html"
+                    >
+                        Student Login →
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     HERO
+========================================= -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="hero-inner">
+
+            <div class="hero-badge">
+
+                🎓 RKGIT Campus Event Platform
+
+            </div>
+
+
+            <h1 class="hero-title">
+
+                Discover.
+                <span class="blue">Register.</span>
+                Participate.
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Campus Event Management System makes it easier
+                for students to discover campus events, register
+                for activities, track participation, attendance,
+                and certificates.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a
+                    href="login.html"
+                    class="hero-primary"
+                >
+                    Student Login →
                 </a>
 
-                <a href="register.html"
-                    class="btn btn-primary">
-                    Register
+
+                <a
+                    href="#features"
+                    class="hero-secondary"
+                >
+                    Explore Features
                 </a>
 
             </div>
 
         </div>
 
-    </nav>
+    </div>
+
+</section>
 
 
-    <!-- Hero Section -->
-    <section class="container text-center py-5">
 
-        <h1 class="display-4 fw-bold">
-            Campus Event Management System
-        </h1>
+<!-- =========================================
+     ABOUT
+========================================= -->
 
-        <p class="lead text-muted mt-3">
-            Discover, register and participate in
-            exciting campus events.
+<section
+    id="about"
+    class="about-section"
+>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            About the Platform
+        </h2>
+
+
+        <p class="section-subtitle">
+
+            A centralized platform designed to make campus
+            event participation simple and organized.
+
         </p>
 
-        <div class="mt-4">
 
-            <a href="login.html"
-                class="btn btn-primary btn-lg me-2">
-                Login
+        <p class="about-description">
+
+            The Campus Event Management System provides students
+            with a single place to discover campus events and
+            manage their participation.
+
+            <br>
+
+            Students can create an account, explore approved
+            events, register for activities, view their
+            registrations, check attendance, and access certificates.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     FEATURES
+========================================= -->
+
+<section
+    id="features"
+    class="features-section"
+    style="display: none;"
+>
+
+    <!-- Features remain part of the page navigation.
+         Hidden here because the reference design
+         moves directly from About to Upcoming Events. -->
+
+</section>
+
+
+
+<!-- =========================================
+     UPCOMING EVENTS
+========================================= -->
+
+<section
+    id="upcoming-events"
+    class="events-section"
+>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Upcoming Campus Events
+        </h2>
+
+
+        <p class="section-subtitle">
+
+            Discover the latest approved events happening
+            on your campus.
+
+        </p>
+
+
+        <div
+            id="eventsLoading"
+            class="events-loading"
+        >
+            Loading upcoming events...
+        </div>
+
+
+        <div
+            id="eventsContainer"
+            class="row g-3 events-grid"
+            style="display: none;"
+        >
+        </div>
+
+
+        <div
+            id="noEventsMessage"
+            style="
+                display:none;
+                color:#607895;
+                font-size:13px;
+                padding:25px;
+            "
+        >
+
+            No upcoming events are available right now.
+
+        </div>
+
+
+        <div
+            id="eventsErrorMessage"
+            style="
+                display:none;
+                color:#607895;
+                font-size:13px;
+                padding:25px;
+            "
+        >
+
+            Upcoming events are temporarily unavailable.
+
+        </div>
+
+
+        <div class="events-button-wrapper">
+
+            <a
+                href="login.html"
+                class="events-login-button"
+            >
+
+                Login to Explore Events →
+
             </a>
 
-            <a href="register.html"
-                class="btn btn-outline-primary btn-lg">
-                Create Account
-            </a>
-
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- Approved Events Section -->
-    <section class="container py-5">
 
-        <div class="text-center mb-4">
+<!-- =========================================
+     HOW IT WORKS
+========================================= -->
 
-            <h2 class="fw-bold">
-                🎉 Latest Approved Events
-            </h2>
+<section
+    id="how-it-works"
+    class="how-section"
+>
 
-            <p class="text-muted">
-                Check out the latest events happening on campus.
-            </p>
+    <div class="container">
 
-        </div>
-
-
-        <!-- Loading -->
-        <div id="eventsLoading"
-            class="text-center text-muted py-4">
-
-            Loading events...
-
-        </div>
+        <h2 class="section-title">
+            How It Works
+        </h2>
 
 
-        <!-- Events -->
-        <div id="approvedEvents"
-            class="row g-4">
+        <p class="section-subtitle">
 
-        </div>
+            Getting started with campus events takes only
+            a few simple steps.
 
+        </p>
 
-        <!-- No Events -->
-        <div id="noEvents"
-            class="text-center text-muted py-4"
-            style="display: none;">
-
-            <h5>No approved events available.</h5>
-
-            <p>
-                New events will appear here after they are approved.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- Features -->
-    <section class="container py-4">
 
         <div class="row g-4">
 
-            <!-- Student -->
+
             <div class="col-md-4">
 
-                <div class="card h-100 shadow-sm">
+                <div>
 
-                    <div class="card-body text-center">
-
-                        <h3>🎓 Students</h3>
-
-                        <p class="text-muted">
-                            Browse campus events, register for
-                            events and manage your participation.
-                        </p>
-
+                    <div class="step-number">
+                        1
                     </div>
+
+                    <div class="step-title">
+                        Create Your Account
+                    </div>
+
+                    <p class="step-description">
+
+                        Register as a student and create
+                        your secure account.
+
+                    </p>
 
                 </div>
 
             </div>
 
 
-            <!-- Organizer -->
+
             <div class="col-md-4">
 
-                <div class="card h-100 shadow-sm">
+                <div>
 
-                    <div class="card-body text-center">
-
-                        <h3>📅 Organizers</h3>
-
-                        <p class="text-muted">
-                            Create events, manage participants,
-                            attendance and certificates.
-                        </p>
-
+                    <div class="step-number">
+                        2
                     </div>
+
+                    <div class="step-title">
+                        Explore Events
+                    </div>
+
+                    <p class="step-description">
+
+                        Browse approved campus events
+                        and find activities that interest you.
+
+                    </p>
 
                 </div>
 
             </div>
 
 
-            <!-- Admin -->
+
             <div class="col-md-4">
 
-                <div class="card h-100 shadow-sm">
+                <div>
 
-                    <div class="card-body text-center">
-
-                        <h3>⚙️ Administrators</h3>
-
-                        <p class="text-muted">
-                            Manage users, events, registrations
-                            and system statistics.
-                        </p>
-
+                    <div class="step-number">
+                        3
                     </div>
+
+                    <div class="step-title">
+                        Participate
+                    </div>
+
+                    <p class="step-description">
+
+                        Register, participate, track attendance,
+                        and access your certificates.
+
+                    </p>
 
                 </div>
 
             </div>
+
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-5">
 
-        <p class="mb-0">
-            © 2026 Campus Event Management System
+<!-- =========================================
+     CTA
+========================================= -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <h2>
+            Ready to Explore Campus Events?
+        </h2>
+
+
+        <p>
+
+            Login to your student account and discover
+            the events happening around RKGIT.
+
         </p>
 
-    </footer>
+
+        <a
+            href="login.html"
+            class="cta-button"
+        >
+
+            Go to Student Login →
+
+        </a>
+
+    </div>
+
+</section>
 
 
-    <!-- Bootstrap JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="row g-4">
 
 
-    <!-- Load Approved Events -->
-    <script>
+            <div class="col-md-6">
 
-        async function loadApprovedEvents() {
+                <div class="footer-title">
 
-            const eventsContainer =
-                document.getElementById("approvedEvents");
+                    Campus Event Management
 
-            const loading =
-                document.getElementById("eventsLoading");
+                </div>
 
-            const noEvents =
-                document.getElementById("noEvents");
 
-            try {
+                <p>
 
-                const response =
-                    await fetch("http://localhost:8080/api/events");
+                    A centralized platform for discovering,
+                    registering, and participating in RKGIT
+                    campus events.
 
-                if (!response.ok) {
+                </p>
 
-                    throw new Error(
-                        "Failed to load events"
-                    );
+            </div>
 
-                }
 
-                const events =
-                    await response.json();
+            <div class="col-md-3">
 
-                loading.style.display = "none";
+                <div class="footer-title">
+                    Quick Links
+                </div>
 
-                const approvedEvents =
-                    events.filter(event =>
-                        event.status &&
-                        event.status.toUpperCase() === "APPROVED"
-                    );
 
-                if (approvedEvents.length === 0) {
+                <a href="#about">
+                    About
+                </a>
 
-                    noEvents.style.display = "block";
 
-                    return;
-                }
+                <a href="#upcoming-events">
+                    Events
+                </a>
 
-                eventsContainer.innerHTML = "";
 
-                approvedEvents.forEach(event => {
+                <a href="#how-it-works">
+                    How It Works
+                </a>
 
-                    const eventCard =
-                        document.createElement("div");
+            </div>
 
-                    eventCard.className =
-                        "col-md-6 col-lg-4";
 
-                    eventCard.innerHTML = `
+            <div class="col-md-3">
 
-                        <div class="card h-100 shadow-sm">
+                <div class="footer-title">
+                    Student
+                </div>
 
-                            <div class="card-body">
 
-                                <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="login.html">
+                    Student Login
+                </a>
 
-                                    <h4 class="card-title fw-bold">
-                                        ${escapeHtml(event.title)}
-                                    </h4>
 
-                                    <span class="badge bg-success">
-                                        Approved
-                                    </span>
+                <a href="register.html">
+                    Student Registration
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 RKGIT Campus Event Management System.
+            All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================
+     BOOTSTRAP
+========================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<!-- =========================================
+     PUBLIC UPCOMING EVENTS
+========================================= -->
+
+<script>
+
+    const API_BASE_URL =
+        "http://localhost:8080";
+
+
+    async function loadPublicEvents() {
+
+        const loading =
+            document.getElementById(
+                "eventsLoading"
+            );
+
+
+        const container =
+            document.getElementById(
+                "eventsContainer"
+            );
+
+
+        const noEvents =
+            document.getElementById(
+                "noEventsMessage"
+            );
+
+
+        const errorMessage =
+            document.getElementById(
+                "eventsErrorMessage"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE_URL}/api/public/events`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load events"
+                );
+
+            }
+
+
+            const events =
+                await response.json();
+
+
+            loading.style.display =
+                "none";
+
+
+            if (
+                !Array.isArray(events)
+                ||
+                events.length === 0
+            ) {
+
+                noEvents.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            /*
+             * Only THREE events are displayed.
+             */
+
+            const threeEvents =
+                events.slice(0, 3);
+
+
+            threeEvents.forEach(
+                event => {
+
+                    const column =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    column.className =
+                        "col-lg-4 col-md-6";
+
+
+                    column.innerHTML = `
+
+                        <div class="event-card">
+
+                            <div class="event-date">
+
+                                <div class="event-date-day">
+                                    ${getDay(event.date)}
+                                </div>
+
+                                <div class="event-date-month">
+                                    ${getMonth(event.date)}
+                                </div>
+
+                            </div>
+
+
+                            <div class="event-body">
+
+                                <div class="event-category">
+
+                                    ${
+                                        event.category
+                                        ||
+                                        "Campus Event"
+                                    }
 
                                 </div>
 
-                                <p class="text-muted">
-                                    ${escapeHtml(event.description || "No description available.")}
-                                </p>
 
-                                <hr>
+                                <div class="event-title">
 
-                                <p class="mb-2">
-                                    📅
-                                    <strong>Date:</strong>
-                                    ${escapeHtml(event.date || "TBA")}
-                                </p>
+                                    ${
+                                        event.title
+                                        ||
+                                        "Campus Event"
+                                    }
 
-                                <p class="mb-2">
-                                    🕐
-                                    <strong>Time:</strong>
-                                    ${escapeHtml(event.time || "TBA")}
-                                </p>
+                                </div>
 
-                                <p class="mb-2">
-                                    📍
-                                    <strong>Venue:</strong>
-                                    ${escapeHtml(event.venue || "TBA")}
-                                </p>
 
-                                <p class="mb-2">
-                                    🏷️
-                                    <strong>Category:</strong>
-                                    ${escapeHtml(event.category || "General")}
-                                </p>
+                                <div class="event-description">
 
-                                <p class="mb-3">
-                                    👥
-                                    <strong>Capacity:</strong>
-                                    ${escapeHtml(event.capacity || "N/A")}
-                                </p>
+                                    ${
+                                        event.description
+                                        ||
+                                        "Upcoming campus event."
+                                    }
 
-                                <a href="login.html"
-                                    class="btn btn-primary w-100">
+                                </div>
 
-                                    Login to Register
 
-                                </a>
+                                <div class="event-details">
+
+                                    <span>
+                                        📍 ${
+                                            event.venue
+                                            ||
+                                            "Campus Venue"
+                                        }
+                                    </span>
+
+
+                                    <span>
+                                        🕒 ${
+                                            formatTime(
+                                                event.time
+                                            )
+                                        }
+                                    </span>
+
+                                </div>
 
                             </div>
 
@@ -336,59 +1636,154 @@
 
                     `;
 
-                    eventsContainer.appendChild(
-                        eventCard
+
+                    container.appendChild(
+                        column
                     );
 
-                });
+                }
+            );
 
-            } catch (error) {
 
-                console.error(
-                    "Error loading events:",
-                    error
-                );
-
-                loading.style.display = "none";
-
-                eventsContainer.innerHTML = `
-
-                    <div class="col-12">
-
-                        <div class="alert alert-warning text-center">
-
-                            Unable to load events right now.
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
+            container.style.display =
+                "flex";
 
         }
 
+        catch (error) {
 
-        /*
-         * Prevent event data from being interpreted
-         * as HTML.
-         */
-        function escapeHtml(value) {
+            console.error(
+                "Public event loading error:",
+                error
+            );
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+
+            loading.style.display =
+                "none";
+
+
+            errorMessage.style.display =
+                "block";
+
+        }
+
+    }
+
+
+
+    function getDay(dateString) {
+
+        if (!dateString) {
+            return "--";
         }
 
 
-        // Load events when page opens
-        loadApprovedEvents();
+        const parts =
+            dateString.split("-");
 
-    </script>
+
+        if (parts.length !== 3) {
+            return "--";
+        }
+
+
+        return parts[2];
+
+    }
+
+
+
+    function getMonth(dateString) {
+
+        if (!dateString) {
+            return "---";
+        }
+
+
+        const parts =
+            dateString.split("-");
+
+
+        if (parts.length !== 3) {
+            return "---";
+        }
+
+
+        const month =
+            Number(parts[1]);
+
+
+        const names = [
+
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC"
+
+        ];
+
+
+        return names[month - 1] || "---";
+
+    }
+
+
+
+    function formatTime(timeString) {
+
+        if (!timeString) {
+            return "Time not specified";
+        }
+
+
+        const parts =
+            timeString.split(":");
+
+
+        if (parts.length < 2) {
+            return timeString;
+        }
+
+
+        let hour =
+            Number(parts[0]);
+
+
+        const minute =
+            parts[1];
+
+
+        const suffix =
+            hour >= 12
+            ? "PM"
+            : "AM";
+
+
+        hour =
+            hour % 12 || 12;
+
+
+        return `${hour}:${minute} ${suffix}`;
+
+    }
+
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadPublicEvents
+    );
+
+</script>
+
 
 </body>
 

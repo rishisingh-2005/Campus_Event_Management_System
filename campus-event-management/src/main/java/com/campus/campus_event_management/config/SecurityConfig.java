@@ -11,13 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -58,83 +51,89 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // =========================
-                // CORS
-                // =========================
+                /* ==============================
+                   OPTIONS / CORS
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.OPTIONS,
                     "/**"
-                )
-                .permitAll()
+                ).permitAll()
 
-                // =========================
-                // PUBLIC USER REGISTRATION
-                // =========================
+
+                /* ==============================
+                   USER REGISTRATION
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/users"
-                )
-                .permitAll()
+                ).permitAll()
 
-                // =========================
-                // PUBLIC LOGIN
-                // =========================
+
+                /* ==============================
+                   LOGIN
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/users/login"
-                )
-                .permitAll()
+                ).permitAll()
 
-                // =========================
-                // ORGANIZER REQUESTS
-                // =========================
 
-                // Anyone can request an organizer account
+                /* ==============================
+                   ORGANIZER REGISTRATION REQUEST
+                ============================== */
+
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/organizer-requests"
-                )
-                .permitAll()
+                ).permitAll()
 
-                // Only ADMIN can view pending requests
+
+                /* ==============================
+                   PUBLIC UPCOMING EVENTS
+                ============================== */
+
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/public/events"
+                ).permitAll()
+
+
+                /* ==============================
+                   ADMIN ORGANIZER REQUESTS
+                ============================== */
+
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/organizer-requests/pending"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
-                // Only ADMIN can approve
                 .requestMatchers(
                     HttpMethod.PUT,
                     "/api/organizer-requests/*/approve"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
-                // Only ADMIN can reject
                 .requestMatchers(
                     HttpMethod.PUT,
                     "/api/organizer-requests/*/reject"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
-                // =========================
-                // USER MANAGEMENT
-                // =========================
+
+                /* ==============================
+                   ADMIN USER MANAGEMENT
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/users"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/users/{id}"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -142,8 +141,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/users/email/{email}"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -151,36 +149,35 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.DELETE,
                     "/api/users/{id}"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
-                // =========================
-                // ADMIN APIs
-                // =========================
+
+                /* ==============================
+                   ADMIN APIs
+                ============================== */
 
                 .requestMatchers(
                     "/api/admin/**"
-                )
-                .hasRole("ADMIN")
+                ).hasRole("ADMIN")
 
-                // =========================
-                // ORGANIZER APIs
-                // =========================
+
+                /* ==============================
+                   ORGANIZER APIs
+                ============================== */
 
                 .requestMatchers(
                     "/api/organizer/**"
-                )
-                .hasRole("ORGANIZER")
+                ).hasRole("ORGANIZER")
 
-                // =========================
-                // ATTENDANCE
-                // =========================
+
+                /* ==============================
+                   ATTENDANCE
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/attendance"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -188,8 +185,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/attendance/event/**"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -197,22 +193,21 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/attendance/user/**"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "STUDENT",
                     "ADMIN",
                     "ORGANIZER"
                 )
 
-                // =========================
-                // CERTIFICATES
-                // =========================
+
+                /* ==============================
+                   CERTIFICATES
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/certificates"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -220,14 +215,12 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/user/**"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/{id}"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "STUDENT",
                     "ADMIN",
                     "ORGANIZER"
@@ -236,42 +229,39 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/**"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
 
-                // =========================
-                // STUDENT APIs
-                // =========================
+
+                /* ==============================
+                   STUDENT APIs
+                ============================== */
 
                 .requestMatchers(
                     "/api/student/**"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
-                // =========================
-                // REGISTRATIONS
-                // =========================
+
+                /* ==============================
+                   REGISTRATIONS
+                ============================== */
 
                 .requestMatchers(
                     HttpMethod.POST,
                     "/api/registrations"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/registrations/user/**"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/registrations/event/**"
-                )
-                .hasAnyRole(
+                ).hasAnyRole(
                     "ADMIN",
                     "ORGANIZER"
                 )
@@ -279,18 +269,17 @@ public class SecurityConfig {
                 .requestMatchers(
                     HttpMethod.DELETE,
                     "/api/registrations/*"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
                 .requestMatchers(
                     HttpMethod.PUT,
                     "/api/registrations/*/cancel"
-                )
-                .hasRole("STUDENT")
+                ).hasRole("STUDENT")
 
-                // =========================
-                // EVERYTHING ELSE
-                // =========================
+
+                /* ==============================
+                   ALL OTHER REQUESTS
+                ============================== */
 
                 .anyRequest()
                 .authenticated()
@@ -304,11 +293,21 @@ public class SecurityConfig {
         return http.build();
     }
 
+
+    /* ==============================
+       PASSWORD ENCODER
+    ============================== */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
+
+
+    /* ==============================
+       CORS CONFIGURATION
+    ============================== */
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

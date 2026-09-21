@@ -7,102 +7,344 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Login - Campus Events</title>
-
-
-    <!-- ================= BOOTSTRAP ================= -->
+    <title>
+        Student Login | Campus Event Management
+    </title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-
-
-    <!-- ================= CUSTOM CSS ================= -->
-
-    <link
         rel="stylesheet"
-        href="css/style.css">
-
-
-    <!-- ================= PAGE STYLING ================= -->
+    >
 
     <style>
 
-        body {
-            min-height: 100vh;
+        * {
+            box-sizing: border-box;
         }
 
-        .login-wrapper {
-            min-height: calc(100vh - 56px);
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1d4ed8
+                );
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            background: #0f172a;
+            padding: 14px 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 19px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            margin-right: 10px;
+        }
+
+        .back-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .login-section {
+            flex: 1;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 15px;
+
+            padding: 50px 20px;
         }
 
-        .login-card {
+        .login-wrapper {
             width: 100%;
-            max-width: 560px;
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            max-width: 950px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: white;
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.25);
         }
 
-        .login-card .card-body {
-            padding: 40px;
+        /* ==============================
+           LEFT PANEL
+        ============================== */
+
+        .login-info {
+            background:
+                linear-gradient(
+                    145deg,
+                    #1d4ed8,
+                    #2563eb
+                );
+
+            color: white;
+
+            padding: 50px 40px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-info-badge {
+            display: inline-block;
+
+            width: fit-content;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.15);
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        .login-info h1 {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.2;
+
+            margin-bottom: 18px;
+        }
+
+        .login-info p {
+            color: #dbeafe;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 14px;
+            color: #eff6ff;
+        }
+
+        .feature-list span {
+            margin-right: 9px;
+        }
+
+        /* ==============================
+           LOGIN CARD
+        ============================== */
+
+        .login-form-container {
+            padding: 50px 40px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .login-title {
-            font-size: 2.2rem;
-            font-weight: 500;
-            color: #111827;
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+
+            margin-bottom: 8px;
         }
 
         .login-subtitle {
-            color: #4b5563;
-            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 30px;
         }
 
         .form-label {
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-weight: 600;
+            color: #334155;
         }
 
         .form-control {
-            min-height: 48px;
-            border-radius: 7px;
-            font-size: 1rem;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
         }
 
-        .login-button {
-            min-height: 48px;
-            border-radius: 7px;
-            font-size: 1.05rem;
-            font-weight: 500;
+        .form-control:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37,99,235,0.12);
         }
 
-        .register-link {
-            font-size: 1.05rem;
+        .login-btn {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #1d4ed8;
+            color: white;
+
+            font-weight: 700;
+            font-size: 16px;
+
+            transition: 0.2s ease;
         }
 
-        .register-link a {
-            font-weight: 500;
+        .login-btn:hover {
+            background: #1e40af;
         }
 
-        @media (max-width: 576px) {
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 
-            .login-card .card-body {
-                padding: 28px 22px;
+        /* ==============================
+           MESSAGES
+        ============================== */
+
+        .message-box {
+            display: none;
+
+            padding: 11px 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+        .message-box.error {
+            display: block;
+
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
+        .message-box.success {
+            display: block;
+
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        /* ==============================
+           REGISTER
+        ============================== */
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: #1d4ed8;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            background: #0f172a;
+            color: #64748b;
+
+            text-align: center;
+
+            padding: 18px;
+
+            font-size: 13px;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 768px) {
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
             }
 
-            .login-title {
-                font-size: 1.9rem;
+            .login-info {
+                padding: 35px 30px;
             }
 
-            .login-subtitle {
-                font-size: 1rem;
+            .login-info h1 {
+                font-size: 30px;
+            }
+
+            .login-info p {
+                margin-bottom: 15px;
+            }
+
+            .feature-list {
+                display: none;
+            }
+
+            .login-form-container {
+                padding: 35px 30px;
             }
 
         }
@@ -112,377 +354,476 @@
 </head>
 
 
-<body class="bg-light">
+<body>
 
 
-    <!-- ================= NAVBAR ================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark">
 
-        <div class="container">
+    <div class="container">
+
+        <div
+            class="d-flex align-items-center justify-content-between"
+        >
 
             <a
-                class="navbar-brand fw-bold"
-                href="./index.html">
+                href="index.html"
+                class="navbar-brand d-flex align-items-center"
+            >
 
-                Campus Events
+                <img
+                    src="image/rkgiot-logo.jpeg"
+                    alt="RKGIOT Logo"
+                    class="brand-logo"
+                >
+
+                Campus Event Management
 
             </a>
 
 
             <a
-                href="./register.html"
-                class="btn btn-outline-light">
+                href="index.html"
+                class="back-link"
+            >
 
-                Register
+                ← Back to Home
 
             </a>
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    <!-- ================= LOGIN SECTION ================= -->
 
-    <main class="login-wrapper">
+<!-- =====================================================
+     LOGIN SECTION
+===================================================== -->
 
-        <div class="login-card card">
+<main class="login-section">
 
-            <div class="card-body">
+    <div class="login-wrapper">
 
 
-                <!-- ================= TITLE ================= -->
+        <!-- =================================================
+             LEFT INFORMATION PANEL
+        ================================================= -->
 
-                <h1 class="login-title text-center mb-4">
+        <div class="login-info">
+
+            <span class="login-info-badge">
+
+                🎓 Student Portal
+
+            </span>
+
+
+            <h1>
+
+                Welcome Back!
+
+            </h1>
+
+
+            <p>
+
+                Login to your student account and
+                continue exploring campus events,
+                registrations, attendance, and certificates.
+
+            </p>
+
+
+            <ul class="feature-list">
+
+                <li>
+                    <span>📅</span>
+                    Discover campus events
+                </li>
+
+                <li>
+                    <span>📝</span>
+                    Register for events
+                </li>
+
+                <li>
+                    <span>✅</span>
+                    Track your attendance
+                </li>
+
+                <li>
+                    <span>🏆</span>
+                    Access your certificates
+                </li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LOGIN FORM
+        ================================================= -->
+
+        <div class="login-form-container">
+
+            <h2 class="login-title">
+
+                Student Login
+
+            </h2>
+
+
+            <p class="login-subtitle">
+
+                Enter your account details to continue.
+
+            </p>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="messageBox"
+                class="message-box"
+            ></div>
+
+
+            <!-- FORM -->
+
+            <form id="loginForm">
+
+
+                <!-- EMAIL -->
+
+                <div class="mb-3">
+
+                    <label
+                        for="email"
+                        class="form-label"
+                    >
+
+                        Email Address
+
+                    </label>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="mb-4">
+
+                    <label
+                        for="password"
+                        class="form-label"
+                    >
+
+                        Password
+
+                    </label>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    id="loginButton"
+                    class="login-btn"
+                >
 
                     Login
 
-                </h1>
+                </button>
 
 
-                <p class="login-subtitle text-center mb-4">
-
-                    Login to your Campus Events account
-
-                </p>
+            </form>
 
 
-                <!-- ================= LOGIN FORM ================= -->
+            <!-- REGISTER -->
 
-                <form id="loginForm">
+            <div class="register-text">
 
+                Don't have an account?
 
-                    <!-- EMAIL -->
+                <a href="register.html">
 
-                    <div class="mb-3">
+                    Create Student Account
 
-                        <label
-                            for="email"
-                            class="form-label">
-
-                            Email
-
-                        </label>
-
-
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            placeholder="Enter your email"
-                            autocomplete="email"
-                            required>
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-
-                    <div class="mb-3">
-
-                        <label
-                            for="password"
-                            class="form-label">
-
-                            Password
-
-                        </label>
-
-
-                        <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required>
-
-                    </div>
-
-
-                    <!-- ================= ERROR MESSAGE ================= -->
-
-                    <div
-                        id="errorMessage"
-                        class="alert alert-danger d-none"
-                        role="alert">
-
-                    </div>
-
-
-                    <!-- ================= LOGIN BUTTON ================= -->
-
-                    <button
-                        type="submit"
-                        id="loginButton"
-                        class="btn btn-primary w-100 login-button">
-
-                        Login
-
-                    </button>
-
-                </form>
-
-
-                <!-- ================= REGISTER LINK ================= -->
-
-                <p
-                    class="text-center mt-4 mb-0 register-link">
-
-                    Don't have an account?
-
-                    <a
-                        href="./register.html">
-
-                        Register here
-
-                    </a>
-
-                </p>
+                </a>
 
             </div>
 
         </div>
 
-    </main>
+    </div>
+
+</main>
 
 
-    <!-- ================= API JAVASCRIPT ================= -->
 
-    <script src="./js/api.js"></script>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
+<footer>
 
-    <!-- ================= LOGIN JAVASCRIPT ================= -->
+    Campus Event Management System © 2026
 
-    <script>
-
-        document
-            .getElementById("loginForm")
-            .addEventListener(
-                "submit",
-                async function(event) {
-
-                    // Prevent page refresh
-                    event.preventDefault();
+</footer>
 
 
-                    // ===============================
-                    // GET FORM VALUES
-                    // ===============================
 
-                    const email =
-                        document
-                            .getElementById("email")
-                            .value
-                            .trim();
+<!-- =====================================================
+     API JAVASCRIPT
+===================================================== -->
 
-                    const password =
-                        document
-                            .getElementById("password")
-                            .value;
+<script src="js/api.js"></script>
 
 
-                    const errorMessage =
-                        document
-                            .getElementById("errorMessage");
+<script>
 
-                    const loginButton =
-                        document
-                            .getElementById("loginButton");
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const messageBox =
+        document.getElementById("messageBox");
 
 
-                    // ===============================
-                    // CLEAR PREVIOUS ERROR
-                    // ===============================
+    function showMessage(
+        message,
+        type = "error"
+    ) {
 
-                    errorMessage.textContent = "";
+        messageBox.textContent = message;
 
-                    errorMessage.classList.add(
-                        "d-none"
+        messageBox.className =
+            `message-box ${type}`;
+
+    }
+
+
+    function clearMessage() {
+
+        messageBox.textContent = "";
+
+        messageBox.className =
+            "message-box";
+
+    }
+
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter your email and password."
+                );
+
+                return;
+
+            }
+
+
+            loginButton.disabled = true;
+
+            loginButton.textContent =
+                "Logging in...";
+
+
+            try {
+
+                const data =
+                    await loginUser(
+                        email,
+                        password
                     );
 
 
-                    // ===============================
-                    // DISABLE BUTTON
-                    // ===============================
+                if (
+                    !data ||
+                    !data.token
+                ) {
 
-                    loginButton.disabled = true;
+                    throw new Error(
+                        "Invalid login response from server."
+                    );
 
-                    loginButton.textContent =
-                        "Logging in...";
-
-
-                    try {
-
-                        console.log(
-                            "Sending login request..."
-                        );
+                }
 
 
-                        // ===============================
-                        // LOGIN API
-                        // ===============================
+                /*
+                 * Save login session
+                 */
 
-                        const data =
-                            await loginUser(
-                                email,
-                                password
-                            );
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
 
+                localStorage.setItem(
+                    "userId",
+                    data.id
+                );
 
-                        console.log(
-                            "Login successful"
-                        );
+                localStorage.setItem(
+                    "userName",
+                    data.name
+                );
 
+                localStorage.setItem(
+                    "userEmail",
+                    data.email
+                );
 
-                        // ===============================
-                        // VALIDATE RESPONSE
-                        // ===============================
-
-                        if (!data || !data.token) {
-
-                            throw new Error(
-                                "Login response is incomplete. Please try again."
-                            );
-
-                        }
-
-
-                        // ===============================
-                        // SAVE LOGIN DATA
-                        // ===============================
-
-                        localStorage.setItem(
-                            "token",
-                            data.token
-                        );
-
-                        localStorage.setItem(
-                            "userId",
-                            data.id
-                        );
-
-                        localStorage.setItem(
-                            "userName",
-                            data.name
-                        );
-
-                        localStorage.setItem(
-                            "userEmail",
-                            data.email
-                        );
-
-                        localStorage.setItem(
-                            "userRole",
-                            data.role
-                        );
+                localStorage.setItem(
+                    "userRole",
+                    data.role
+                );
 
 
-                        // ===============================
-                        // ROLE-BASED REDIRECT
-                        // ===============================
+                showMessage(
+                    "Login successful. Redirecting...",
+                    "success"
+                );
 
-                        if (data.role === "STUDENT") {
 
-                            window.location.href =
-                                "./student/dashboard.html";
+                /*
+                 * Redirect according to role
+                 */
 
-                        }
+                setTimeout(
+                    function() {
 
-                        else if (
-                            data.role === "ORGANIZER"
+                        if (
+                            data.role ===
+                            "STUDENT"
                         ) {
 
                             window.location.href =
-                                "./organizer/dashboard.html";
+                                "student/dashboard.html";
 
                         }
-
                         else if (
-                            data.role === "ADMIN"
+                            data.role ===
+                            "ORGANIZER"
                         ) {
 
                             window.location.href =
-                                "./admin/dashboard.html";
+                                "organizer/dashboard.html";
 
                         }
+                        else if (
+                            data.role ===
+                            "ADMIN"
+                        ) {
 
+                            window.location.href =
+                                "admin/dashboard.html";
+
+                        }
                         else {
 
-                            throw new Error(
+                            showMessage(
                                 "Unknown user role. Please contact the administrator."
                             );
 
+                            loginButton.disabled =
+                                false;
+
+                            loginButton.textContent =
+                                "Login";
+
                         }
 
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "Login error:",
-                            error
-                        );
+                    },
+                    700
+                );
 
 
-                        // ===============================
-                        // SHOW ERROR
-                        // ===============================
+            }
+            catch (error) {
 
-                        errorMessage.textContent =
-                            error.message ||
-                            "Login failed. Please try again.";
-
-                        errorMessage.classList.remove(
-                            "d-none"
-                        );
-
-                    }
-
-                    finally {
-
-                        // ===============================
-                        // ENABLE BUTTON AGAIN
-                        // ===============================
-
-                        loginButton.disabled = false;
-
-                        loginButton.textContent =
-                            "Login";
-
-                    }
-
-                });
-
-    </script>
+                console.error(
+                    "Login error:",
+                    error
+                );
 
 
-    <!-- ================= BOOTSTRAP JAVASCRIPT ================= -->
+                showMessage(
+                    error.message ||
+                    "Unable to login. Please check your credentials."
+                );
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+
+                loginButton.disabled =
+                    false;
+
+                loginButton.textContent =
+                    "Login";
+
+            }
+
+        }
+    );
+
+</script>
+
 
 </body>
 
