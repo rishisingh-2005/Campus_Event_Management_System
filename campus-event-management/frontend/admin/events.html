@@ -1169,9 +1169,11 @@
 
 
             allEvents =
-                Array.isArray(response)
-                    ? response
-                    : [];
+    Array.isArray(response)
+        ? [...response].sort(
+            (a, b) => Number(b.id) - Number(a.id)
+        )
+        : [];
 
 
             updateSummary();

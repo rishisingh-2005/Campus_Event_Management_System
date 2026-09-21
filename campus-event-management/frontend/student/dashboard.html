@@ -938,10 +938,12 @@
                 );
 
 
-            allEvents =
-                Array.isArray(events)
-                    ? events
-                    : [];
+           allEvents =
+    Array.isArray(events)
+        ? [...events].sort(
+            (a, b) => Number(b.id) - Number(a.id)
+        )
+        : [];
 
 
             document.getElementById(

@@ -70,11 +70,10 @@ public class OrganizerRequestService {
         return organizerRequestRepository.save(request);
     }
 
-    public List<OrganizerRequest> getPendingRequests() {
-
-        return organizerRequestRepository
-                .findByStatus("PENDING");
-    }
+   public List<OrganizerRequest> getPendingRequests() {
+    return organizerRequestRepository
+            .findByStatusOrderByIdDesc("PENDING");
+}
 
     public OrganizerRequest approveRequest(Long id) {
 

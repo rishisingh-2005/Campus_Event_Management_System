@@ -10,7 +10,7 @@ import com.campus.campus_event_management.entity.OrganizerRequest;
 public interface OrganizerRequestRepository
         extends JpaRepository<OrganizerRequest, Long> {
 
-    List<OrganizerRequest> findByStatus(String status);
+    List<OrganizerRequest> findByStatusOrderByIdDesc(String status);
 
     Optional<OrganizerRequest> findByEmail(String email);
 }

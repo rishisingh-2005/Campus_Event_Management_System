@@ -947,10 +947,8 @@
                 </div>
             `;
 
-            const requests =
-                await apiRequest(
-                    "/api/organizer-requests/pending"
-                );
+            const requests = await apiRequest("/api/organizer-requests/pending");
+            console.log("ORGANIZER REQUESTS FROM BACKEND:", requests);
 
             if (!Array.isArray(requests)) {
 
@@ -990,8 +988,10 @@
             }
 
 
-            requestList.innerHTML =
-                requests.map(request => `
+            
+           // Show newest organizer request first
+             requestList.innerHTML =
+            requests.map(request => `
 
                     <div class="request-card mb-3">
 
