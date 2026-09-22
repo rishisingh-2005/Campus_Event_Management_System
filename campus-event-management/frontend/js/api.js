@@ -248,6 +248,20 @@ function getFriendlyErrorMessage(
 
 
     // ===============================
+// 409 - CONFLICT
+// ===============================
+if (status === 409) {
+
+    if (text.toLowerCase().includes("already registered")) {
+
+        return "You are already registered for this event.";
+    }
+
+    return text || "This action could not be completed.";
+}
+
+
+    // ===============================
     // 403 - FORBIDDEN
     // ===============================
     if (status === 403) {
