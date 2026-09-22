@@ -240,6 +240,12 @@ public class SecurityConfig {
                 ============================== */
 
                 .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/student/events"
+                    ).permitAll()
+
+                .requestMatchers(
+                    HttpMethod.GET,
                     "/api/student/**"
                 ).hasRole("STUDENT")
 
