@@ -316,11 +316,12 @@ public class SecurityConfig {
                 new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-            List.of(
-                "http://localhost:5500",
-                "http://127.0.0.1:5500"
-            )
-        );
+    List.of(
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
+        "https://whimsical-valkyrie-76a919.netlify.app"
+    )
+);
 
         configuration.setAllowedMethods(
             List.of(
