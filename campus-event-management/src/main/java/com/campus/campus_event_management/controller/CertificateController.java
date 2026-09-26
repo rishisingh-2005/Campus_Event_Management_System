@@ -1,6 +1,7 @@
 package com.campus.campus_event_management.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,21 +23,30 @@ import com.campus.campus_event_management.service.UserService;
 public class CertificateController {
 
     private final CertificateService certificateService;
+
     private final UserService userService;
+
     private final EventService eventService;
+
 
     public CertificateController(
             CertificateService certificateService,
             UserService userService,
             EventService eventService) {
 
-        this.certificateService = certificateService;
-        this.userService = userService;
-        this.eventService = eventService;
+        this.certificateService =
+                certificateService;
+
+        this.userService =
+                userService;
+
+        this.eventService =
+                eventService;
     }
 
+
     // ==========================================
-    // GENERATE CERTIFICATE
+    // GENERATE SINGLE CERTIFICATE
     // ==========================================
 
     @PostMapping
@@ -46,65 +56,156 @@ public class CertificateController {
             Authentication authentication) {
 
         User loggedInUser =
-                getAuthenticatedUser(authentication);
+                getAuthenticatedUser(
+                        authentication
+                );
+
 
         // --------------------------------------
         // ADMIN
-        // --------------------------------------
-        // Admin can generate certificates for
-        // any valid student/event combination.
         // --------------------------------------
 
         if ("ADMIN".equalsIgnoreCase(
                 loggedInUser.getRole())) {
 
-            return certificateService.generateCertificate(
-                    userId,
-                    eventId
-            );
+            return certificateService
+                    .generateCertificate(
+                            userId,
+                            eventId
+                    );
         }
+
 
         // --------------------------------------
         // ORGANIZER
-        // --------------------------------------
-        // Organizer can generate a certificate
-        // only for their own event.
         // --------------------------------------
 
         if ("ORGANIZER".equalsIgnoreCase(
                 loggedInUser.getRole())) {
 
             Event event =
-                    eventService.getEventById(eventId);
+                    eventService.getEventById(
+                            eventId
+                    );
 
             if (event == null) {
+
                 throw new RuntimeException(
-                    "Event not found"
+                        "Event not found"
                 );
             }
+
 
             if (!loggedInUser.getId().equals(
                     event.getOrganizerId())) {
 
                 throw new RuntimeException(
-                    "You are not allowed to generate certificates for this event"
+                        "You are not allowed to generate certificates for this event"
                 );
             }
 
-            return certificateService.generateCertificate(
-                    userId,
-                    eventId
-            );
+
+            return certificateService
+                    .generateCertificate(
+                            userId,
+                            eventId
+                    );
         }
+
 
         // --------------------------------------
         // OTHER ROLES
         // --------------------------------------
 
         throw new RuntimeException(
-            "Only admin or organizer can generate certificates"
+                "Only admin or organizer can generate certificates"
         );
     }
+
+
+    // ==========================================
+    // GENERATE ALL CERTIFICATES
+    // ==========================================
+    //
+    // Only students marked PRESENT receive
+    // certificates.
+    //
+    // Existing certificates are not duplicated.
+    //
+    // ==========================================
+
+    @PostMapping(
+            "/event/{eventId}/generate-all"
+    )
+    public Map<String, Object> generateCertificatesForAll(
+            @PathVariable Long eventId,
+            Authentication authentication) {
+
+        User loggedInUser =
+                getAuthenticatedUser(
+                        authentication
+                );
+
+
+        // --------------------------------------
+        // ADMIN
+        // --------------------------------------
+
+        if ("ADMIN".equalsIgnoreCase(
+                loggedInUser.getRole())) {
+
+            return certificateService
+                    .generateCertificatesForAll(
+                            eventId
+                    );
+        }
+
+
+        // --------------------------------------
+        // ORGANIZER
+        // --------------------------------------
+
+        if ("ORGANIZER".equalsIgnoreCase(
+                loggedInUser.getRole())) {
+
+            Event event =
+                    eventService.getEventById(
+                            eventId
+                    );
+
+            if (event == null) {
+
+                throw new RuntimeException(
+                        "Event not found"
+                );
+            }
+
+
+            if (!loggedInUser.getId().equals(
+                    event.getOrganizerId())) {
+
+                throw new RuntimeException(
+                        "You are not allowed to generate certificates for this event"
+                );
+            }
+
+
+            return certificateService
+                    .generateCertificatesForAll(
+                            eventId
+                    );
+        }
+
+
+        // --------------------------------------
+        // OTHER ROLES
+        // --------------------------------------
+
+        throw new RuntimeException(
+                "Only admin or organizer can generate certificates"
+        );
+    }
+
 
     // ==========================================
     // GET CERTIFICATES BY USER
@@ -116,37 +217,51 @@ public class CertificateController {
             Authentication authentication) {
 
         User loggedInUser =
-                getAuthenticatedUser(authentication);
+                getAuthenticatedUser(
+                        authentication
+                );
 
-        // Students can only view their own certificates.
+
+        // --------------------------------------
+        // STUDENT
+        // --------------------------------------
+
         if ("STUDENT".equalsIgnoreCase(
                 loggedInUser.getRole())) {
 
-            if (!loggedInUser.getId().equals(userId)) {
+            if (!loggedInUser.getId().equals(
+                    userId)) {
 
                 throw new RuntimeException(
-                    "You are not authorized to view these certificates"
+                        "You are not authorized to view these certificates"
                 );
             }
         }
 
-        // Admin and organizer access is allowed.
+
+        // --------------------------------------
+        // CHECK ROLE
+        // --------------------------------------
+
         if (!"STUDENT".equalsIgnoreCase(
                 loggedInUser.getRole())
                 && !"ADMIN".equalsIgnoreCase(
-                    loggedInUser.getRole())
+                        loggedInUser.getRole())
                 && !"ORGANIZER".equalsIgnoreCase(
-                    loggedInUser.getRole())) {
+                        loggedInUser.getRole())) {
 
             throw new RuntimeException(
-                "You are not authorized to view certificates"
+                    "You are not authorized to view certificates"
             );
         }
 
-        return certificateService.getCertificatesByUser(
-                userId
-        );
+
+        return certificateService
+                .getCertificatesByUser(
+                        userId
+                );
     }
+
 
     // ==========================================
     // GET CERTIFICATE BY ID
@@ -158,14 +273,21 @@ public class CertificateController {
             Authentication authentication) {
 
         Certificate certificate =
-                certificateService.getCertificateById(id);
+                certificateService
+                        .getCertificateById(id);
+
 
         if (certificate == null) {
+
             return null;
         }
 
+
         User loggedInUser =
-                getAuthenticatedUser(authentication);
+                getAuthenticatedUser(
+                        authentication
+                );
+
 
         // --------------------------------------
         // STUDENT
@@ -178,12 +300,13 @@ public class CertificateController {
                     certificate.getUserId())) {
 
                 throw new RuntimeException(
-                    "You are not authorized to view this certificate"
+                        "You are not authorized to view this certificate"
                 );
             }
 
             return certificate;
         }
+
 
         // --------------------------------------
         // ADMIN
@@ -195,6 +318,7 @@ public class CertificateController {
             return certificate;
         }
 
+
         // --------------------------------------
         // ORGANIZER
         // --------------------------------------
@@ -204,30 +328,35 @@ public class CertificateController {
 
             Event event =
                     eventService.getEventById(
-                        certificate.getEventId()
+                            certificate.getEventId()
                     );
 
             if (event == null) {
+
                 throw new RuntimeException(
-                    "Event not found"
+                        "Event not found"
                 );
             }
+
 
             if (!loggedInUser.getId().equals(
                     event.getOrganizerId())) {
 
                 throw new RuntimeException(
-                    "You are not authorized to view this certificate"
+                        "You are not authorized to view this certificate"
                 );
             }
+
 
             return certificate;
         }
 
+
         throw new RuntimeException(
-            "You are not authorized to view this certificate"
+                "You are not authorized to view this certificate"
         );
     }
+
 
     // ==========================================
     // GET AUTHENTICATED USER
@@ -240,22 +369,28 @@ public class CertificateController {
                 || authentication.getName() == null) {
 
             throw new RuntimeException(
-                "Authentication required"
+                    "Authentication required"
             );
         }
+
 
         String email =
                 authentication.getName();
 
+
         User user =
-                userService.getUserByEmail(email);
+                userService.getUserByEmail(
+                        email
+                );
+
 
         if (user == null) {
 
             throw new RuntimeException(
-                "Logged-in user not found"
+                    "Logged-in user not found"
             );
         }
+
 
         return user;
     }

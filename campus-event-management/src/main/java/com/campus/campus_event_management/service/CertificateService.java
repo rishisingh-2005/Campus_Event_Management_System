@@ -1,7 +1,10 @@
 package com.campus.campus_event_management.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -35,6 +38,10 @@ public class CertificateService {
         this.eventRepository = eventRepository;
     }
 
+    // ==========================================
+    // GENERATE SINGLE CERTIFICATE
+    // ==========================================
+
     public Certificate generateCertificate(Long userId, Long eventId) {
 
         // Check attendance
@@ -67,14 +74,20 @@ public class CertificateService {
         }
 
         // Find student
-        User user = userRepository.findById(userId).orElse(null);
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElse(null);
 
         if (user == null) {
             throw new RuntimeException("Student not found");
         }
 
         // Find event
-        Event event = eventRepository.findById(eventId).orElse(null);
+        Event event =
+                eventRepository
+                        .findById(eventId)
+                        .orElse(null);
 
         if (event == null) {
             throw new RuntimeException("Event not found");
@@ -110,12 +123,145 @@ public class CertificateService {
         return certificateRepository.save(certificate);
     }
 
-    public List<Certificate> getCertificatesByUser(Long userId) {
 
-        return certificateRepository.findByUserId(userId);
+    // ==========================================
+    // GENERATE CERTIFICATES FOR ALL PRESENT
+    // ==========================================
+
+    public Map<String, Object> generateCertificatesForAll(
+            Long eventId) {
+
+        // Check event
+        Event event =
+                eventRepository
+                        .findById(eventId)
+                        .orElse(null);
+
+        if (event == null) {
+            throw new RuntimeException("Event not found");
+        }
+
+        // Get all attendance records for this event
+        List<Attendance> attendanceRecords =
+                attendanceRepository.findByEventId(eventId);
+
+        int presentStudents = 0;
+        int generatedCertificates = 0;
+        int existingCertificates = 0;
+
+        List<Certificate> certificates =
+                new ArrayList<>();
+
+        for (Attendance attendance : attendanceRecords) {
+
+            // Only PRESENT students are eligible
+            if (!"PRESENT".equalsIgnoreCase(
+                    attendance.getStatus())) {
+
+                continue;
+            }
+
+            presentStudents++;
+
+            Long userId =
+                    attendance.getUserId();
+
+            // Check existing certificate
+            Certificate existingCertificate =
+                    certificateRepository
+                            .findByUserIdAndEventId(
+                                    userId,
+                                    eventId
+                            )
+                            .orElse(null);
+
+            if (existingCertificate != null) {
+
+                existingCertificates++;
+
+                certificates.add(
+                        existingCertificate
+                );
+
+                continue;
+            }
+
+            // Generate new certificate
+            Certificate certificate =
+                    generateCertificate(
+                            userId,
+                            eventId
+                    );
+
+            generatedCertificates++;
+
+            certificates.add(certificate);
+        }
+
+        // ==========================================
+        // RESPONSE
+        // ==========================================
+
+        Map<String, Object> result =
+                new LinkedHashMap<>();
+
+        result.put(
+                "eventId",
+                eventId
+        );
+
+        result.put(
+                "eventName",
+                event.getTitle()
+        );
+
+        result.put(
+                "presentStudents",
+                presentStudents
+        );
+
+        result.put(
+                "generatedCertificates",
+                generatedCertificates
+        );
+
+        result.put(
+                "existingCertificates",
+                existingCertificates
+        );
+
+        result.put(
+                "totalCertificates",
+                certificates.size()
+        );
+
+        result.put(
+                "certificates",
+                certificates
+        );
+
+        return result;
     }
 
-    public Certificate getCertificateById(Long id) {
+
+    // ==========================================
+    // GET CERTIFICATES BY USER
+    // ==========================================
+
+    public List<Certificate> getCertificatesByUser(
+            Long userId) {
+
+        return certificateRepository
+                .findByUserId(userId);
+    }
+
+
+    // ==========================================
+    // GET CERTIFICATE BY ID
+    // ==========================================
+
+    public Certificate getCertificateById(
+            Long id) {
 
         return certificateRepository
                 .findById(id)

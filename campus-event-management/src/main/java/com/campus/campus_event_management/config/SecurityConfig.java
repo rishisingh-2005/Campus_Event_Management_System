@@ -213,6 +213,11 @@ public class SecurityConfig {
                 )
 
                 .requestMatchers(
+                    HttpMethod.POST,
+                    "/api/certificates/event/*/generate-all"
+                ).hasAnyRole("ADMIN", "ORGANIZER")
+
+                .requestMatchers(
                     HttpMethod.GET,
                     "/api/certificates/user/**"
                 ).hasRole("STUDENT")

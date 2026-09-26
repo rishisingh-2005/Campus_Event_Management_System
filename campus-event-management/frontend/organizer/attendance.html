@@ -1114,6 +1114,16 @@
                                 ✓ Mark All Present
                             </button>
 
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="generateAllCertificatesButton"
+                                onclick="generateAllCertificates()"
+                            >
+                                🎓 Generate All Certificates
+                            </button>
+
                             <button
                                 type="button"
                                 class="btn btn-primary"
@@ -2146,6 +2156,99 @@
                     "✓ Mark All Present";
             }
 
+        }
+
+
+        // ==========================================
+        // GENERATE ALL CERTIFICATES
+        // ==========================================
+
+        async function generateAllCertificates() {
+
+            const button =
+                document.getElementById(
+                    "generateAllCertificatesButton"
+                );
+
+            const confirmed = confirm(
+                "Generate certificates for all students marked PRESENT?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                showMessage(
+                    "Generating certificates for all eligible students...",
+                    "info"
+                );
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    "⏳ Generating Certificates...";
+
+                const response =
+                    await apiRequest(
+                        `/api/certificates/event/${eventId}/generate-all`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                console.log(
+                    "Bulk certificate response:",
+                    response
+                );
+
+                const generated =
+                    Number(
+                        response.generatedCertificates || 0
+                    );
+
+                const existing =
+                    Number(
+                        response.existingCertificates || 0
+                    );
+
+                const present =
+                    Number(
+                        response.presentStudents || 0
+                    );
+
+                showMessage(
+                    `Certificate generation completed. ` +
+                    `${generated} new certificate(s) generated, ` +
+                    `${existing} already existed, ` +
+                    `${present} student(s) marked PRESENT.`,
+                    "success"
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Bulk certificate generation error:",
+                    error
+                );
+
+                showMessage(
+                    error.message ||
+                    "Failed to generate certificates.",
+                    "danger"
+                );
+
+            }
+            finally {
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "🎓 Generate All Certificates";
+
+            }
         }
 
 
