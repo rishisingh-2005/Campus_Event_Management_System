@@ -23,7 +23,9 @@ public class AttendanceService {
         this.registrationRepository = registrationRepository;
     }
 
-    // Mark attendance
+    // =========================================================
+    // MARK ATTENDANCE - ONE STUDENT AT A TIME
+    // =========================================================
     public Attendance markAttendance(
             Long userId,
             Long eventId,
@@ -71,13 +73,67 @@ public class AttendanceService {
         return attendanceRepository.save(attendance);
     }
 
-    // Get attendance for an event
-    public List<Attendance> getAttendanceByEvent(Long eventId) {
+    // =========================================================
+    // MARK ALL REGISTERED STUDENTS AS PRESENT
+    // =========================================================
+    public void markAllPresent(Long eventId) {
+
+        // Get all registrations for this event
+        List<Registration> registrations =
+                registrationRepository.findByEventId(eventId);
+
+        // Process each registered student
+        for (Registration registration : registrations) {
+
+            // Ignore cancelled registrations
+            if (!"REGISTERED".equalsIgnoreCase(
+                    registration.getStatus())) {
+                continue;
+            }
+
+            Long userId = registration.getUserId();
+
+            // Check if attendance already exists
+            Attendance attendance =
+                    attendanceRepository
+                            .findByUserIdAndEventId(
+                                    userId,
+                                    eventId
+                            )
+                            .orElse(null);
+
+            // Create attendance if it doesn't exist
+            if (attendance == null) {
+
+                attendance = new Attendance();
+
+                attendance.setUserId(userId);
+                attendance.setEventId(eventId);
+            }
+
+            // Mark student as PRESENT
+            attendance.setStatus("PRESENT");
+
+            // Save attendance
+            attendanceRepository.save(attendance);
+        }
+    }
+
+    // =========================================================
+    // GET ATTENDANCE FOR AN EVENT
+    // =========================================================
+    public List<Attendance> getAttendanceByEvent(
+            Long eventId) {
+
         return attendanceRepository.findByEventId(eventId);
     }
 
-    // Get attendance of a student
-    public List<Attendance> getAttendanceByUser(Long userId) {
+    // =========================================================
+    // GET ATTENDANCE OF A STUDENT
+    // =========================================================
+    public List<Attendance> getAttendanceByUser(
+            Long userId) {
+
         return attendanceRepository.findByUserId(userId);
     }
 }

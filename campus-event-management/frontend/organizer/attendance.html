@@ -1079,7 +1079,7 @@
                                flex-md-row
                                justify-content-between
                                align-items-md-center
-                               gap-2"
+                               gap-3"
                     >
 
                         <div>
@@ -1098,11 +1098,38 @@
 
                         </div>
 
-                        <span
-                            class="badge bg-light text-dark border"
+                        <div
+                            class="d-flex
+                                   flex-wrap
+                                   align-items-center
+                                   gap-2"
                         >
-                            Attendance Records
-                        </span>
+
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                id="markAllPresentButton"
+                                onclick="markAllPresent()"
+                            >
+                                ✓ Mark All Present
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="exportExcelButton"
+                                onclick="exportAttendanceToExcel()"
+                            >
+                                📊 Export Excel
+                            </button>
+
+                            <span
+                                class="badge bg-light text-dark border"
+                            >
+                                Attendance Records
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -1208,11 +1235,31 @@
                                 </th>
 
                                 <th>
-                                    Student ID
+                                    Student Name
                                 </th>
 
                                 <th>
-                                    Attendance
+                                    Roll No.
+                                </th>
+
+                                <th>
+                                    Branch
+                                </th>
+
+                                <th>
+                                    Section
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Registration Status
+                                </th>
+
+                                <th>
+                                    Attendance Status
                                 </th>
 
                                 <th>
@@ -1251,6 +1298,7 @@
     ========================================== -->
 
     <script src="../js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 
     <script>
@@ -1388,6 +1436,12 @@
             );
 
 
+        const exportExcelButton =
+            document.getElementById(
+                "exportExcelButton"
+            );
+
+
         // ==========================================
         // DATA
         // ==========================================
@@ -1395,6 +1449,8 @@
         let registrations = [];
 
         let attendanceRecords = [];
+
+        let studentProfiles = {};
 
 
         // ==========================================
@@ -1529,6 +1585,13 @@
 
 
                 // ==================================
+                // LOAD STUDENT PROFILES
+                // ==================================
+
+                await loadStudentProfiles();
+
+
+                // ==================================
                 // LOAD ATTENDANCE
                 // ==================================
 
@@ -1577,6 +1640,56 @@
 
             }
 
+        }
+
+
+        // ==========================================
+        // LOAD STUDENT PROFILES
+        // ==========================================
+
+        async function loadStudentProfiles() {
+
+            studentProfiles = {};
+
+            const activeRegistrations =
+                registrations.filter(
+                    registration =>
+                        !registration.status ||
+                        registration.status.toUpperCase() ===
+                            "REGISTERED"
+                );
+
+            const uniqueUserIds = [
+                ...new Set(
+                    activeRegistrations
+                        .map(registration => registration.userId)
+                        .filter(userId =>
+                            userId !== null &&
+                            userId !== undefined
+                        )
+                )
+            ];
+
+            await Promise.all(
+                uniqueUserIds.map(async userId => {
+                    try {
+                        const user =
+                            await apiRequest(
+                                `/api/users/${encodeURIComponent(userId)}`
+                            );
+
+                        studentProfiles[userId] = user || {};
+                    }
+                    catch (error) {
+                        console.warn(
+                            `Could not load profile for user ${userId}:`,
+                            error
+                        );
+
+                        studentProfiles[userId] = {};
+                    }
+                })
+            );
         }
 
 
@@ -1696,11 +1809,18 @@
                     }
 
 
+                    const student =
+                        studentProfiles[registration.userId] || {};
+
+                    const registrationStatus =
+                        registration.status
+                            ? registration.status.toUpperCase()
+                            : "REGISTERED";
+
                     const row =
                         document.createElement(
                             "tr"
                         );
-
 
                     row.innerHTML = `
 
@@ -1720,9 +1840,51 @@
                         <td class="student-id">
                             ${escapeHtml(
                                 String(
-                                    registration.userId ??
+                                    student.name ??
                                     "-"
                                 )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(
+                                    student.rollNo ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(
+                                    student.branch ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(
+                                    student.section ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(
+                                    student.email ??
+                                    "-"
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${getRegistrationBadge(
+                                registrationStatus
                             )}
                         </td>
 
@@ -1753,7 +1915,6 @@
                                     ✓ Present
                                 </button>
 
-
                                 <button
                                     type="button"
                                     class="btn btn-danger btn-sm action-btn"
@@ -1770,7 +1931,6 @@
                         </td>
 
                     `;
-
 
                     attendanceTableBody.appendChild(
                         row
@@ -1903,6 +2063,243 @@
 
             }
 
+        }
+
+
+        // ==========================================
+        // MARK ALL PRESENT
+        // ==========================================
+
+        async function markAllPresent() {
+
+            const button =
+                document.getElementById(
+                    "markAllPresentButton"
+                );
+
+            const confirmed = confirm(
+                "Are you sure you want to mark all registered students as PRESENT?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                showMessage(
+                    "Marking all registered students as PRESENT...",
+                    "info"
+                );
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    "⏳ Marking Attendance...";
+
+                await apiRequest(
+                    `/api/organizer/events/${eventId}/attendance/mark-all-present`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+                showMessage(
+                    "All registered students have been marked PRESENT.",
+                    "success"
+                );
+
+                const attendanceResponse =
+                    await apiRequest(
+                        `/api/organizer/events/${eventId}/attendance`
+                    );
+
+                attendanceRecords =
+                    Array.isArray(attendanceResponse)
+                        ? attendanceResponse
+                        : [];
+
+                renderAttendance();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Bulk attendance error:",
+                    error
+                );
+
+                showMessage(
+                    error.message ||
+                    "Failed to mark all students present.",
+                    "danger"
+                );
+
+            }
+
+            finally {
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    "✓ Mark All Present";
+            }
+
+        }
+
+
+        // ==========================================
+        // REGISTRATION BADGE
+        // ==========================================
+
+        function getRegistrationBadge(
+            status
+        ) {
+
+            const normalized =
+                status
+                    ? status.toUpperCase()
+                    : "REGISTERED";
+
+            if (normalized === "REGISTERED") {
+                return `
+                    <span
+                        class="badge bg-primary status-badge"
+                    >
+                        REGISTERED
+                    </span>
+                `;
+            }
+
+            if (normalized === "CANCELLED") {
+                return `
+                    <span
+                        class="badge bg-secondary status-badge"
+                    >
+                        CANCELLED
+                    </span>
+                `;
+            }
+
+            return `
+                <span
+                    class="badge bg-secondary status-badge"
+                >
+                    ${escapeHtml(normalized)}
+                </span>
+            `;
+        }
+
+
+        // ==========================================
+        // EXPORT ATTENDANCE TO EXCEL
+        // ==========================================
+
+        function exportAttendanceToExcel() {
+
+            if (typeof XLSX === "undefined") {
+                showMessage(
+                    "Excel export library could not be loaded. Please refresh the page and try again.",
+                    "danger"
+                );
+                return;
+            }
+
+            const activeRegistrations =
+                registrations.filter(
+                    registration =>
+                        !registration.status ||
+                        registration.status.toUpperCase() ===
+                            "REGISTERED"
+                );
+
+            if (activeRegistrations.length === 0) {
+                showMessage(
+                    "There are no registered students to export.",
+                    "warning"
+                );
+                return;
+            }
+
+            const exportRows =
+                activeRegistrations.map((registration, index) => {
+
+                    const student =
+                        studentProfiles[registration.userId] || {};
+
+                    const existingAttendance =
+                        attendanceRecords.find(
+                            record =>
+                                Number(record.userId) ===
+                                Number(registration.userId)
+                        );
+
+                    return {
+                        "S.No.": index + 1,
+                        "Registration ID": registration.id ?? "-",
+                        "Student Name": student.name ?? "-",
+                        "Roll No.": student.rollNo ?? "-",
+                        "Branch": student.branch ?? "-",
+                        "Section": student.section ?? "-",
+                        "Email": student.email ?? "-",
+                        "Registration Status":
+                            registration.status
+                                ? registration.status.toUpperCase()
+                                : "REGISTERED",
+                        "Attendance Status":
+                            existingAttendance &&
+                            existingAttendance.status
+                                ? existingAttendance.status.toUpperCase()
+                                : "NOT MARKED"
+                    };
+                });
+
+            const worksheet =
+                XLSX.utils.json_to_sheet(exportRows);
+
+            worksheet["!cols"] = [
+                { wch: 8 },
+                { wch: 18 },
+                { wch: 24 },
+                { wch: 16 },
+                { wch: 16 },
+                { wch: 12 },
+                { wch: 32 },
+                { wch: 22 },
+                { wch: 22 }
+            ];
+
+            const workbook =
+                XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(
+                workbook,
+                worksheet,
+                "Attendance"
+            );
+
+            const eventName =
+                document.getElementById("eventTitle")
+                    ?.textContent
+                    ?.replace(/^Attendance - /i, "")
+                    ?.trim() || "Event";
+
+            const safeEventName =
+                eventName
+                    .replace(/[^a-z0-9]+/gi, "_")
+                    .replace(/^_+|_+$/g, "")
+                    .substring(0, 50) || "Event";
+
+            XLSX.writeFile(
+                workbook,
+                `Attendance_${safeEventName}_${eventId}.xlsx`
+            );
+
+            showMessage(
+                "Attendance Excel file exported successfully.",
+                "success"
+            );
         }
 
 

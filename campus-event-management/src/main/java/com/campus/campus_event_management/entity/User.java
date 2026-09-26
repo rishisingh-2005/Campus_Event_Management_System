@@ -44,16 +44,6 @@ public class User {
     // PASSWORD
     // ===============================
 
-    /*
-     * WRITE_ONLY means:
-     *
-     * - Password CAN be received from frontend
-     * - Password WILL NOT be returned in JSON responses
-     *
-     * This is important because registration needs to
-     * receive the password while protecting it from API output.
-     */
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
     private String password;
@@ -64,6 +54,25 @@ public class User {
     // ===============================
 
     private String role;
+
+
+    // ===============================
+    // STUDENT PROFILE
+    // ===============================
+
+    /*
+     * These fields are used for STUDENT accounts.
+     *
+     * They are intentionally not @NotBlank because
+     * ORGANIZER and ADMIN accounts do not require
+     * student profile information.
+     */
+
+    private String rollNo;
+
+    private String branch;
+
+    private String section;
 
 
     // ===============================
@@ -161,5 +170,59 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+
+    // ===============================
+    // GET ROLL NO
+    // ===============================
+
+    public String getRollNo() {
+        return rollNo;
+    }
+
+
+    // ===============================
+    // SET ROLL NO
+    // ===============================
+
+    public void setRollNo(String rollNo) {
+        this.rollNo = rollNo;
+    }
+
+
+    // ===============================
+    // GET BRANCH
+    // ===============================
+
+    public String getBranch() {
+        return branch;
+    }
+
+
+    // ===============================
+    // SET BRANCH
+    // ===============================
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+
+    // ===============================
+    // GET SECTION
+    // ===============================
+
+    public String getSection() {
+        return section;
+    }
+
+
+    // ===============================
+    // SET SECTION
+    // ===============================
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

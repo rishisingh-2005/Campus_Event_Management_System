@@ -149,6 +149,14 @@
             display: block;
         }
 
+        .student-profile-fields {
+            display: block;
+        }
+
+        .student-profile-fields.hidden {
+            display: none;
+        }
+
         @media (max-width: 576px) {
 
             .register-card .card-body {
@@ -331,6 +339,82 @@
                     </div>
 
 
+                    <!-- ================= STUDENT PROFILE ================= -->
+
+                    <div id="studentProfileFields" class="student-profile-fields">
+
+                        <div class="mb-3">
+
+                            <label
+                                for="rollNo"
+                                class="form-label">
+
+                                Roll No.
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="rollNo"
+                                placeholder="Enter your roll number"
+                                autocomplete="off">
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label
+                                        for="branch"
+                                        class="form-label">
+
+                                        Branch
+
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="branch"
+                                        placeholder="e.g. CSE"
+                                        autocomplete="off">
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label
+                                        for="section"
+                                        class="form-label">
+
+                                        Section
+
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="section"
+                                        placeholder="e.g. A"
+                                        autocomplete="off">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                     <!-- ================= EMAIL ================= -->
 
                     <div class="mb-3">
@@ -485,6 +569,26 @@
                 "organizerInfo"
             );
 
+        const studentProfileFields =
+            document.getElementById(
+                "studentProfileFields"
+            );
+
+        const rollNoInput =
+            document.getElementById(
+                "rollNo"
+            );
+
+        const branchInput =
+            document.getElementById(
+                "branch"
+            );
+
+        const sectionInput =
+            document.getElementById(
+                "section"
+            );
+
         const registerButton =
             document.getElementById(
                 "registerButton"
@@ -532,6 +636,14 @@
                     "show"
                 );
 
+                studentProfileFields.classList.add(
+                    "hidden"
+                );
+
+                rollNoInput.required = false;
+                branchInput.required = false;
+                sectionInput.required = false;
+
                 registerButton.textContent =
                     "Request Organizer Account";
 
@@ -548,6 +660,14 @@
                 organizerInfo.classList.remove(
                     "show"
                 );
+
+                studentProfileFields.classList.remove(
+                    "hidden"
+                );
+
+                rollNoInput.required = true;
+                branchInput.required = true;
+                sectionInput.required = true;
 
                 registerButton.textContent =
                     "Create Student Account";
@@ -598,6 +718,15 @@
                         "email"
                     ).value.trim();
 
+                const rollNo =
+                    rollNoInput.value.trim();
+
+                const branch =
+                    branchInput.value.trim();
+
+                const section =
+                    sectionInput.value.trim();
+
                 const password =
                     document.getElementById(
                         "password"
@@ -613,6 +742,21 @@
                         'input[name="accountType"]:checked'
                     ).value;
 
+
+                if (role === "STUDENT") {
+
+                    if (!rollNo || !branch || !section) {
+
+                        errorMessage.textContent =
+                            "Roll No., Branch, and Section are required for student registration.";
+
+                        errorMessage.classList.remove(
+                            "d-none"
+                        );
+
+                        return;
+                    }
+                }
 
                 if (password !== confirmPassword) {
 
@@ -654,7 +798,15 @@
                                 name,
                                 email,
                                 password,
-                                role
+                                role,
+
+                                ...(role === "STUDENT"
+                                    ? {
+                                        rollNo,
+                                        branch,
+                                        section
+                                    }
+                                    : {})
                             })
                         }
                     );

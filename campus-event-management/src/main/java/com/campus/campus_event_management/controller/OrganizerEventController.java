@@ -35,6 +35,10 @@ public class OrganizerEventController {
         this.userRepository = userRepository;
     }
 
+    // =========================================================
+    // CREATE EVENT
+    // =========================================================
+
     @PostMapping
     public Event createEvent(
             @RequestBody Event event,
@@ -42,16 +46,29 @@ public class OrganizerEventController {
 
         Long organizerId = getOrganizerId(authentication);
 
-        return organizerEventService.createEvent(event, organizerId);
+        return organizerEventService.createEvent(
+                event,
+                organizerId
+        );
     }
 
+    // =========================================================
+    // GET MY EVENTS
+    // =========================================================
+
     @GetMapping
-    public List<Event> getMyEvents(Authentication authentication) {
+    public List<Event> getMyEvents(
+            Authentication authentication) {
 
         Long organizerId = getOrganizerId(authentication);
 
-        return organizerEventService.getEventsByOrganizer(organizerId);
+        return organizerEventService
+                .getEventsByOrganizer(organizerId);
     }
+
+    // =========================================================
+    // GET EVENT BY ID
+    // =========================================================
 
     @GetMapping("/{id}")
     public Event getEventById(
@@ -60,19 +77,27 @@ public class OrganizerEventController {
 
         Long organizerId = getOrganizerId(authentication);
 
-        Event event = organizerEventService.getEventById(id);
+        Event event =
+                organizerEventService.getEventById(id);
 
         if (event == null) {
-            throw new RuntimeException("Event not found");
+            throw new RuntimeException(
+                    "Event not found"
+            );
         }
 
         if (!organizerId.equals(event.getOrganizerId())) {
             throw new RuntimeException(
-                    "You are not allowed to view this event");
+                    "You are not allowed to view this event"
+            );
         }
 
         return event;
     }
+
+    // =========================================================
+    // UPDATE EVENT
+    // =========================================================
 
     @PutMapping("/{id}")
     public Event updateEvent(
@@ -89,52 +114,70 @@ public class OrganizerEventController {
         );
     }
 
+    // =========================================================
+    // GET EVENT REGISTRATIONS
+    // =========================================================
+
     @GetMapping("/{id}/registrations")
     public List<Registration> getEventRegistrations(
             @PathVariable Long id,
             Authentication authentication) {
 
-        Long organizerId = getOrganizerId(authentication);
+        Long organizerId =
+                getOrganizerId(authentication);
 
-        Event event = organizerEventService.getEventById(id);
+        Event event =
+                organizerEventService.getEventById(id);
 
         if (event == null) {
-            throw new RuntimeException("Event not found");
+            throw new RuntimeException(
+                    "Event not found"
+            );
         }
 
         if (!organizerId.equals(event.getOrganizerId())) {
             throw new RuntimeException(
-                    "You are not allowed to view registrations for this event");
+                    "You are not allowed to view registrations for this event"
+            );
         }
 
-        return registrationService.getRegistrationsByEvent(id);
+        return registrationService
+                .getRegistrationsByEvent(id);
     }
 
-    // =========================
+    // =========================================================
     // ATTENDANCE MANAGEMENT
-    // =========================
+    // =========================================================
 
+    // Get attendance for an event
     @GetMapping("/{id}/attendance")
     public List<Attendance> getEventAttendance(
             @PathVariable Long id,
             Authentication authentication) {
 
-        Long organizerId = getOrganizerId(authentication);
+        Long organizerId =
+                getOrganizerId(authentication);
 
-        Event event = organizerEventService.getEventById(id);
+        Event event =
+                organizerEventService.getEventById(id);
 
         if (event == null) {
-            throw new RuntimeException("Event not found");
+            throw new RuntimeException(
+                    "Event not found"
+            );
         }
 
         if (!organizerId.equals(event.getOrganizerId())) {
             throw new RuntimeException(
-                    "You are not allowed to view attendance for this event");
+                    "You are not allowed to view attendance for this event"
+            );
         }
 
-        return attendanceService.getAttendanceByEvent(id);
+        return attendanceService
+                .getAttendanceByEvent(id);
     }
 
+    // Mark attendance for ONE student
     @PostMapping("/{id}/attendance")
     public Attendance markAttendance(
             @PathVariable Long id,
@@ -142,17 +185,22 @@ public class OrganizerEventController {
             @RequestParam String status,
             Authentication authentication) {
 
-        Long organizerId = getOrganizerId(authentication);
+        Long organizerId =
+                getOrganizerId(authentication);
 
-        Event event = organizerEventService.getEventById(id);
+        Event event =
+                organizerEventService.getEventById(id);
 
         if (event == null) {
-            throw new RuntimeException("Event not found");
+            throw new RuntimeException(
+                    "Event not found"
+            );
         }
 
         if (!organizerId.equals(event.getOrganizerId())) {
             throw new RuntimeException(
-                    "You are not allowed to mark attendance for this event");
+                    "You are not allowed to mark attendance for this event"
+            );
         }
 
         return attendanceService.markAttendance(
@@ -162,29 +210,73 @@ public class OrganizerEventController {
         );
     }
 
-    // =========================
-    // ORGANIZER AUTHENTICATION
-    // =========================
+    // =========================================================
+    // MARK ALL REGISTERED STUDENTS AS PRESENT
+    // =========================================================
 
-    private Long getOrganizerId(Authentication authentication) {
+    @PostMapping("/{id}/attendance/mark-all-present")
+    public String markAllPresent(
+            @PathVariable Long id,
+            Authentication authentication) {
 
-        if (authentication == null || authentication.getName() == null) {
-            throw new RuntimeException("Organizer authentication required");
+        Long organizerId =
+                getOrganizerId(authentication);
+
+        Event event =
+                organizerEventService.getEventById(id);
+
+        if (event == null) {
+            throw new RuntimeException(
+                    "Event not found"
+            );
         }
 
-        String email = authentication.getName();
+        if (!organizerId.equals(event.getOrganizerId())) {
+            throw new RuntimeException(
+                    "You are not allowed to mark attendance for this event"
+            );
+        }
 
-        User user = userRepository
-                .findByEmail(email)
-                .orElse(null);
+        attendanceService.markAllPresent(id);
+
+        return "All registered students marked as PRESENT";
+    }
+
+    // =========================================================
+    // ORGANIZER AUTHENTICATION
+    // =========================================================
+
+    private Long getOrganizerId(
+            Authentication authentication) {
+
+        if (authentication == null
+                || authentication.getName() == null) {
+
+            throw new RuntimeException(
+                    "Organizer authentication required"
+            );
+        }
+
+        String email =
+                authentication.getName();
+
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElse(null);
 
         if (user == null) {
-            throw new RuntimeException("Organizer not found");
+            throw new RuntimeException(
+                    "Organizer not found"
+            );
         }
 
-        if (!"ORGANIZER".equalsIgnoreCase(user.getRole())) {
+        if (!"ORGANIZER".equalsIgnoreCase(
+                user.getRole())) {
+
             throw new RuntimeException(
-                    "Only organizers can perform this action");
+                    "Only organizers can perform this action"
+            );
         }
 
         return user.getId();

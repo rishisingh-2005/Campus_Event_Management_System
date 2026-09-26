@@ -24,7 +24,9 @@ public class AttendanceController {
         this.attendanceService = attendanceService;
     }
 
-    // Mark attendance
+    // =========================================================
+    // MARK ATTENDANCE - ONE STUDENT AT A TIME
+    // =========================================================
     @PostMapping
     public Attendance markAttendance(
             @RequestParam Long userId,
@@ -38,7 +40,21 @@ public class AttendanceController {
         );
     }
 
-    // Get attendance for an event
+    // =========================================================
+    // MARK ALL REGISTERED STUDENTS AS PRESENT
+    // =========================================================
+    @PostMapping("/event/{eventId}/mark-all-present")
+    public String markAllPresent(
+            @PathVariable Long eventId) {
+
+        attendanceService.markAllPresent(eventId);
+
+        return "All registered students marked as PRESENT";
+    }
+
+    // =========================================================
+    // GET ATTENDANCE FOR AN EVENT
+    // =========================================================
     @GetMapping("/event/{eventId}")
     public List<Attendance> getAttendanceByEvent(
             @PathVariable Long eventId) {
@@ -46,7 +62,9 @@ public class AttendanceController {
         return attendanceService.getAttendanceByEvent(eventId);
     }
 
-    // Get attendance of a student
+    // =========================================================
+    // GET ATTENDANCE OF A STUDENT
+    // =========================================================
     @GetMapping("/user/{userId}")
     public List<Attendance> getAttendanceByUser(
             @PathVariable Long userId) {
