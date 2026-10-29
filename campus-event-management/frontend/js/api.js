@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://campuseventmanagementsystem-production.up.railway.app";
+const API_BASE_URL = "https://campus-event-management-system-2lj5.onrender.com";
 
 
 // ===============================
