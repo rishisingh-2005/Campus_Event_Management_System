@@ -14,6 +14,10 @@ import com.campus.campus_event_management.service.AttendanceService;
 import com.campus.campus_event_management.service.OrganizerEventService;
 import com.campus.campus_event_management.service.RegistrationService;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
+
 @RestController
 @RequestMapping("/api/organizer/events")
 public class OrganizerEventController {
@@ -210,25 +214,22 @@ public class OrganizerEventController {
         );
     }
 
+    
     // =========================================================
     // MARK ALL REGISTERED STUDENTS AS PRESENT
     // =========================================================
 
     @PostMapping("/{id}/attendance/mark-all-present")
-    public String markAllPresent(
+    public ResponseEntity<Map<String, Object>> markAllPresent(
             @PathVariable Long id,
             Authentication authentication) {
 
-        Long organizerId =
-                getOrganizerId(authentication);
+        Long organizerId = getOrganizerId(authentication);
 
-        Event event =
-                organizerEventService.getEventById(id);
+        Event event = organizerEventService.getEventById(id);
 
         if (event == null) {
-            throw new RuntimeException(
-                    "Event not found"
-            );
+            throw new RuntimeException("Event not found");
         }
 
         if (!organizerId.equals(event.getOrganizerId())) {
@@ -237,10 +238,21 @@ public class OrganizerEventController {
             );
         }
 
+        // Mark all registered students as PRESENT
         attendanceService.markAllPresent(id);
 
-        return "All registered students marked as PRESENT";
+        // Create JSON response
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("success", true);
+        response.put(
+                "message",
+                "All registered students marked as PRESENT"
+        );
+
+        return ResponseEntity.ok(response);
     }
+
 
     // =========================================================
     // ORGANIZER AUTHENTICATION

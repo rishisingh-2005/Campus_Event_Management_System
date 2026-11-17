@@ -471,26 +471,24 @@ async function apiRequest(
         }
 
 
+        
         // ===============================
-        // PARSE JSON
+        // PARSE JSON OR RETURN TEXT
         // ===============================
         try {
 
-            return JSON.parse(
-                responseText
-            );
+            return JSON.parse(responseText);
 
         } catch (error) {
 
-            console.error(
-                "Invalid JSON response:",
+            console.warn(
+                "Server returned plain text instead of JSON:",
                 responseText
             );
 
-            throw new Error(
-                "Server returned an invalid response. Please try again."
-            );
+            return responseText;
         }
+
 
     } catch (error) {
 
